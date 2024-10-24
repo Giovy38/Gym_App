@@ -6,15 +6,16 @@ import { FaUserCircle, FaHome } from "react-icons/fa";
 import { CgGym } from "react-icons/cg";
 import { IoBody } from "react-icons/io5";
 import Link from 'next/link'
+import SectionTitle from "./reusable_components/SectionTitle";
 
 
 export default function Navbar() {
     return (
         <div className="bg-black text-white ">
             <div className=' overflow-hidden text-center p-3'>
-                <h1 className="font-logo-font text-3xl text-[#f8bf58]">
-                    Super Gym
-                </h1>
+                <Link href='/'>
+                    <SectionTitle title="super gym" />
+                </Link>
             </div>
             {/* buttons  */}
             <div className='flex justify-around p-1'>
