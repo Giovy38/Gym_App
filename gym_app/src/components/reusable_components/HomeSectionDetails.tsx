@@ -1,4 +1,3 @@
-
 import SectionTitle from './SectionTitle'
 import Image, { StaticImageData } from 'next/image'
 
@@ -12,15 +11,14 @@ type HomeSectionProps = {
 export default function HomeSectionDetails({ isImgRight, sectionTitle, sectionDescription, img }: HomeSectionProps) {
 
     return (
-        <div>
-
-            {isImgRight ?
-                // img on right
-                <div className="text-white flex mt-5">
+        <div className="text-white mt-5">
+            {isImgRight ? (
+                // img on right for tablet and above
+                <div className="hidden md:flex">
                     {/* description */}
                     <div className='w-full flex flex-col justify-around pt-5'>
                         <SectionTitle title={sectionTitle} />
-                        <p className=' p-3 text-balance text-center'>
+                        <p className='p-3 text-balance text-center'>
                             {sectionDescription}
                         </p>
                     </div>
@@ -29,10 +27,9 @@ export default function HomeSectionDetails({ isImgRight, sectionTitle, sectionDe
                         <Image src={img} alt="training-img" />
                     </div>
                 </div>
-
-                :
-                // img on left
-                <div className="text-white flex mt-5">
+            ) : (
+                // img on left for tablet and above
+                <div className="hidden md:flex">
                     {/* img */}
                     <div className='w-full'>
                         <Image src={img} alt="training-img" />
@@ -40,14 +37,27 @@ export default function HomeSectionDetails({ isImgRight, sectionTitle, sectionDe
                     {/* description */}
                     <div className='w-full flex flex-col justify-around pt-5'>
                         <SectionTitle title={sectionTitle} />
-                        <p className=' p-3 text-balance text-center'>
+                        <p className='p-3 text-balance text-center'>
                             {sectionDescription}
                         </p>
                     </div>
+                </div>
+            )}
 
-                </div>}
-
-
+            {/* Mobile view: img on top, description below */}
+            <div className="flex flex-col md:hidden">
+                {/* img */}
+                <div className='w-full'>
+                    <Image src={img} alt="training-img" />
+                </div>
+                {/* description */}
+                <div className='w-full flex flex-col justify-around pt-5'>
+                    <SectionTitle title={sectionTitle} />
+                    <p className='p-3 text-balance text-center'>
+                        {sectionDescription}
+                    </p>
+                </div>
+            </div>
         </div>
     )
 }

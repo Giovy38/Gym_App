@@ -20,7 +20,7 @@ export default function LoginForm() {
     return (
         <div className="bg-black flex flex-col p-5 rounded-lg">
             <SectionTitle title="login" />
-            <form action="submit" className="flex flex-col">
+            <div className="flex flex-col">
                 <InputText label="e-mail" type="email" placeholder='E-mail' />
                 <InputText label="password" type="password" placeholder='Password' />
                 <div className="flex gap-5 mt-5">
@@ -36,7 +36,7 @@ export default function LoginForm() {
                     <h4 className="text-[#f8bf58] mt-3 underline underline-offset-2">Dont have an account? Register now</h4>
                 </Link>
                 <PrimaryButton text="Login" />
-            </form>
+            </div>
         </div>
     )
 }

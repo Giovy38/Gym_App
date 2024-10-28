@@ -14,8 +14,8 @@ export default function LoginForm() {
     return (
         <div className="bg-black flex flex-col p-5 rounded-lg">
             <SectionTitle title="signin" />
-            <form action="submit" className="flex flex-col">
-                <div className="flex  gap-3">
+            <div className="flex flex-col">
+                <div className="flex flex-col md:flex-row gap-3">
                     <InputText label="name" type="text" placeholder='Name' />
                     <InputText label="surname" type="text" placeholder='Surname' />
                 </div>
@@ -29,7 +29,7 @@ export default function LoginForm() {
                 </Link>
 
                 <PrimaryButton text="Signin" />
-            </form>
+            </div>
         </div>
     )
 }

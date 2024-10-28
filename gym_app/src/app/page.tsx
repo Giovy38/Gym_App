@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <div className='min-h-[100vh] flex flex-col justify-evenly bg-black'>
       <Banner img={top_banner} />
-      {/* tarining section */}
+      {/* training section */}
       <HomeSectionDetails
         isImgRight
         sectionTitle='training card section'
