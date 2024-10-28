@@ -1,5 +1,3 @@
-'use-client'
-
 import NavbarButton from "./reusable_components/NavbarButton";
 import { FaBowlFood } from "react-icons/fa6";
 import { FaUserCircle, FaHome } from "react-icons/fa";

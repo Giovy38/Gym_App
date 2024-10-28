@@ -1,4 +1,4 @@
-'use-client'
+
 import { FaArrowsLeftRight } from "react-icons/fa6";
 
 type InfoCardprops = {

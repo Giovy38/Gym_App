@@ -1,5 +1,3 @@
-'use-client'
-
 export default function Footer() {
     return (
         <div className="bg-black font-bold text-xl text-white uppercase text-center p-3">

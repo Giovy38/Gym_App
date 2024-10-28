@@ -1,4 +1,3 @@
-'use-client'
 
 import SectionTitle from './SectionTitle'
 import Image, { StaticImageData } from 'next/image'
