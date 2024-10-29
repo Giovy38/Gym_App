@@ -2,13 +2,14 @@
 
 import { IoIosArrowForward, IoIosArrowBack, IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
-import AddItemButton from "./AddItemButton";
+
 
 type AccordionProps = {
     accordionTitle: string
+    buttons: React.ReactNode
 }
 
-export default function Accordion({ accordionTitle }: AccordionProps) {
+export default function Accordion({ accordionTitle, buttons }: AccordionProps) {
     const [isOpen, setIsOpen] = useState(false);
 
     const accordionOpenClose = () => {
@@ -32,11 +33,7 @@ export default function Accordion({ accordionTitle }: AccordionProps) {
 
             {isOpen && (
                 <div className="lg:flex lg:flex-row gap-2 justify-center items-start p-2">
-                    <AddItemButton title="breakfast" />
-                    <AddItemButton title="snack" />
-                    <AddItemButton title="lunch" />
-                    <AddItemButton title="snack" />
-                    <AddItemButton title="dinner" />
+                    {buttons}
                 </div>
             )}
         </div>
