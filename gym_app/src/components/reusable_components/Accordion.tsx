@@ -17,7 +17,7 @@ export default function Accordion({ accordionTitle, buttons }: AccordionProps) {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row min-h-28">
+        <div className="flex flex-col lg:flex-row lg:min-h-28">
             <div
                 className="bg-[#f8bf58] hover:bg-[#c69336] p-2 flex justify-center items-center gap-2 rounded-lg font-bold text-black cursor-pointer min-w-40"
                 onClick={accordionOpenClose}
