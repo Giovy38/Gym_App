@@ -1,14 +1,8 @@
 
 import { FaArrowsLeftRight } from "react-icons/fa6";
+import { InfoCardType } from "@/src/type/InfoCard.type";
 
-type InfoCardprops = {
-    infoTitle: string,
-    leftData: number | string,
-    rightData: number | string,
-    useConditionalColor?: boolean
-}
-
-export default function InfoCard({ infoTitle, leftData, rightData, useConditionalColor = true }: InfoCardprops) {
+export default function InfoCard({ infoTitle, leftData, rightData, useConditionalColor = true }: InfoCardType) {
 
     const isRightDataGreater = rightData > leftData;
     const isRightDataEqual = rightData === leftData;

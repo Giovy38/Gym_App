@@ -5,21 +5,9 @@ import { useState } from "react";
 import { IoBarbellOutline } from "react-icons/io5";
 import { BsXSquareFill } from "react-icons/bs";
 import AddBlueButton from "../reusable_components/AddBlueButton";
+import { SingleExerciseType } from "@/src/type/SingleExercise.type";
 
-
-
-
-type SingleExerciseProps = {
-    exerciseTitle: string,
-    reps: number,
-    sets: number,
-    restTime: number,
-    totalweight: number,
-    barbell: boolean,
-    note: string[]
-}
-
-export default function SingleExercise({ exercise }: { exercise: SingleExerciseProps }) {
+export default function SingleExercise({ exercise }: { exercise: SingleExerciseType }) {
     const [isOpen, setIsOpen] = useState(false);
     const [notes, setNotes] = useState(exercise.note);
     const [newNote, setNewNote] = useState("");
@@ -123,7 +111,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseP
                             />
 
                         </div>
-                        <AddBlueButton onClick={addNote} />
+                        <AddBlueButton text="+ Aggiungi Nota" onClick={addNote} />
                     </div>
                 </div>
             )}

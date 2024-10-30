@@ -1,10 +1,7 @@
-type InputTextProps = {
-    label: string,
-    type: 'email' | 'password' | 'text',
-    placeholder: string
-}
+import { InputTextType } from "@/src/type/InputText.type";
 
-export default function InputText({ label, type, placeholder }: InputTextProps) {
+
+export default function InputText({ label, type, placeholder }: InputTextType) {
     return (
         <div className="flex flex-col gap-2 mt-2">
             <h3 className="text-[#f8bf58] capitalize font-bold text-center">{label}</h3>

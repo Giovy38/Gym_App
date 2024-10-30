@@ -3,14 +3,10 @@
 import { GoPlusCircle } from "react-icons/go";
 import RemovibleItems from "./RemovibleItems";
 import { useState } from "react";
+import { AddItemButtonType } from "@/src/type/AddItemButton.type";
 
 
-
-type AddItemButtonProps = {
-    title: string
-}
-
-export default function AddItemButton({ title }: AddItemButtonProps) {
+export default function AddItemButton({ title }: AddItemButtonType) {
 
     const [items, setItems] = useState<string[]>([]);
 
@@ -40,8 +36,8 @@ export default function AddItemButton({ title }: AddItemButtonProps) {
                 {items.map((item, index) => (
                     <RemovibleItems
                         key={index}
-                        title={item}
-                        onRemove={() => removeItem(item)}
+                        text={item}
+                        onClick={() => removeItem(item)}
                     />
                 ))}
             </div>

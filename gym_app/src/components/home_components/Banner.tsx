@@ -1,10 +1,9 @@
-import Image, { StaticImageData } from 'next/image'
+import { BannerType } from '@/src/type/Banner.type'
+import Image from 'next/image'
 
-type BannerProps = {
-    img: string | StaticImageData
-}
 
-export default function Banner({ img }: BannerProps) {
+
+export default function Banner({ img }: BannerType) {
     return (
         <div>
             <Image src={img} alt='navbar-banner' />
