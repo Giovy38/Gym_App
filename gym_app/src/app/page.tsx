@@ -2,8 +2,8 @@ import top_banner from '../assets/img/top_banner.jpg'
 import trainingImg from '../assets/img/training.jpg'
 import bodyCheckImg from '../assets/img/body_check.jpg'
 import dietImg from '../assets/img/diet.jpg'
-import Banner from '../components/reusable_components/Banner'
-import HomeSectionDetails from '../components/reusable_components/HomeSectionDetails'
+import Banner from '../components/home_components/Banner'
+import HomeSectionDetails from '../components/home_components/HomeSectionDetails'
 
 
 

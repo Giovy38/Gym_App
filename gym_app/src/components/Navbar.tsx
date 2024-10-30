@@ -7,7 +7,7 @@ import { CgGym } from "react-icons/cg";
 import { IoBody } from "react-icons/io5";
 import Link from 'next/link';
 import SectionTitle from "./reusable_components/SectionTitle";
-import NavbarButton from "./reusable_components/NavbarButton";
+import NavbarButton from "./navbar_component/NavbarButton";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);

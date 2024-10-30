@@ -4,6 +4,7 @@ import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 import { IoBarbellOutline } from "react-icons/io5";
 import { BsXSquareFill } from "react-icons/bs";
+import AddBlueButton from "../reusable_components/AddBlueButton";
 
 
 
@@ -122,9 +123,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseP
                             />
 
                         </div>
-                        <button onClick={addNote} className="mt-2 bg-blue-500 text-white p-2 rounded">
-                            + Aggiungi Nota
-                        </button>
+                        <AddBlueButton onClick={addNote} />
                     </div>
                 </div>
             )}

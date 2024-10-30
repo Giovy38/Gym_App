@@ -1,7 +1,7 @@
 'use client'
 
-import Accordion from "@/src/components/reusable_components/Accordion"
-import AddItemButton from "@/src/components/reusable_components/AddItemButton"
+import Accordion from "@/src/components/diet_page_component/Accordion"
+import AddItemButton from "@/src/components/diet_page_component/AddItemButton"
 import SectionTitle from "@/src/components/reusable_components/SectionTitle"
 
 export default function DietPage() {

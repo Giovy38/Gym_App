@@ -1,4 +1,4 @@
-import SectionTitle from './SectionTitle'
+import SectionTitle from '../reusable_components/SectionTitle'
 import Image, { StaticImageData } from 'next/image'
 
 type HomeSectionProps = {

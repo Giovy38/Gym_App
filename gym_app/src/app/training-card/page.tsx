@@ -1,8 +1,8 @@
 'use-client'
 
 import SectionTitle from "@/src/components/reusable_components/SectionTitle"
-import SingleExercise from "@/src/components/reusable_components/SingleExercise"
-import TrainingAccordion from "@/src/components/reusable_components/TrainingAccordion"
+import TrainingAccordion from "@/src/components/training_card_page_component/TrainingAccordion"
+import SingleExercise from "@/src/components/training_card_page_component/SingleExercise";
 
 
 export default function TrainingCardPage() {
