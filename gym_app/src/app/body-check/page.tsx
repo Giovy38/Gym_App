@@ -6,6 +6,7 @@ import man_body from '../../assets/img/man_body.png';
 import woman_body from '../../assets/img/woman_body.png'
 import InfoCard from "@/src/components/body_check_page_component/InfoCard";
 import AddRemoveButton from "@/src/components/reusable_components/AddRemoveButton";
+import DataSlider from "@/src/components/data_slider_component/DataSlider";
 
 
 
@@ -16,6 +17,7 @@ export default function BodyCheckPage() {
     return (
         <div className="flex flex-col p-3">
             <SectionTitle title="body check page" />
+            <DataSlider dataPage='body' />
             <div className="flex flex-col lg:flex-row flex-grow items-center justify-around gap-5 lg:gap-20 p-5">
                 <div className="w-full lg:w-96 ml-0 lg:ml-5 flex flex-col items-center">
                     {/* top details */}

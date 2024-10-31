@@ -1,5 +1,6 @@
 'use client'
 
+import DataSlider from "@/src/components/data_slider_component/DataSlider"
 import Accordion from "@/src/components/diet_page_component/Accordion"
 import AddItemButton from "@/src/components/diet_page_component/AddItemButton"
 import SectionTitle from "@/src/components/reusable_components/SectionTitle"
@@ -12,6 +13,7 @@ export default function DietPage() {
         // rimosso flex-col added pl-5
         <div className="min-h-[82vh] flex flex-col justify-center gap-3 p-5">
             <SectionTitle title="Diet page" />
+            <DataSlider dataPage='diet' />
             <Accordion accordionTitle="monday" buttons={<>
                 <AddItemButton title="breakfast" />
                 <AddItemButton title="snack" />

@@ -3,6 +3,7 @@
 import SectionTitle from "@/src/components/reusable_components/SectionTitle"
 import TrainingAccordion from "@/src/components/training_card_page_component/TrainingAccordion"
 import SingleExercise from "@/src/components/training_card_page_component/SingleExercise";
+import DataSlider from "@/src/components/data_slider_component/DataSlider";
 
 
 export default function TrainingCardPage() {
@@ -38,6 +39,8 @@ export default function TrainingCardPage() {
     return (
         <div className="p-5 ">
             <SectionTitle title="training card page" />
+
+            <DataSlider dataPage='training' />
 
             <TrainingAccordion
                 accordionTitle="petto e tricipiti"
