@@ -2,18 +2,10 @@ import { GoPlus } from "react-icons/go";
 import { GiWeightLiftingUp } from "react-icons/gi";
 import { IoBody } from "react-icons/io5";
 import { FaBowlFood } from "react-icons/fa6";
+import { SingleDataType } from "@/src/type/SingleDataDataSlide.type";
 
 
-
-type SingleDataProps = {
-    dataDate: string,
-    isAdd: boolean,
-    dataType: 'add' | 'training' | 'body' | 'diet',
-    onClick?: () => void,
-    onOpen: () => void,
-}
-
-export default function SingleData({ isAdd, dataDate, dataType, onClick, onOpen }: SingleDataProps) {
+export default function SingleData({ isAdd, dataDate, dataType, onClick, onOpen }: SingleDataType) {
     const renderIcon = () => {
         switch (dataType) {
             case 'training':

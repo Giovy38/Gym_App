@@ -5,10 +5,9 @@ import SingleData from "./SingleData";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
 import 'swiper/css';
+import { DataSliderType } from '@/src/type/DataSlider.type';
 
-type DataSliderType = {
-    dataPage: 'add' | 'training' | 'body' | 'diet'
-}
+
 
 export default function DataSlider({ dataPage }: DataSliderType) {
     const [dataList, setDataList] = useState([
