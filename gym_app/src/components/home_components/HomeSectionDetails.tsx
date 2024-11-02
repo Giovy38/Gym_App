@@ -1,14 +1,10 @@
-import SectionTitle from './SectionTitle'
-import Image, { StaticImageData } from 'next/image'
+import { HomeSectionDetailsType } from '@/src/type/HomeSectionDetails.type'
+import SectionTitle from '../reusable_components/SectionTitle'
+import Image from 'next/image'
 
-type HomeSectionProps = {
-    isImgRight: boolean,
-    sectionTitle: string,
-    sectionDescription: string,
-    img: string | StaticImageData
-}
 
-export default function HomeSectionDetails({ isImgRight, sectionTitle, sectionDescription, img }: HomeSectionProps) {
+
+export default function HomeSectionDetails({ isImgRight, sectionTitle, sectionDescription, img }: HomeSectionDetailsType) {
 
     return (
         <div className="text-white mt-5">

@@ -1,12 +1,9 @@
-'use-client'
+'use client'
 
-type AddButtonProps = {
-    text: string,
-    isAdd: boolean,
-    onClick: () => void
-}
+import { GenericButtonType } from "@/src/type/GenericButton.type"
 
-export default function AddButton({ text, isAdd, onClick }: AddButtonProps) {
+
+export default function AddButton({ text, isAdd, onClick }: GenericButtonType) {
     return (
         <div>
             {isAdd ?

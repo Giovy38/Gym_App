@@ -1,8 +1,8 @@
 'use client'
 
-import InputText from "./InputText";
-import SectionTitle from "./SectionTitle";
-import PrimaryButton from "./PrimaryButton";
+import InputText from "../reusable_components/InputText";
+import SectionTitle from "../reusable_components/SectionTitle";
+import PrimaryButton from "../reusable_components/PrimaryButton";
 import Link from "next/link";
 
 

@@ -1,6 +1,6 @@
 'use client'
 
-import SigninForm from '../../components/reusable_components/SigninForm'
+import SigninForm from '../../components/signin_page_component/SigninForm'
 import backgroundImg from '../../assets/img/gym_background.jpg'
 
 export default function SigninPage() {

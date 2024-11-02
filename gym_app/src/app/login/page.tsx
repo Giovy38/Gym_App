@@ -1,6 +1,7 @@
 'use client'
 
-import LoginForm from "@/src/components/reusable_components/LoginForm"
+
+import LoginForm from '@/src/components/login_page_component/LoginForm'
 import backgroundImg from '../../assets/img/gym_background.jpg'
 
 export default function LoginPage() {

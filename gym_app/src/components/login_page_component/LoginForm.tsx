@@ -1,11 +1,11 @@
 'use client'
 
-import InputText from "./InputText";
-import SectionTitle from "./SectionTitle";
+import InputText from "../reusable_components/InputText";
+import SectionTitle from "../reusable_components/SectionTitle";
 import { CiSquareCheck } from "react-icons/ci";
 import { FaCheckSquare } from "react-icons/fa";
 import { useState } from "react";
-import PrimaryButton from "./PrimaryButton";
+import PrimaryButton from "../reusable_components/PrimaryButton";
 import Link from "next/link";
 
 

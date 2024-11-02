@@ -2,14 +2,10 @@
 
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
+import { TrainingAccordionType } from "@/src/type/TrainingAccordion.type";
 
 
-type AccordionProps = {
-    accordionTitle: string
-    buttons: React.ReactNode
-}
-
-export default function TrainingAccordion({ accordionTitle, buttons }: AccordionProps) {
+export default function TrainingAccordion({ accordionTitle, buttons }: TrainingAccordionType) {
     const [isOpen, setIsOpen] = useState(false);
 
     const accordionOpenClose = () => {
