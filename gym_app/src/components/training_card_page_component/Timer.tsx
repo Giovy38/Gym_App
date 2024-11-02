@@ -6,11 +6,16 @@ import AddRemoveButton from '../reusable_components/AddRemoveButton';
 import { IoMdCloseCircle } from "react-icons/io";
 
 type TimerProps = {
-    onClose: () => void
+    onClose: () => void,
+    initialTime?: number
 }
 
-export default function Timer({ onClose }: TimerProps) {
-    const [time, setTime] = useState({ hours: 0, minutes: 0, seconds: 0 });
+export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
+    const initialHours = Math.floor(initialTime / 3600);
+    const initialMinutes = Math.floor((initialTime % 3600) / 60);
+    const initialSeconds = initialTime % 60;
+
+    const [time, setTime] = useState({ hours: initialHours, minutes: initialMinutes, seconds: initialSeconds });
     const [isRunning, setIsRunning] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
     const [isCompleted, setIsCompleted] = useState(true);
@@ -108,7 +113,7 @@ export default function Timer({ onClose }: TimerProps) {
                 </div>
                 <div className="flex justify-center items-center my-4">
                     <div className="w-40 h-40 flex justify-center items-center border-4 border-black rounded-full">
-                        <h1 className='text-xl font-bold'>{`${time.hours.toString().padStart(2, '0')}:${time.minutes.toString().padStart(2, '0')}:${time.seconds.toString().padStart(2, '0')}`}</h1>
+                        <h1 className='text-xl font-bold text-black'>{`${time.hours.toString().padStart(2, '0')}:${time.minutes.toString().padStart(2, '0')}:${time.seconds.toString().padStart(2, '0')}`}</h1>
                     </div>
                 </div>
                 {(isCompleted) || (!isRunning && time.hours === 0 && time.minutes === 0 && time.seconds === 0) ? (

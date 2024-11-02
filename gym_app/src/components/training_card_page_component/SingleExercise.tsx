@@ -11,6 +11,7 @@ import { CgGym } from "react-icons/cg";
 import { MdEditSquare } from "react-icons/md";
 import { FaCheckSquare } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import Timer from './Timer';
 
 function formatRestTime(seconds: number): string {
     const minutes = Math.floor(seconds / 60);
@@ -26,6 +27,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
     const [notes, setNotes] = useState(exercise.note);
     const [newNote, setNewNote] = useState("");
     const [editIndex, setEditIndex] = useState<number | null>(null);
+    const [showTimer, setShowTimer] = useState(false);
 
     const accordionOpenClose = () => {
         setIsOpen(!isOpen);
@@ -40,6 +42,10 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
 
     const removeNote = (index: number) => {
         setNotes(notes.filter((_, i) => i !== index));
+    };
+
+    const handleStartTimer = () => {
+        setShowTimer(true);
     };
 
     return (
@@ -76,6 +82,10 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                         <div className="flex gap-2 items-center justify-center">
                             <MdOutlineTimer />
                             <p>Rest Time: {formatRestTime(exercise.restTime)}</p>
+                        </div>
+                        <div className="flex gap-2 items-center cursor-pointer justify-center text-black font-bold uppercase hover:bg-[#efb242b6] bg-[#f8bf58] p-2 rounded-full" onClick={handleStartTimer}>
+                            <MdOutlineTimer />
+                            <p>Start Timer</p>
                         </div>
                         {exercise.barbell ?
                             <div className="flex justify-center gap-3 bg-black p-3 rounded-full mb-2 ">
@@ -152,6 +162,12 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                         <AddBlueButton text="+ Aggiungi Nota" onClick={addNote} />
                     </div>
                 </div>
+            )}
+            {showTimer && (
+                <Timer
+                    onClose={() => setShowTimer(false)}
+                    initialTime={exercise.restTime}
+                />
             )}
         </div>
     );
