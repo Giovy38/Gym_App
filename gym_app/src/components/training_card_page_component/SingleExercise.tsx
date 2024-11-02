@@ -12,6 +12,14 @@ import { MdEditSquare } from "react-icons/md";
 import { FaCheckSquare } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 
+function formatRestTime(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    if (minutes > 0) {
+        return remainingSeconds > 0 ? `${minutes} min e ${remainingSeconds} sec` : `${minutes} min`;
+    }
+    return `${remainingSeconds} sec`;
+}
 
 export default function SingleExercise({ exercise }: { exercise: SingleExerciseType }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +53,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                     <div className="flex gap-5">
                         <h5 className="text-sm">{exercise.sets} x {exercise.reps} rep</h5>
                         <h5 className="text-sm">{exercise.totalweight} kg</h5>
-                        <h5 className="text-sm">{exercise.restTime} sec </h5>
+                        <h5 className="text-sm">{formatRestTime(exercise.restTime)} </h5>
                     </div>
                 </div>
                 <div className="block">
@@ -67,7 +75,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                         </div>
                         <div className="flex gap-2 items-center justify-center">
                             <MdOutlineTimer />
-                            <p>Rest Time: {exercise.restTime} seconds</p>
+                            <p>Rest Time: {formatRestTime(exercise.restTime)}</p>
                         </div>
                         {exercise.barbell ?
                             <div className="flex justify-center gap-3 bg-black p-3 rounded-full mb-2 ">

@@ -8,12 +8,12 @@ interface Workout {
 }
 
 interface AddDetailsFormProps {
-    onAddWorkout: (workout: Workout) => void;
+    onAddWorkout: (workout: Omit<Workout, 'sets'>) => void;
     onCancel: () => void;
 }
 
 export default function AddDetailsForm({ onAddWorkout, onCancel }: AddDetailsFormProps) {
-    const [newWorkout, setNewWorkout] = useState<Workout>({ sets: 0, reps: 0, weight: '' });
+    const [newWorkout, setNewWorkout] = useState<Omit<Workout, 'sets'>>({ reps: 0, weight: '' });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -21,23 +21,14 @@ export default function AddDetailsForm({ onAddWorkout, onCancel }: AddDetailsFor
     };
 
     const handleSubmit = () => {
-        if (newWorkout.sets && newWorkout.reps && newWorkout.weight) {
+        if (newWorkout.reps && newWorkout.weight) {
             onAddWorkout(newWorkout);
-            setNewWorkout({ sets: 0, reps: 0, weight: '' });
+            setNewWorkout({ reps: 0, weight: '' });
         }
     };
 
     return (
         <div className="absolute top-0 left-0 right-0 bg-white rounded-lg w-full text-black p-4 flex flex-col gap-2 items-center shadow-lg z-10">
-            <label className='uppercase font-bold' htmlFor="sets">sets</label>
-            <input
-                type="number"
-                name="sets"
-                value={newWorkout.sets}
-                onChange={handleChange}
-                placeholder="Sets"
-                className="border p-1 mb-2 rounded-lg"
-            />
             <label className='uppercase font-bold' htmlFor="reps">reps</label>
             <input
                 type="number"

@@ -14,15 +14,16 @@ interface Workout {
 
 export default function LastTrainingDetails() {
     const [workouts, setWorkouts] = useState<Workout[]>([]);
-
     const [showForm, setShowForm] = useState<boolean>(false);
 
     const handleDelete = (index: number) => {
         setWorkouts(workouts.filter((_, i) => i !== index));
     };
 
-    const handleAddWorkout = (newWorkout: Workout) => {
-        setWorkouts([...workouts, newWorkout]);
+    const handleAddWorkout = (newWorkout: Omit<Workout, 'sets'>) => {
+        const newSetNumber = workouts.length + 1;
+        const workoutWithSet = { ...newWorkout, sets: newSetNumber };
+        setWorkouts([...workouts, workoutWithSet]);
         setShowForm(false);
     };
 
@@ -44,7 +45,7 @@ export default function LastTrainingDetails() {
                 <table className="w-full text-left">
                     <thead>
                         <tr>
-                            <th>Sets</th>
+                            <th>Set</th>
                             <th>Reps</th>
                             <th>Weight</th>
                             <th></th>
