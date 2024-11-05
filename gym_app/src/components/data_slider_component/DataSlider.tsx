@@ -7,22 +7,25 @@ import { Swiper as SwiperType } from 'swiper/types';
 import 'swiper/css';
 import { DataSliderType } from '@/src/type/DataSlider.type';
 
-
-
 export default function DataSlider({ dataPage }: DataSliderType) {
     const [dataList, setDataList] = useState([
-        { isAdd: true, dataDate: '31/10/2024', dataType: 'add' },
-        { isAdd: false, dataDate: '01/10/2024', dataType: dataPage },
-
+        { id: 1, isAdd: true, dataDate: '31/10/2024', dataType: 'add' },
+        { id: 2, isAdd: false, dataDate: '01/10/2024', dataType: dataPage },
+        // Aggiungi altri elementi con un campo `id` univoco
     ]);
 
     const addNewData = () => {
         const currentDate = new Date().toLocaleDateString('it-IT');
-        setDataList([...dataList, { isAdd: false, dataDate: currentDate, dataType: dataPage }]);
+        const newId = dataList.length ? Math.max(...dataList.map(data => data.id)) + 1 : 1;
+        setDataList([...dataList, { id: newId, isAdd: false, dataDate: currentDate, dataType: dataPage }]);
     };
 
     const handleSwiper = (swiper: SwiperType) => {
         console.log(swiper);
+    };
+
+    const handleDelete = (id: number) => {
+        setDataList(dataList.filter(data => data.id !== id));
     };
 
     return (
@@ -48,14 +51,15 @@ export default function DataSlider({ dataPage }: DataSliderType) {
                 onSlideChange={() => console.log('slide change')}
                 onSwiper={handleSwiper}
             >
-                {dataList.map((data, index) => (
-                    <SwiperSlide key={index} >
+                {dataList.map((data) => (
+                    <SwiperSlide key={data.id}>
                         <SingleData
                             isAdd={data.isAdd}
                             dataDate={data.dataDate}
                             dataType={dataPage}
                             onClick={addNewData}
                             onOpen={() => console.log('open')}
+                            onDelete={() => handleDelete(data.id)}
                         />
                     </SwiperSlide>
                 ))}

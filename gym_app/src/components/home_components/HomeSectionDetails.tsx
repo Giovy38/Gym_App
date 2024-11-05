@@ -14,7 +14,7 @@ export default function HomeSectionDetails({ isImgRight, sectionTitle, sectionDe
                     {/* description */}
                     <div className='w-full flex flex-col justify-around pt-5'>
                         <SectionTitle title={sectionTitle} />
-                        <p className='p-3 text-balance text-center'>
+                        <p className='p-3 text-balance text-center text-xl'>
                             {sectionDescription}
                         </p>
                     </div>
@@ -33,7 +33,7 @@ export default function HomeSectionDetails({ isImgRight, sectionTitle, sectionDe
                     {/* description */}
                     <div className='w-full flex flex-col justify-around pt-5'>
                         <SectionTitle title={sectionTitle} />
-                        <p className='p-3 text-balance text-center'>
+                        <p className='p-3 text-balance text-center text-xl'>
                             {sectionDescription}
                         </p>
                     </div>

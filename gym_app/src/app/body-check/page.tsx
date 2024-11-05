@@ -5,7 +5,6 @@ import Image from 'next/image';
 import man_body from '../../assets/img/man_body.png';
 import woman_body from '../../assets/img/woman_body.png'
 import InfoCard from "@/src/components/body_check_page_component/InfoCard";
-import AddRemoveButton from "@/src/components/reusable_components/AddRemoveButton";
 import DataSlider from "@/src/components/data_slider_component/DataSlider";
 
 
@@ -28,10 +27,6 @@ export default function BodyCheckPage() {
                     </div>
                     {isMan ? <Image src={man_body} alt="body-img" /> :
                         <Image src={woman_body} alt="body-img" />}
-                    <div className="hidden lg:flex flex-col gap-3 mt-5">
-                        <AddRemoveButton text='add new datas' isAdd onClick={() => { }} />
-                        <AddRemoveButton text='remove specifics datas' isAdd={false} onClick={() => { }} />
-                    </div>
                 </div>
                 <div className="flex flex-col gap-5 justify-start w-full lg:w-auto">
                     {/* top details */}
@@ -72,10 +67,6 @@ export default function BodyCheckPage() {
                             <InfoCard infoTitle="calf sx" leftData='30 cm' rightData='31 cm' />
                             <InfoCard infoTitle="calf dx" leftData='33 cm' rightData='34 cm' />
                         </div>
-                    </div>
-                    <div className="flex flex-col gap-3 mt-5 lg:hidden">
-                        <AddRemoveButton text='add new datas' isAdd onClick={() => { }} />
-                        <AddRemoveButton text='remove specifics datas' isAdd={false} onClick={() => { }} />
                     </div>
                 </div>
             </div>
