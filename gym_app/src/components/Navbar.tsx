@@ -45,7 +45,7 @@ export default function Navbar() {
             </div>
 
             {/* Hamburger menu for mobile screens */}
-            <div className="md:hidden bg-black text-white p-3">
+            <div className="md:hidden bg-black text-white p-3 z-40">
                 <div className="flex justify-between items-center">
                     <Link href='/'>
                         <SectionTitle title="super gym" />
@@ -55,7 +55,7 @@ export default function Navbar() {
                     </button>
                 </div>
                 <div
-                    className={`fixed top-0 left-0 w-full h-full bg-[#f8c058e8] text-black p-5 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+                    className={`fixed top-0 left-0 w-full h-full bg-[#f8c058] text-black p-5 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'} z-40`}
                 >
                     <Link href='/' onClick={toggleMenu}>
                         <NavbarButton title="home" Icon={FaHome} />

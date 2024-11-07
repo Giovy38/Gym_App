@@ -94,7 +94,7 @@ export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
     if (!isVisible) return null;
 
     return (
-        <div className="absolute top-0 left-0 w-full h-[100vh] bg-[#000000e8] z-10 flex justify-center items-center">
+        <div className="fixed inset-0 bg-[#000000e8] z-10 flex justify-center items-center">
             <div className="bg-white rounded-lg p-8 relative">
                 <IoMdCloseCircle className='absolute top-2 right-2 text-red-500 text-2xl cursor-pointer' onClick={closeComponent} />
                 <div className="flex flex-col md:flex-row justify-center items-center gap-4">

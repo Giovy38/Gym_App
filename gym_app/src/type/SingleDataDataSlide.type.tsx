@@ -4,4 +4,5 @@ export type SingleDataType = {
     dataType: 'add' | 'training' | 'body' | 'diet',
     onClick?: () => void,
     onOpen: () => void,
+    onDelete: () => void,
 }
