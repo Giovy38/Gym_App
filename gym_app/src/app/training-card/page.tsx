@@ -17,7 +17,8 @@ export default function TrainingCardPage() {
         restTime: 90,
         totalweight: 50,
         barbell: true,
-        note: []
+        note: [],
+        cardio: false
     };
     const pancaInclinata = {
         exerciseTitle: "Panca Inclinata",
@@ -26,7 +27,8 @@ export default function TrainingCardPage() {
         restTime: 30,
         totalweight: 45,
         barbell: true,
-        note: []
+        note: [],
+        cardio: false
     };
     const pancaInclinataManubri = {
         exerciseTitle: "Panca Inclinata Manubri",
@@ -35,7 +37,8 @@ export default function TrainingCardPage() {
         restTime: 240,
         totalweight: 15,
         barbell: false,
-        note: []
+        note: [],
+        cardio: true
     };
 
     const [isTimerVisible, setIsTimerVisible] = useState(false);

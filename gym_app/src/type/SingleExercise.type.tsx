@@ -5,5 +5,6 @@ export type SingleExerciseType = {
     restTime: number,
     totalweight: number,
     barbell: boolean,
-    note: string[]
+    note: string[],
+    cardio: boolean
 }

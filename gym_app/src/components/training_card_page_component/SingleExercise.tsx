@@ -98,7 +98,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                                 <IoBarbellOutline className="text-red-500 text-2xl" />
                             </div>
                         }
-                        <LastTrainingDetails />
+                        <LastTrainingDetails cardio={exercise.cardio} />
                         <div className="bg-white text-black p-3 rounded-lg min-h-40 text-balance w-72 overflow-y-auto max-h-60 
                         [&::-webkit-scrollbar]:w-2
                         [&::-webkit-scrollbar-track]:rounded-full
