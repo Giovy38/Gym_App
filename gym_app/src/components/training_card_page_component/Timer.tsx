@@ -20,6 +20,7 @@ export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
     const [isVisible, setIsVisible] = useState(true);
     const [isCompleted, setIsCompleted] = useState(true);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
 
     const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -76,6 +77,9 @@ export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
                         clearInterval(intervalRef.current!);
                         setIsRunning(false);
                         setIsCompleted(true);
+                        if (audioRef.current) {
+                            audioRef.current.play();
+                        }
                     }
                     return { hours, minutes, seconds };
                 });
@@ -126,6 +130,7 @@ export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
                         <AddRemoveButton text='Cancel' onClick={cancelTimer} isAdd={false} />
                     </div>
                 )}
+                <audio ref={audioRef} src="/sounds/alert.mp3" />
             </div>
         </div>
     );
