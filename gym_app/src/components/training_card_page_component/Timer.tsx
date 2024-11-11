@@ -5,6 +5,7 @@ import AddBlueButton from '../reusable_components/AddBlueButton';
 import AddRemoveButton from '../reusable_components/AddRemoveButton';
 import { IoMdCloseCircle } from "react-icons/io";
 
+
 type TimerProps = {
     onClose: () => void,
     initialTime?: number
@@ -30,13 +31,31 @@ export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
             parsedValue = 0;
         }
 
-        if (name === "seconds" || name === "minutes") {
-            if (parsedValue >= 60) {
-                parsedValue = parsedValue % 60;
-            }
-        }
+        setTime(prevTime => {
+            let { hours, minutes, seconds } = prevTime;
 
-        setTime({ ...time, [name]: parsedValue });
+            if (name === "seconds") {
+                seconds = parsedValue;
+                if (seconds >= 60) {
+                    minutes += Math.floor(seconds / 60);
+                    seconds = seconds % 60;
+                }
+            }
+
+            if (name === "minutes") {
+                minutes = parsedValue;
+                if (minutes >= 60) {
+                    hours += Math.floor(minutes / 60);
+                    minutes = minutes % 60;
+                }
+            }
+
+            if (name === "hours") {
+                hours = Math.max(0, parsedValue); // Assicura che le ore non siano negative
+            }
+
+            return { hours, minutes, seconds };
+        });
     };
 
     const startTimer = () => {
@@ -57,6 +76,48 @@ export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
     const closeComponent = () => {
         setIsVisible(false);
         onClose();
+    };
+
+    const adjustTime = (field: string, amount: number) => {
+        setTime(prevTime => {
+            let { hours, minutes, seconds } = prevTime;
+
+            if (field === "seconds") {
+                seconds += amount;
+                if (seconds >= 60) {
+                    minutes += Math.floor(seconds / 60);
+                    seconds = seconds % 60;
+                } else if (seconds < 0) {
+                    if (minutes > 0) {
+                        minutes -= 1;
+                        seconds = 59;
+                    } else {
+                        seconds = 0; // Assicura che i secondi non siano negativi
+                    }
+                }
+            }
+
+            if (field === "minutes") {
+                minutes += amount;
+                if (minutes >= 60) {
+                    hours += Math.floor(minutes / 60);
+                    minutes = minutes % 60;
+                } else if (minutes < 0) {
+                    if (hours > 0) {
+                        hours -= 1;
+                        minutes = 59;
+                    } else {
+                        minutes = 0; // Assicura che i minuti non siano negativi
+                    }
+                }
+            }
+
+            if (field === "hours") {
+                hours = Math.max(0, hours + amount); // Assicura che le ore non siano negative
+            }
+
+            return { hours, minutes, seconds };
+        });
     };
 
     useEffect(() => {
@@ -102,17 +163,49 @@ export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
             <div className="bg-white rounded-lg p-8 relative">
                 <IoMdCloseCircle className='absolute top-2 right-2 text-red-500 text-2xl cursor-pointer' onClick={closeComponent} />
                 <div className="flex flex-col md:flex-row justify-center items-center gap-4">
-                    <div className='flex flex-col gap-2'>
+                    <div className='flex flex-col gap-2 text-black'>
                         <label className='bg-black text-center rounded-lg text-white' htmlFor="hours">Hours:</label>
-                        <input className='bg-slate-400 text-center rounded-md' type="number" name="hours" onChange={handleTimeChange} placeholder="h" disabled={isRunning || !isCompleted} />
+                        <div className='flex items-center'>
+                            <button onClick={() => adjustTime('hours', -1)} disabled={isRunning || !isCompleted}>-</button>
+                            <input
+                                className='bg-slate-200 text-center rounded-md mx-2'
+                                name="hours"
+                                onChange={handleTimeChange}
+                                value={time.hours}
+                                disabled={isRunning || !isCompleted}
+                            />
+                            <button onClick={() => adjustTime('hours', 1)} disabled={isRunning || !isCompleted}>+</button>
+                        </div>
                     </div>
-                    <div className='flex flex-col justify-center gap-2'>
+                    <div className='flex flex-col justify-center gap-2 text-black'>
                         <label className='bg-black text-center rounded-lg text-white' htmlFor="minutes">Minutes:</label>
-                        <input className='bg-slate-400 text-center rounded-md' type="number" name="minutes" onChange={handleTimeChange} placeholder="m" max="59" disabled={isRunning || !isCompleted} />
+                        <div className='flex items-center'>
+                            <button onClick={() => adjustTime('minutes', -1)} disabled={isRunning || !isCompleted}>-</button>
+                            <input
+                                className='bg-slate-200 text-center rounded-md mx-2'
+                                name="minutes"
+                                onChange={handleTimeChange}
+                                value={time.minutes}
+                                max="59"
+                                disabled={isRunning || !isCompleted}
+                            />
+                            <button onClick={() => adjustTime('minutes', 1)} disabled={isRunning || !isCompleted}>+</button>
+                        </div>
                     </div>
-                    <div className='flex flex-col justify-center gap-2'>
+                    <div className='flex flex-col justify-center gap-2 text-black'>
                         <label className='bg-black text-center rounded-lg text-white' htmlFor="seconds">Seconds:</label>
-                        <input className='bg-slate-400 text-center rounded-md' type="number" name="seconds" onChange={handleTimeChange} placeholder="s" max="59" disabled={isRunning || !isCompleted} />
+                        <div className='flex items-center'>
+                            <button onClick={() => adjustTime('seconds', -1)} disabled={isRunning || !isCompleted}>-</button>
+                            <input
+                                className='bg-slate-200 text-center rounded-md mx-2'
+                                name="seconds"
+                                onChange={handleTimeChange}
+                                value={time.seconds}
+                                max="59"
+                                disabled={isRunning || !isCompleted}
+                            />
+                            <button onClick={() => adjustTime('seconds', 1)} disabled={isRunning || !isCompleted}>+</button>
+                        </div>
                     </div>
                 </div>
                 <div className="flex justify-center items-center my-4">

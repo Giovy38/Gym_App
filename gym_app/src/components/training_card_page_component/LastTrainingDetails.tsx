@@ -74,7 +74,7 @@ export default function LastTrainingDetails({ cardio }: { cardio: boolean }) {
                     {showPreviousWorkout ? (
                         <>
                             <SiPastebin className='text-2xl' />
-                            <h1 className='font-bold'>Last Workout</h1>
+                            <h1 className='font-bold'>Current Workout</h1>
                             <IoMdArrowDropright className='text-2xl' />
                         </>
                     ) : (
@@ -86,7 +86,7 @@ export default function LastTrainingDetails({ cardio }: { cardio: boolean }) {
                     )}
                 </div>
                 <h1 className="uppercase font-extrabold">
-                    {showPreviousWorkout ? 'Previous Workout:' : 'Last Workout:'}
+                    {showPreviousWorkout ? 'Previous Workout:' : 'Current Workout:'}
                 </h1>
 
                 <table className="w-full text-left ">
@@ -140,13 +140,14 @@ export default function LastTrainingDetails({ cardio }: { cardio: boolean }) {
                 </table>
 
                 <IoAddCircle
-                    className="text-green-500 text-2xl cursor-pointer hover:text-green-800"
+                    className="text-green-500 text-2xl cursor-pointer hover:text-green-800 mb-2"
                     onClick={() => setShowForm(true)}
                 />
-                <div className='w-full flex items-end justify-end'>
+                <div onClick={handleSave} className={`w-full flex items-center justify-end gap-2  rounded-lg p-1 cursor-pointer border-t-2 border-black`}>
+                    <p className='text-black font-bold'>{!isSaved ? 'Salva' : 'Dati Aggiornati'}</p>
                     <HiCloudArrowUp
-                        className={`${isSaved ? 'text-green-500' : 'text-slate-500'} text-3xl cursor-pointer hover:${isSaved ? 'text-green-800' : 'text-slate-800'}`}
-                        onClick={handleSave}
+                        className={`${isSaved ? 'text-green-800' : 'text-slate-500'} text-3xl hover:${isSaved ? 'text-green-800' : 'text-slate-800'}`}
+
                     />
                 </div>
             </div>
