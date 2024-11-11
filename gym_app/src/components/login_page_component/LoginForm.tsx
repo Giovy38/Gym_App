@@ -35,7 +35,7 @@ export default function LoginForm() {
                 <Link href="/signin">
                     <h4 className="text-[#f8bf58] mt-3 underline underline-offset-2">Dont have an account? Register now</h4>
                 </Link>
-                <PrimaryButton text="Login" />
+                <PrimaryButton text="Login" onClick={() => { }} />
             </div>
         </div>
     )

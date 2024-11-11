@@ -10,7 +10,6 @@ export default function DietPage() {
 
 
     return (
-        // rimosso flex-col added pl-5
         <div className="min-h-[82vh] flex flex-col justify-center gap-3 p-5">
             <SectionTitle title="Diet page" />
             <DataSlider dataPage='diet' />
