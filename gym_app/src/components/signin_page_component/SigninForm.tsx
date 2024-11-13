@@ -16,21 +16,23 @@ export default function LoginForm() {
             <SectionTitle title="signin" />
             <div className="flex flex-col">
                 <div className="flex flex-col md:flex-row gap-3">
-                    <InputText label="name" type="text" placeholder='Name' />
-                    <InputText label="surname" type="text" placeholder='Surname' />
+                    <InputText label="first name" type="text" placeholder='First Name' />
+                    <InputText label="last name" type="text" placeholder='Last Name' />
                 </div>
 
                 <InputText label="e-mail" type="email" placeholder='E-mail' />
                 <InputText label="password" type="password" placeholder='Password' />
                 <InputText label="repeat password" type="password" placeholder='Password' />
                 <div className="w-full flex flex-col justify-around items-center gap-2 bg-[#94928f] mt-5 p-2 rounded-md">
-                    <h4 className="uppercase font-bold text-xl">select a gender for body check image*</h4>
+                    <h4 className="uppercase font-bold text-xl">select one for body check image*</h4>
                     <div className="flex gap-20">
-                        <div className="flex gap-2 text-lg italic font-bold">
-                            <input type="radio" name="gender" value="man" />man
+                        <div className="flex gap-2 text-lg italic font-bold ">
+                            <input id="gender-man" className="cursor-pointer" type="radio" name="gender" value="man" />
+                            <label htmlFor="gender-man" className="cursor-pointer">man</label>
                         </div>
-                        <div className="flex gap-2 uppe text-lg italic font-bold">
-                            <input type="radio" name="gender" value="woman" /> woman
+                        <div className="flex gap-2 text-lg italic font-bold ">
+                            <input id="gender-woman" className="cursor-pointer" type="radio" name="gender" value="woman" />
+                            <label htmlFor="gender-woman" className="cursor-pointer">woman</label>
                         </div>
                     </div>
                 </div>
