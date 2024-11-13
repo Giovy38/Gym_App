@@ -10,7 +10,7 @@ export default function DietPage() {
 
 
     return (
-        <div className="min-h-[82vh] flex flex-col justify-center gap-3 p-5">
+        <div className="min-h-[82vh] flex flex-col justify-center xl:items-center gap-3 p-5">
             <SectionTitle title="Diet page" />
             <DataSlider dataPage='diet' />
             <Accordion accordionTitle="monday" buttons={<>

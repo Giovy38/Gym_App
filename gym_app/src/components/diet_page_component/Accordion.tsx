@@ -1,7 +1,7 @@
 'use client'
 
 import { IoIosArrowForward, IoIosArrowBack, IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AccordionType } from "@/src/type/Accordion.type";
 
 
@@ -9,6 +9,23 @@ import { AccordionType } from "@/src/type/Accordion.type";
 
 export default function Accordion({ accordionTitle, buttons }: AccordionType) {
     const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        const updateIsOpen = () => {
+            if (window.innerWidth >= 1024) { // 1024px è una dimensione comune per i laptop
+                setIsOpen(true);
+            } else {
+                setIsOpen(false);
+            }
+        };
+
+        updateIsOpen(); // Imposta lo stato iniziale
+        window.addEventListener('resize', updateIsOpen); // Aggiungi listener per il ridimensionamento
+
+        return () => {
+            window.removeEventListener('resize', updateIsOpen); // Pulisci il listener
+        };
+    }, []);
 
     const accordionOpenClose = () => {
         setIsOpen(!isOpen);
