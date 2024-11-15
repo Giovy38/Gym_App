@@ -45,11 +45,11 @@ export default function RemovibleItems({ food, quantity, onRemove, onEdit }: Rem
                     <p className="break-words">{food}</p>
                 </div>
                 <div className="flex gap-2 w-full">
-                    <div className="flex items-center justify-center w-1/2 rounded-md p-1 hover:bg-black">
-                        <IoPencilOutline onClick={onEdit} className="cursor-pointer text-blue-500 text-xl rounded-md" />
+                    <div onClick={onEdit} className="flex items-center justify-center w-1/2 rounded-md p-1 hover:bg-black">
+                        <IoPencilOutline className="cursor-pointer text-blue-500 text-xl rounded-md" />
                     </div>
-                    <div className="flex items-center justify-center w-1/2 rounded-md p-1 hover:bg-black">
-                        <MdDeleteForever onClick={handleDeleteClick} className="cursor-pointer text-red-500 text-xl rounded-md" />
+                    <div onClick={handleDeleteClick} className="flex items-center justify-center w-1/2 rounded-md p-1 hover:bg-black">
+                        <MdDeleteForever className="cursor-pointer text-red-500 text-xl rounded-md" />
                     </div>
                 </div>
             </div>
