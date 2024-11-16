@@ -24,6 +24,8 @@ export default function SingleData({ isAdd, dataDate, dataType, onClick, onOpen,
         }
     };
 
+    console.log('SingleData component received dataDate:', dataDate);
+
     return (
         <div className="w-20 relative">
             {isAdd ? (
