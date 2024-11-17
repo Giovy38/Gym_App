@@ -3,13 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import SingleData from "./SingleData";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Swiper as SwiperType } from 'swiper/types';
+// import { Swiper as SwiperType } from 'swiper/types';
 import 'swiper/css';
 import { DataSliderType } from '@/src/type/DataSlider.type';
 import NewTrainingCardForm from '../training_card_page_component/NewTrainingCardForm';
 import NewBodyCheckForm from '../body_check_page_component/NewBodyCheckForm';
 import NewDietForm from '../diet_page_component/NewDietForm';
 import LoadAllBodyCheck from '@/src/services/body-check-page-services/LoadAllBodyCheck.services';
+import RemoveBodyCheck from '@/src/services/body-check-page-services/RemoveBodyCheck.services';
 // import TrainingCardLoad from '@/src/services/training-card-page-services/TrainingCardLoad.services';
 // import LoadDiet from '@/src/services/diet-page-services/LoadDiet.services';
 
@@ -37,7 +38,7 @@ export default function DataSlider({ dataPage }: DataSliderType) {
             } catch (error) {
                 console.error("Error loading data:", error);
             }
-            setDataList([{ id: 1, isAdd: true, dataDate: '31/10/2024', dataType: 'add' }, ...data]);
+            setDataList([{ id: 1, isAdd: true, dataDate: '00/00/0000', dataType: 'add' }, ...data]);
         };
         loadData();
     }, [dataPage]);
@@ -48,6 +49,7 @@ export default function DataSlider({ dataPage }: DataSliderType) {
 
     const handleDelete = (id: number) => {
         setDataList(dataList.filter(data => data.id !== id));
+        RemoveBodyCheck(id);
     };
 
     const renderForm = () => {
@@ -77,7 +79,7 @@ export default function DataSlider({ dataPage }: DataSliderType) {
                     1280: { slidesPerView: 10.5 },
                 }}
                 onSlideChange={() => console.log('slide change')}
-                onSwiper={(swiper: SwiperType) => console.log(swiper)}
+            // onSwiper={(swiper: SwiperType) => console.log(swiper)}
             >
                 {dataList.map((data) => {
                     console.log('Rendering SingleData with:', data);
