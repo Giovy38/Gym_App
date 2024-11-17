@@ -121,13 +121,13 @@ export default function NewBodyCheckForm({ onClose }: NewBodyCheckFormProps) {
                                 onChange={handleDateChange}
                             />
                         </div>
-                        {[{ label: "Height", value: height, setValue: setHeight },
-                        { label: "Weight", value: weight, setValue: setWeight },
-                        { label: "Shoulder", value: shoulder, setValue: setShoulder },
-                        { label: "Chest", value: chest, setValue: setChest },
-                        { label: "Waist", value: waist, setValue: setWaist },
-                        { label: "Buttocks", value: buttocks, setValue: setButtocks },
-                        { label: "Thigh", value: thigh, setValue: setThigh }]
+                        {[{ label: "Height (cm)", value: height, setValue: setHeight },
+                        { label: "Weight (kg)", value: weight, setValue: setWeight },
+                        { label: "Shoulder (cm)", value: shoulder, setValue: setShoulder },
+                        { label: "Chest (cm)", value: chest, setValue: setChest },
+                        { label: "Waist (cm)", value: waist, setValue: setWaist },
+                        { label: "Buttocks (cm)", value: buttocks, setValue: setButtocks },
+                        { label: "Thigh (cm)", value: thigh, setValue: setThigh }]
                             .map(({ label, value, setValue }) => (
                                 <div key={label} className="flex flex-col justify-center items-center">
                                     <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={label.toLowerCase()}>{label}</label>
@@ -154,8 +154,8 @@ export default function NewBodyCheckForm({ onClose }: NewBodyCheckFormProps) {
                             .map(({ label, leftValue, setLeftValue, rightValue, setRightValue }) => (
                                 <div key={label} className="flex flex-col">
                                     <div className="flex justify-between">
-                                        <label className="text-[#f8bf58] uppercase font-bold text-md text-center w-1/2 select-none">{label} SX</label>
-                                        <label className="text-[#f8bf58] uppercase font-bold text-md text-center w-1/2 select-none">{label} DX</label>
+                                        <label className="text-[#f8bf58] uppercase font-bold text-md text-center w-1/2 select-none">{label} SX (cm)</label>
+                                        <label className="text-[#f8bf58] uppercase font-bold text-md text-center w-1/2 select-none">{label} DX (cm)</label>
                                     </div>
                                     <div className="flex gap-10">
                                         <div className="flex items-center w-1/2 gap-1">
