@@ -1,4 +1,5 @@
 export type BodyCheckData = {
+    id: number;
     date: string;
     height: number;
     weight: number;

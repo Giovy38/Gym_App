@@ -18,20 +18,25 @@ export default function BodyCheckPage() {
     const [previousCheck, setPreviousCheck] = useState<BodyCheckData | null>(null);
 
     useEffect(() => {
-        async function fetchData() {
-            try {
-                const data: BodyCheckData[] = await LoadAllBodyCheck();
-                setBodyChecks(data);
-                if (data.length > 0) {
-                    setLatestCheck(data[data.length - 1]);
-                    setPreviousCheck(data.length > 1 ? data[data.length - 2] : data[data.length - 1]);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }
         fetchData();
     }, []);
+
+    const fetchData = async () => {
+        try {
+            const data: BodyCheckData[] = await LoadAllBodyCheck();
+            setBodyChecks(data);
+            if (data.length > 0) {
+                setLatestCheck(data[data.length - 1]);
+                setPreviousCheck(data.length > 1 ? data[data.length - 2] : data[data.length - 1]);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleNewBodyCheck = () => {
+        fetchData(); // Ricarica i dati quando viene creato un nuovo body check
+    };
 
     const updateChecks = (selectedData: BodyCheckData) => {
         setLatestCheck(selectedData);
@@ -59,7 +64,7 @@ export default function BodyCheckPage() {
     return (
         <div className="flex flex-col p-3">
             <SectionTitle title="body check page" />
-            <DataSlider dataPage='body' onUpdateData={updateChecks} />
+            <DataSlider dataPage='body' onUpdateData={updateChecks} dbDate={bodyChecks} onNewBodyCheck={handleNewBodyCheck} />
             <div className="flex flex-col lg:flex-row flex-grow items-center justify-around gap-5 lg:gap-20 p-5">
                 <div className="w-full lg:w-96 ml-0 lg:ml-5 flex flex-col items-center">
                     {/* top details */}

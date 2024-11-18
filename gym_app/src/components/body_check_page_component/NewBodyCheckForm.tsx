@@ -6,12 +6,12 @@ import { FaMinus, FaPlus } from "react-icons/fa6";
 import AddRemoveButton from "../reusable_components/AddRemoveButton";
 import AddBodyCheck from "@/src/services/body-check-page-services/AddBodyCheck.services";
 
-
 type NewBodyCheckFormProps = {
     onClose: () => void;
+    onNewBodyCheck: () => void;
 }
 
-export default function NewBodyCheckForm({ onClose }: NewBodyCheckFormProps) {
+export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyCheckFormProps) {
 
     const currentDate = new Date().toLocaleDateString('en-EN');
     const [date, setDate] = useState(currentDate);
@@ -33,6 +33,7 @@ export default function NewBodyCheckForm({ onClose }: NewBodyCheckFormProps) {
 
     const handleSubmit = async () => {
         const bodyCheckData = {
+            id: 0,
             date,
             height,
             weight,
@@ -61,6 +62,7 @@ export default function NewBodyCheckForm({ onClose }: NewBodyCheckFormProps) {
 
         try {
             await AddBodyCheck(bodyCheckData);
+            onNewBodyCheck();
             onClose();
 
         } catch (error) {
