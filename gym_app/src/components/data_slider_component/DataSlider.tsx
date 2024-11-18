@@ -9,6 +9,7 @@ import NewTrainingCardForm from '../training_card_page_component/NewTrainingCard
 import NewBodyCheckForm from '../body_check_page_component/NewBodyCheckForm';
 import NewDietForm from '../diet_page_component/NewDietForm';
 import RemoveBodyCheck from '@/src/services/body-check-page-services/RemoveBodyCheck.services';
+import SwapBodyCheck from '@/src/services/body-check-page-services/SwapBodyCheck.services';
 
 type DataSliderProps = DataSliderType & {
     onNewBodyCheck: () => void;
@@ -39,9 +40,12 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
         RemoveBodyCheck(id);
     };
 
-    const handleOpen = (id: number) => {
-        const selectedData = dataList.find(data => data.id === id);
+    const handleOpen = async (id: number) => {
+        console.log("DataList:", dataList);
+        console.log("Id:", id);
+        const selectedData = await SwapBodyCheck(id);
         if (selectedData) {
+            console.log("Selected Data:", selectedData);
             onUpdateData(selectedData);
         }
     };
