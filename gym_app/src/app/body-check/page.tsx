@@ -12,23 +12,33 @@ import { BodyCheckData } from "@/src/type/BodyCheckData.type";
 
 
 export default function BodyCheckPage() {
-    const isMan = true
-    const [bodyChecks, setBodyChecks] = useState<BodyCheckData[]>([])
+    const isMan = true;
+    const [bodyChecks, setBodyChecks] = useState<BodyCheckData[]>([]);
+    const [latestCheck, setLatestCheck] = useState<BodyCheckData | null>(null);
+    const [previousCheck, setPreviousCheck] = useState<BodyCheckData | null>(null);
 
     useEffect(() => {
         async function fetchData() {
             try {
-                const data: BodyCheckData[] = await LoadAllBodyCheck()
-                setBodyChecks(data)
+                const data: BodyCheckData[] = await LoadAllBodyCheck();
+                setBodyChecks(data);
+                if (data.length > 0) {
+                    setLatestCheck(data[data.length - 1]);
+                    setPreviousCheck(data.length > 1 ? data[data.length - 2] : data[data.length - 1]);
+                }
             } catch (error) {
-                console.log(error)
+                console.log(error);
             }
         }
-        fetchData()
-    }, [])
+        fetchData();
+    }, []);
 
-    const latestCheck = bodyChecks[bodyChecks.length - 1] || {}
-    const previousCheck = bodyChecks[bodyChecks.length - 2] || {}
+    const updateChecks = (selectedData: BodyCheckData) => {
+        setLatestCheck(selectedData);
+        if (bodyChecks.length === 1) {
+            setPreviousCheck(selectedData);
+        }
+    };
 
     const defaultData = {
         date: "N/A",
@@ -45,19 +55,18 @@ export default function BodyCheckPage() {
         calf: { left: 0, right: 0 }
     }
 
-    console.log("latestCheck", latestCheck)
-    console.log("previousCheck", previousCheck)
+
     return (
         <div className="flex flex-col p-3">
             <SectionTitle title="body check page" />
-            <DataSlider dataPage='body' />
+            <DataSlider dataPage='body' onUpdateData={updateChecks} />
             <div className="flex flex-col lg:flex-row flex-grow items-center justify-around gap-5 lg:gap-20 p-5">
                 <div className="w-full lg:w-96 ml-0 lg:ml-5 flex flex-col items-center">
                     {/* top details */}
                     <div className="flex flex-col md:flex-row justify-center gap-3 mb-5 lg:hidden">
-                        <InfoCard infoTitle="date" leftData={previousCheck.date || defaultData.date} rightData={latestCheck.date || defaultData.date} useConditionalColor={false} />
-                        <InfoCard infoTitle="height" leftData={previousCheck.height || defaultData.height} rightData={latestCheck.height || defaultData.height} />
-                        <InfoCard infoTitle="weight" leftData={previousCheck.weight || defaultData.weight} rightData={latestCheck.weight || defaultData.weight} useConditionalColor={false} />
+                        <InfoCard infoTitle="date" leftData={previousCheck?.date || defaultData.date} rightData={latestCheck?.date || defaultData.date} useConditionalColor={false} />
+                        <InfoCard infoTitle="height" leftData={previousCheck?.height || defaultData.height} rightData={latestCheck?.height || defaultData.height} />
+                        <InfoCard infoTitle="weight" leftData={previousCheck?.weight || defaultData.weight} rightData={latestCheck?.weight || defaultData.weight} useConditionalColor={false} />
                     </div>
                     {isMan ? <Image src={man_body} alt="body-img" /> :
                         <Image src={woman_body} alt="body-img" />}
@@ -65,41 +74,41 @@ export default function BodyCheckPage() {
                 <div className="flex flex-col gap-5 justify-start w-full lg:w-auto">
                     {/* top details */}
                     <div className="hidden lg:flex flex-col md:flex-row justify-center gap-3">
-                        <InfoCard infoTitle="date" leftData={previousCheck.date || defaultData.date} rightData={latestCheck.date || defaultData.date} useConditionalColor={false} />
-                        <InfoCard infoTitle="height" leftData={previousCheck.height || defaultData.height} rightData={latestCheck.height || defaultData.height} />
-                        <InfoCard infoTitle="weight" leftData={previousCheck.weight || defaultData.weight} rightData={latestCheck.weight || defaultData.weight} useConditionalColor={false} />
+                        <InfoCard infoTitle="date" leftData={previousCheck?.date || defaultData.date} rightData={latestCheck?.date || defaultData.date} useConditionalColor={false} />
+                        <InfoCard infoTitle="height" leftData={previousCheck?.height || defaultData.height} rightData={latestCheck?.height || defaultData.height} />
+                        <InfoCard infoTitle="weight" leftData={previousCheck?.weight || defaultData.weight} rightData={latestCheck?.weight || defaultData.weight} useConditionalColor={false} />
                     </div>
                     {/* details */}
                     <div className="flex flex-col flex-wrap gap-3">
                         {/* shoulders - spalle */}
-                        <InfoCard infoTitle="shoulders" leftData={previousCheck.shoulder || defaultData.shoulder} rightData={latestCheck.shoulder || defaultData.shoulder} />
+                        <InfoCard infoTitle="shoulders" leftData={previousCheck?.shoulder || defaultData.shoulder} rightData={latestCheck?.shoulder || defaultData.shoulder} />
                         {/* chest - petto */}
-                        <InfoCard infoTitle="chest" leftData={previousCheck.chest || defaultData.chest} rightData={latestCheck.chest || defaultData.chest} />
+                        <InfoCard infoTitle="chest" leftData={previousCheck?.chest || defaultData.chest} rightData={latestCheck?.chest || defaultData.chest} />
                         {/* waist - vita */}
-                        <InfoCard infoTitle="waist" leftData={previousCheck.waist || defaultData.waist} rightData={latestCheck.waist || defaultData.waist} />
+                        <InfoCard infoTitle="waist" leftData={previousCheck?.waist || defaultData.waist} rightData={latestCheck?.waist || defaultData.waist} />
                         {/* biceps - bicipiti */}
                         <div className="flex gap-3">
-                            <InfoCard infoTitle="biceps sx" leftData={previousCheck.biceps?.left || defaultData.biceps.left} rightData={latestCheck.biceps?.left || defaultData.biceps.left} />
-                            <InfoCard infoTitle="biceps dx" leftData={previousCheck.biceps?.right || defaultData.biceps.right} rightData={latestCheck.biceps?.right || defaultData.biceps.right} />
+                            <InfoCard infoTitle="biceps sx" leftData={previousCheck?.biceps?.left || defaultData.biceps.left} rightData={latestCheck?.biceps?.left || defaultData.biceps.left} />
+                            <InfoCard infoTitle="biceps dx" leftData={previousCheck?.biceps?.right || defaultData.biceps.right} rightData={latestCheck?.biceps?.right || defaultData.biceps.right} />
                         </div>
                         {/* forearm - avambraccio */}
                         <div className="flex gap-3">
-                            <InfoCard infoTitle="forearm sx" leftData={previousCheck.forearm?.left || defaultData.forearm.left} rightData={latestCheck.forearm?.left || defaultData.forearm.left} />
-                            <InfoCard infoTitle="forearm dx" leftData={previousCheck.forearm?.right || defaultData.forearm.right} rightData={latestCheck.forearm?.right || defaultData.forearm.right} />
+                            <InfoCard infoTitle="forearm sx" leftData={previousCheck?.forearm?.left || defaultData.forearm.left} rightData={latestCheck?.forearm?.left || defaultData.forearm.left} />
+                            <InfoCard infoTitle="forearm dx" leftData={previousCheck?.forearm?.right || defaultData.forearm.right} rightData={latestCheck?.forearm?.right || defaultData.forearm.right} />
                         </div>
                         {/* buttocks - glutei */}
-                        <InfoCard infoTitle="buttocks" leftData={previousCheck.buttocks || defaultData.buttocks} rightData={latestCheck.buttocks || defaultData.buttocks} />
+                        <InfoCard infoTitle="buttocks" leftData={previousCheck?.buttocks || defaultData.buttocks} rightData={latestCheck?.buttocks || defaultData.buttocks} />
                         {/* thigh - coscia */}
-                        <InfoCard infoTitle="thigh" leftData={previousCheck.thigh || defaultData.thigh} rightData={latestCheck.thigh || defaultData.thigh} />
+                        <InfoCard infoTitle="thigh" leftData={previousCheck?.thigh || defaultData.thigh} rightData={latestCheck?.thigh || defaultData.thigh} />
                         {/* quadriceps - quadricipite */}
                         <div className="flex gap-3">
-                            <InfoCard infoTitle="quadriceps sx" leftData={previousCheck.quadriceps?.left || defaultData.quadriceps.left} rightData={latestCheck.quadriceps?.left || defaultData.quadriceps.left} />
-                            <InfoCard infoTitle="quadriceps dx" leftData={previousCheck.quadriceps?.right || defaultData.quadriceps.right} rightData={latestCheck.quadriceps?.right || defaultData.quadriceps.right} />
+                            <InfoCard infoTitle="quadriceps sx" leftData={previousCheck?.quadriceps?.left || defaultData.quadriceps.left} rightData={latestCheck?.quadriceps?.left || defaultData.quadriceps.left} />
+                            <InfoCard infoTitle="quadriceps dx" leftData={previousCheck?.quadriceps?.right || defaultData.quadriceps.right} rightData={latestCheck?.quadriceps?.right || defaultData.quadriceps.right} />
                         </div>
                         {/* calf - polpacci */}
                         <div className="flex gap-3">
-                            <InfoCard infoTitle="calf sx" leftData={previousCheck.calf?.left || defaultData.calf.left} rightData={latestCheck.calf?.left || defaultData.calf.left} />
-                            <InfoCard infoTitle="calf dx" leftData={previousCheck.calf?.right || defaultData.calf.right} rightData={latestCheck.calf?.right || defaultData.calf.right} />
+                            <InfoCard infoTitle="calf sx" leftData={previousCheck?.calf?.left || defaultData.calf.left} rightData={latestCheck?.calf?.left || defaultData.calf.left} />
+                            <InfoCard infoTitle="calf dx" leftData={previousCheck?.calf?.right || defaultData.calf.right} rightData={latestCheck?.calf?.right || defaultData.calf.right} />
                         </div>
                     </div>
                 </div>

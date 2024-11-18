@@ -14,9 +14,9 @@ import RemoveBodyCheck from '@/src/services/body-check-page-services/RemoveBodyC
 // import TrainingCardLoad from '@/src/services/training-card-page-services/TrainingCardLoad.services';
 // import LoadDiet from '@/src/services/diet-page-services/LoadDiet.services';
 
-export default function DataSlider({ dataPage }: DataSliderType) {
+export default function DataSlider({ dataPage, onUpdateData }: DataSliderType) {
     const [dataList, setDataList] = useState([
-        { id: 1, isAdd: true, dataDate: '31/10/2024', dataType: 'add' },
+        { id: 1, isAdd: true, dataDate: '00/00/0000', dataType: 'add' },
     ]);
     const [showForm, setShowForm] = useState(false);
 
@@ -52,6 +52,14 @@ export default function DataSlider({ dataPage }: DataSliderType) {
         RemoveBodyCheck(id);
     };
 
+    const handleOpen = (id: number) => {
+        const selectedData = dataList.find(data => data.id === id);
+        if (selectedData) {
+            onUpdateData(selectedData);
+            // console.log("selectedData", selectedData)
+        }
+    };
+
     const renderForm = () => {
         switch (dataPage) {
             case 'training':
@@ -82,7 +90,7 @@ export default function DataSlider({ dataPage }: DataSliderType) {
             // onSwiper={(swiper: SwiperType) => console.log(swiper)}
             >
                 {dataList.map((data) => {
-                    console.log('Rendering SingleData with:', data);
+                    // console.log('Rendering SingleData with:', data);
                     return (
                         <SwiperSlide key={data.id}>
                             <SingleData
@@ -90,7 +98,7 @@ export default function DataSlider({ dataPage }: DataSliderType) {
                                 dataDate={data.dataDate}
                                 dataType={dataPage}
                                 onClick={addNewData}
-                                onOpen={() => console.log('open')}
+                                onOpen={() => handleOpen(data.id)}
                                 onDelete={() => handleDelete(data.id)}
                             />
                         </SwiperSlide>
