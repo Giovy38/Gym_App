@@ -6,7 +6,7 @@ export default async function RemoveBodyCheck(id: number) {
         const data = await response.json();
         return Array.isArray(data) ? data : [];
     } catch (error) {
-        console.error('Errore durante il caricamento dei body check:', error);
+        console.error('Error during the body check removal:', error);
         return [];
     }
 }

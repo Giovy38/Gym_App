@@ -11,7 +11,7 @@ export default async function SwapBodyCheck(id: number) {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error('Errore durante la selezione del body check:', error);
+        console.error('Error during the body check selection:', error);
         return null;
     }
 }

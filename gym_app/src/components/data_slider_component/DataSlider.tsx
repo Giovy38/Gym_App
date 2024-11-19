@@ -10,12 +10,15 @@ import NewBodyCheckForm from '../body_check_page_component/NewBodyCheckForm';
 import NewDietForm from '../diet_page_component/NewDietForm';
 import RemoveBodyCheck from '@/src/services/body-check-page-services/RemoveBodyCheck.services';
 import SwapBodyCheck from '@/src/services/body-check-page-services/SwapBodyCheck.services';
+import RemoveDiet from '@/src/services/diet-page-services/RemoveDiet.services';
+import SwapDiet from '@/src/services/diet-page-services/SelectDiet.services';
 
 type DataSliderProps = DataSliderType & {
-    onNewBodyCheck: () => void;
+    onNewBodyCheck: (() => void);
+    onNewDiet: (() => void);
 };
 
-export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCheck }: DataSliderProps) {
+export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCheck, onNewDiet }: DataSliderProps) {
     const [dataList, setDataList] = useState([
         { id: 1, isAdd: true, dataDate: '00/00/0000', dataType: 'add' },
     ]);
@@ -26,10 +29,10 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
             id: item.id,
             isAdd: false,
             dataDate: item.date,
-            dataType: 'body'
+            dataType: dataPage
         }))
         setDataList([{ id: 1, isAdd: true, dataDate: '00/00/0000', dataType: 'add' }, ...formattedData]);
-    }, [dbDate]);
+    }, [dataPage, dbDate]);
 
     const addNewData = () => {
         setShowForm(true);
@@ -37,16 +40,33 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
 
     const handleDelete = (id: number) => {
         setDataList(dataList.filter(data => data.id !== id));
-        RemoveBodyCheck(id);
+        switch (dataPage) {
+            case 'body':
+                RemoveBodyCheck(id);
+                break;
+            case 'diet':
+                RemoveDiet(id);
+                break;
+        }
     };
 
     const handleOpen = async (id: number) => {
-        console.log("DataList:", dataList);
-        console.log("Id:", id);
-        const selectedData = await SwapBodyCheck(id);
-        if (selectedData) {
-            console.log("Selected Data:", selectedData);
-            onUpdateData(selectedData);
+        let selectedData;
+        switch (dataPage) {
+            case 'body':
+                selectedData = await SwapBodyCheck(id);
+                if (selectedData) {
+                    console.log("Selected Data:", selectedData);
+                    onUpdateData(selectedData);
+                }
+                break;
+            case 'diet':
+                selectedData = await SwapDiet(id);
+                if (selectedData) {
+                    console.log("Selected Data:", selectedData);
+                    onUpdateData(selectedData);
+                }
+                break;
         }
     };
 
@@ -57,7 +77,7 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
             case 'body':
                 return <NewBodyCheckForm onClose={() => setShowForm(false)} onNewBodyCheck={onNewBodyCheck} />;
             case 'diet':
-                return <NewDietForm onClose={() => setShowForm(false)} />;
+                return <NewDietForm onClose={() => setShowForm(false)} onNewDiet={onNewDiet} />;
             default:
                 return null;
         }
