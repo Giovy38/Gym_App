@@ -13,8 +13,15 @@ type NewBodyCheckFormProps = {
 
 export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyCheckFormProps) {
 
-    const currentDate = new Date().toLocaleDateString('en-EN');
-    const [date, setDate] = useState(currentDate);
+    const getCurrentDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    const [date, setDate] = useState(getCurrentDate());
     const [height, setHeight] = useState(0);
     const [weight, setWeight] = useState(0);
     const [shoulder, setShoulder] = useState(0);
@@ -73,36 +80,6 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
     const increment = (setter: React.Dispatch<React.SetStateAction<number>>) => setter(prev => prev + 1);
     const decrement = (setter: React.Dispatch<React.SetStateAction<number>>) => setter(prev => Math.max(0, prev - 1));
 
-    const formatDate = (input: string) => {
-        const cleaned = input.replace(/\D+/g, ''); // Rimuove tutto tranne i numeri
-        const match = cleaned.match(/^(\d{0,2})(\d{0,2})(\d{0,4})$/);
-        if (match) {
-            let [, mm, dd, yyyy] = match;
-
-            // Controllo per il mese
-            if (mm && parseInt(mm, 10) > 12) {
-                mm = '12';
-            }
-
-            // Controllo per il giorno
-            if (dd && parseInt(dd, 10) > 31) {
-                dd = '31';
-            }
-
-            // Limita l'anno a 4 cifre
-            if (yyyy && yyyy.length > 4) {
-                yyyy = yyyy.substring(0, 4);
-            }
-
-            return [mm, dd, yyyy].filter(Boolean).join('/');
-        }
-        return input;
-    };
-
-    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const formattedDate = formatDate(e.target.value);
-        setDate(formattedDate);
-    };
 
     return (
         <div className="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center text-white z-50">
@@ -117,10 +94,10 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
                             <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor="date">Date</label>
                             <input
                                 className="rounded-lg p-2 text-center"
-                                type='text'
+                                type='date'
                                 id="date"
                                 value={date}
-                                onChange={handleDateChange}
+                                onChange={(e) => setDate(e.target.value)}
                             />
                         </div>
                         {[{ label: "Height (cm)", value: height, setValue: setHeight },
