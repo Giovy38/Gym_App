@@ -2,26 +2,35 @@
 
 import { GoPlusCircle } from "react-icons/go";
 import RemovibleItems from "./RemovibleItems";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AddItemButtonType } from "@/src/type/AddItemButton.type";
+import { DietData, MealItem, MealPlan } from "@/src/type/DietData.type";
 import AddFoodForm from "./AddFoodForm";
 
-export default function AddItemButton({ title, latestDiet, dayOfWeek, meal }: AddItemButtonType) {
-    const [items, setItems] = useState<{ food: string; quantity: string }[]>([]);
+export default function AddItemButton({ title, latestDiet, dayOfWeek, meal, diets }: AddItemButtonType) {
+    const [items, setItems] = useState<MealItem[]>([]);
     const [showForm, setShowForm] = useState(false);
     const [editIndex, setEditIndex] = useState<number | null>(null);
 
+    useEffect(() => {
+        if (diets && diets.length > 0) {
+            const lastDiet: DietData = diets[diets.length - 1];
+            const dayMeals: MealItem[] = lastDiet[dayOfWeek as keyof Omit<DietData, 'id' | 'date'>]?.[meal as keyof MealPlan] || [];
+            setItems(dayMeals);
+        }
+    }, [diets, dayOfWeek, meal]);
+
     // function to add or edit an item
-    const addItem = (food: string, quantity: string) => {
+    const addItem = (name: string, quantity: string) => {
         if (editIndex !== null) {
             // Edit existing item
             const updatedItems = [...items];
-            updatedItems[editIndex] = { food, quantity };
+            updatedItems[editIndex] = { name, quantity };
             setItems(updatedItems);
             setEditIndex(null);
         } else {
             // Add new item
-            setItems([...items, { food, quantity }]);
+            setItems([...items, { name, quantity }]);
         }
         setShowForm(false);
     }
@@ -54,7 +63,7 @@ export default function AddItemButton({ title, latestDiet, dayOfWeek, meal }: Ad
                         setShowForm(false);
                         setEditIndex(null);
                     }}
-                    initialFood={editIndex !== null ? items[editIndex].food : ''}
+                    initialFood={editIndex !== null ? items[editIndex].name : ''}
                     initialQuantity={editIndex !== null ? items[editIndex].quantity : ''}
                     latestDiet={latestDiet}
                     dayOfWeek={dayOfWeek}
@@ -63,11 +72,14 @@ export default function AddItemButton({ title, latestDiet, dayOfWeek, meal }: Ad
             )}
             {/* item added */}
             <div>
+                {
+
+                }
                 {items.map((item, index) => (
                     <RemovibleItems
                         key={index}
                         index={index}
-                        food={item.food}
+                        food={item.name}
                         quantity={item.quantity}
                         onRemove={() => removeItem(index)}
                         onEdit={() => editItem(index)}

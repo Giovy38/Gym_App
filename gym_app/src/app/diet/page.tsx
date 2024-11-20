@@ -17,7 +17,8 @@ export default function DietPage() {
 
     const updateDiets = (selectedData: DietData) => {
         setLatestDiet(selectedData);
-        console.log(latestDiet);
+        console.log('latestDiet', latestDiet);
+        console.log('diets', diets);
     };
 
     useEffect(() => {
@@ -44,6 +45,9 @@ export default function DietPage() {
         fetchData();
     };
 
+    const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    const meals = ['breakfast', 'snack', 'lunch', 'snack 2', 'dinner'];
+
     return (
         <div className="min-h-[82vh] flex flex-col justify-start xl:items-center gap-3 p-5">
             <SectionTitle title="Diet page" />
@@ -63,49 +67,26 @@ export default function DietPage() {
                 </div>
             ) : (
                 <>
-                    <Accordion accordionTitle="monday" buttons={<>
-                        <AddItemButton title="breakfast" latestDiet={latestDiet} dayOfWeek="monday" meal="breakfast" />
-                        <AddItemButton title="snack" latestDiet={latestDiet} dayOfWeek="monday" meal="snack" />
-                        <AddItemButton title="lunch" latestDiet={latestDiet} dayOfWeek="monday" meal="lunch" />
-                        <AddItemButton title="snack" latestDiet={latestDiet} dayOfWeek="monday" meal="snack" />
-                        <AddItemButton title="dinner" latestDiet={latestDiet} dayOfWeek="monday" meal="dinner" />
-                    </>} />
-                    <Accordion accordionTitle="tuesday" buttons={<>
-                        <AddItemButton title="breakfast" latestDiet={latestDiet} dayOfWeek="tuesday" meal="breakfast" />
-                        <AddItemButton title="snack" latestDiet={latestDiet} dayOfWeek="tuesday" meal="snack" />
-                        <AddItemButton title="lunch" latestDiet={latestDiet} dayOfWeek="tuesday" meal="lunch" />
-                        <AddItemButton title="snack" latestDiet={latestDiet} dayOfWeek="tuesday" meal="snack" />
-                        <AddItemButton title="dinner" latestDiet={latestDiet} dayOfWeek="tuesday" meal="dinner" /></>} />
-                    <Accordion accordionTitle="wednesday" buttons={<>
-                        <AddItemButton title="breakfast" latestDiet={latestDiet} dayOfWeek="wednesday" meal="breakfast" />
-                        <AddItemButton title="snack" latestDiet={latestDiet} dayOfWeek="wednesday" meal="snack" />
-                        <AddItemButton title="lunch" latestDiet={latestDiet} dayOfWeek="wednesday" meal="lunch" />
-                        <AddItemButton title="snack" latestDiet={latestDiet} dayOfWeek="wednesday" meal="snack" />
-                        <AddItemButton title="dinner" latestDiet={latestDiet} dayOfWeek="wednesday" meal="dinner" /></>} />
-                    <Accordion accordionTitle="thursday" buttons={<>
-                        <AddItemButton title="breakfast" latestDiet={latestDiet} dayOfWeek="thursday" meal="breakfast" />
-                        <AddItemButton title="snack" latestDiet={latestDiet} dayOfWeek="thursday" meal="snack" />
-                        <AddItemButton title="lunch" latestDiet={latestDiet} dayOfWeek="thursday" meal="lunch" />
-                        <AddItemButton title="snack" latestDiet={latestDiet} dayOfWeek="thursday" meal="snack" />
-                        <AddItemButton title="dinner" latestDiet={latestDiet} dayOfWeek="thursday" meal="dinner" /></>} />
-                    <Accordion accordionTitle="friday" buttons={<>
-                        <AddItemButton title="breakfast" latestDiet={latestDiet} dayOfWeek="friday" meal="breakfast" />
-                        <AddItemButton title="snack" latestDiet={latestDiet} dayOfWeek="friday" meal="snack" />
-                        <AddItemButton title="lunch" latestDiet={latestDiet} dayOfWeek="friday" meal="lunch" />
-                        <AddItemButton title="snack" latestDiet={latestDiet} dayOfWeek="friday" meal="snack" />
-                        <AddItemButton title="dinner" latestDiet={latestDiet} dayOfWeek="friday" meal="dinner" /></>} />
-                    <Accordion accordionTitle="saturday" buttons={<>
-                        <AddItemButton title="breakfast" latestDiet={latestDiet} dayOfWeek="saturday" meal="breakfast" />
-                        <AddItemButton title="snack" latestDiet={latestDiet} dayOfWeek="saturday" meal="snack" />
-                        <AddItemButton title="lunch" latestDiet={latestDiet} dayOfWeek="saturday" meal="lunch" />
-                        <AddItemButton title="snack" latestDiet={latestDiet} dayOfWeek="saturday" meal="snack" />
-                        <AddItemButton title="dinner" latestDiet={latestDiet} dayOfWeek="saturday" meal="dinner" /></>} />
-                    <Accordion accordionTitle="sunday" buttons={<>
-                        <AddItemButton title="breakfast" latestDiet={latestDiet} dayOfWeek="sunday" meal="breakfast" />
-                        <AddItemButton title="snack" latestDiet={latestDiet} dayOfWeek="sunday" meal="snack" />
-                        <AddItemButton title="lunch" latestDiet={latestDiet} dayOfWeek="sunday" meal="lunch" />
-                        <AddItemButton title="snack" latestDiet={latestDiet} dayOfWeek="sunday" meal="snack" />
-                        <AddItemButton title="dinner" latestDiet={latestDiet} dayOfWeek="sunday" meal="dinner" /></>} />
+                    {daysOfWeek.map((day) => (
+                        <Accordion
+                            key={day}
+                            accordionTitle={day.charAt(0).toUpperCase() + day.slice(1)}
+                            buttons={
+                                <>
+                                    {meals.map((meal) => (
+                                        <AddItemButton
+                                            key={meal}
+                                            title={meal}
+                                            latestDiet={diets[diets.length - 1]}
+                                            dayOfWeek={day}
+                                            meal={meal}
+                                            diets={diets}
+                                        />
+                                    ))}
+                                </>
+                            }
+                        />
+                    ))}
                 </>
             )}
         </div>

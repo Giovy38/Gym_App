@@ -5,4 +5,5 @@ export type AddItemButtonType = {
     latestDiet: DietData | null;
     dayOfWeek: string;
     meal: string;
+    diets: DietData[];
 }
