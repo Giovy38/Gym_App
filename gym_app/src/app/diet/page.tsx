@@ -16,9 +16,14 @@ export default function DietPage() {
     const [diets, setDiets] = useState<DietData[]>([]);
 
     const updateDiets = (selectedData: DietData) => {
-        setLatestDiet(selectedData);
+        setLatestDiet(diets[diets.length - 1]);
         console.log('latestDiet', latestDiet);
         console.log('diets', diets);
+        console.log('selectedData', selectedData);
+    };
+
+    const handleUpdateSelectedData = (selectedData: DietData) => {
+        setLatestDiet(selectedData);
     };
 
     useEffect(() => {
@@ -58,6 +63,7 @@ export default function DietPage() {
                 onNewDiet={handleNewDiet}
                 onNewBodyCheck={() => { }}
                 onRemoveDiet={handleRemoveDiet}
+                onUpdateSelectedData={handleUpdateSelectedData}
             />
 
             {diets.length === 0 ? (
@@ -81,6 +87,7 @@ export default function DietPage() {
                                             dayOfWeek={day}
                                             meal={meal}
                                             diets={diets}
+                                            selectedDiet={latestDiet}
                                         />
                                     ))}
                                 </>

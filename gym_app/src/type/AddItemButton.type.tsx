@@ -6,4 +6,5 @@ export type AddItemButtonType = {
     dayOfWeek: string;
     meal: string;
     diets: DietData[];
+    selectedDiet: DietData | null;
 }

@@ -7,18 +7,24 @@ import { AddItemButtonType } from "@/src/type/AddItemButton.type";
 import { DietData, MealItem, MealPlan } from "@/src/type/DietData.type";
 import AddFoodForm from "./AddFoodForm";
 
-export default function AddItemButton({ title, latestDiet, dayOfWeek, meal, diets }: AddItemButtonType) {
+export default function AddItemButton({ title, latestDiet, dayOfWeek, meal, diets, selectedDiet }: AddItemButtonType) {
     const [items, setItems] = useState<MealItem[]>([]);
     const [showForm, setShowForm] = useState(false);
     const [editIndex, setEditIndex] = useState<number | null>(null);
 
     useEffect(() => {
         if (diets && diets.length > 0) {
-            const lastDiet: DietData = diets[diets.length - 1];
+            let lastDiet: DietData;
+            if (selectedDiet) {
+                lastDiet = selectedDiet;
+            } else {
+                lastDiet = diets[diets.length - 1];
+            }
+
             const dayMeals: MealItem[] = lastDiet[dayOfWeek as keyof Omit<DietData, 'id' | 'date'>]?.[meal as keyof MealPlan] || [];
             setItems(dayMeals);
         }
-    }, [diets, dayOfWeek, meal]);
+    }, [diets, dayOfWeek, meal, selectedDiet]);
 
     // function to add or edit an item
     const addItem = (name: string, quantity: string) => {
@@ -83,7 +89,7 @@ export default function AddItemButton({ title, latestDiet, dayOfWeek, meal, diet
                         quantity={item.quantity}
                         onRemove={() => removeItem(index)}
                         onEdit={() => editItem(index)}
-                        latestDietId={latestDiet!.id}
+                        latestDietId={selectedDiet!.id}
                         dayOfWeek={dayOfWeek}
                         meal={meal}
                     />

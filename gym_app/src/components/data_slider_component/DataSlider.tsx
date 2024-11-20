@@ -12,14 +12,16 @@ import RemoveBodyCheck from '@/src/services/body-check-page-services/RemoveBodyC
 import SwapBodyCheck from '@/src/services/body-check-page-services/SwapBodyCheck.services';
 import RemoveDiet from '@/src/services/diet-page-services/RemoveDiet.services';
 import SwapDiet from '@/src/services/diet-page-services/SelectDiet.services';
+import { DietData } from '@/src/type/DietData.type';
 
 type DataSliderProps = DataSliderType & {
     onNewBodyCheck: (() => void);
     onNewDiet: (() => void);
     onRemoveDiet: (() => void);
+    onUpdateSelectedData: (selectedData: DietData) => void;
 };
 
-export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCheck, onNewDiet, onRemoveDiet }: DataSliderProps) {
+export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCheck, onNewDiet, onRemoveDiet, onUpdateSelectedData }: DataSliderProps) {
     const [dataList, setDataList] = useState([
         { id: 1, isAdd: true, dataDate: '00/00/0000', dataType: 'add' },
     ]);
@@ -60,6 +62,7 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
                 if (selectedData) {
                     console.log("Selected Data:", selectedData);
                     onUpdateData(selectedData);
+                    onUpdateSelectedData(selectedData);
                 }
                 break;
             case 'diet':
@@ -67,6 +70,7 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
                 if (selectedData) {
                     console.log("Selected Data:", selectedData);
                     onUpdateData(selectedData);
+                    onUpdateSelectedData(selectedData);
                 }
                 break;
         }

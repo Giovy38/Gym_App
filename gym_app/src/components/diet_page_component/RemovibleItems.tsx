@@ -29,6 +29,7 @@ export default function RemovibleItems({ index, food, quantity, onRemove, onEdit
 
     const handleConfirmDelete = () => {
         setShowDeleteConfirm(false);
+        console.log('latestDietId', latestDietId);
         if (latestDietId) {
             RemoveDietItem(latestDietId, dayOfWeek, meal, index);
         }
