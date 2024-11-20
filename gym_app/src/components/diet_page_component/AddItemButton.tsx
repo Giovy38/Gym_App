@@ -6,7 +6,7 @@ import { useState } from "react";
 import { AddItemButtonType } from "@/src/type/AddItemButton.type";
 import AddFoodForm from "./AddFoodForm";
 
-export default function AddItemButton({ title }: AddItemButtonType) {
+export default function AddItemButton({ title, latestDiet, dayOfWeek, meal }: AddItemButtonType) {
     const [items, setItems] = useState<{ food: string; quantity: string }[]>([]);
     const [showForm, setShowForm] = useState(false);
     const [editIndex, setEditIndex] = useState<number | null>(null);
@@ -56,6 +56,9 @@ export default function AddItemButton({ title }: AddItemButtonType) {
                     }}
                     initialFood={editIndex !== null ? items[editIndex].food : ''}
                     initialQuantity={editIndex !== null ? items[editIndex].quantity : ''}
+                    latestDiet={latestDiet}
+                    dayOfWeek={dayOfWeek}
+                    meal={meal}
                 />
             )}
             {/* item added */}
