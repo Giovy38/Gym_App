@@ -16,9 +16,10 @@ import SwapDiet from '@/src/services/diet-page-services/SelectDiet.services';
 type DataSliderProps = DataSliderType & {
     onNewBodyCheck: (() => void);
     onNewDiet: (() => void);
+    onRemoveDiet: (() => void);
 };
 
-export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCheck, onNewDiet }: DataSliderProps) {
+export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCheck, onNewDiet, onRemoveDiet }: DataSliderProps) {
     const [dataList, setDataList] = useState([
         { id: 1, isAdd: true, dataDate: '00/00/0000', dataType: 'add' },
     ]);
@@ -46,6 +47,7 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
                 break;
             case 'diet':
                 RemoveDiet(id);
+                onRemoveDiet();
                 break;
         }
     };
