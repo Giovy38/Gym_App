@@ -3,15 +3,20 @@ import { useState } from "react";
 import { IoPencilOutline } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
 import DeleteConfirm from "../reusable_components/DeleteConfirm";
+import RemoveDietItem from "@/src/services/diet-page-services/RemoveDietItem.services";
 
 interface RemovibleItemsProps {
+    index: number;
     food: string;
     quantity: string;
     onRemove: () => void;
     onEdit: () => void;
+    latestDietId: number | null;
+    dayOfWeek: string;
+    meal: string;
 }
 
-export default function RemovibleItems({ food, quantity, onRemove, onEdit }: RemovibleItemsProps) {
+export default function RemovibleItems({ index, food, quantity, onRemove, onEdit, latestDietId, dayOfWeek, meal }: RemovibleItemsProps) {
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     const truncateText = (text: string, maxLength: number) => {
@@ -24,6 +29,9 @@ export default function RemovibleItems({ food, quantity, onRemove, onEdit }: Rem
 
     const handleConfirmDelete = () => {
         setShowDeleteConfirm(false);
+        if (latestDietId) {
+            RemoveDietItem(latestDietId, dayOfWeek, meal, index);
+        }
         onRemove();
     };
 

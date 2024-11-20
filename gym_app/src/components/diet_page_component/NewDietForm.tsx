@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import AddRemoveButton from "../reusable_components/AddRemoveButton";
 import AddNewDiet from "@/src/services/diet-page-services/CreateNewDiet.services";
-import { MealItem, MealPlan } from "@/src/type/DietData.type";
+import { MealPlan } from "@/src/type/DietData.type";
 
 type NewDietFormProps = {
     onClose: () => void;
@@ -20,17 +20,14 @@ export default function NewDietForm({ onClose, onNewDiet }: NewDietFormProps) {
 
     const [date, setDate] = useState(getCurrentDate());
 
-    const defaultMealItem: MealItem = {
-        quantity: '',
-        name: ''
-    }
+
 
     const MealPlan: MealPlan = {
-        breakfast: [defaultMealItem],
-        snack: [defaultMealItem],
-        lunch: [defaultMealItem],
-        snack2: [defaultMealItem],
-        dinner: [defaultMealItem]
+        breakfast: [],
+        snack: [],
+        lunch: [],
+        snack2: [],
+        dinner: []
     }
 
     const handleSubmit = async () => {

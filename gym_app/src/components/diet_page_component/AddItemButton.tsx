@@ -66,10 +66,14 @@ export default function AddItemButton({ title, latestDiet, dayOfWeek, meal }: Ad
                 {items.map((item, index) => (
                     <RemovibleItems
                         key={index}
+                        index={index}
                         food={item.food}
                         quantity={item.quantity}
                         onRemove={() => removeItem(index)}
                         onEdit={() => editItem(index)}
+                        latestDietId={latestDiet!.id}
+                        dayOfWeek={dayOfWeek}
+                        meal={meal}
                     />
                 ))}
             </div>
