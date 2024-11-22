@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { DietData } from '@/src/type/DietData.type';
 import AddDietItem from '@/src/services/diet-page-services/AddDietItem.services';
+import EditDietItem from '@/src/services/diet-page-services/EditDietItem.services';
 
 interface AddFoodFormProps {
     onAdd: (food: string, quantity: string) => void;
@@ -11,9 +12,10 @@ interface AddFoodFormProps {
     latestDiet: DietData | null;
     dayOfWeek: string;
     meal: string;
+    itemId?: number;
 }
 
-export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initialQuantity = '', latestDiet, dayOfWeek, meal }: AddFoodFormProps) {
+export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initialQuantity = '', latestDiet, dayOfWeek, meal, itemId }: AddFoodFormProps) {
     const [food, setFood] = useState(initialFood);
     const [quantity, setQuantity] = useState(initialQuantity);
 
@@ -29,9 +31,27 @@ export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initial
                 if (res) {
                     onAdd(food, quantity);
                 }
+
+            }
+        };
+    }
+
+    const handleEdit = async () => {
+        console.log('lastdietid', latestDiet?.id)
+        console.log('itemid', itemId)
+        console.log('dayofweek', dayOfWeek)
+        console.log('meal', meal)
+        console.log('quantity', quantity)
+        console.log('food', food)
+        if (latestDiet) {
+            if (itemId !== undefined) {
+                const res = await EditDietItem(latestDiet.id, dayOfWeek, meal, quantity, food, itemId);
+                if (res) {
+                    onAdd(food, quantity);
+                }
             }
         }
-    };
+    }
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -52,9 +72,14 @@ export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initial
                     className="border p-2 mb-2 w-full rounded-lg"
                 />
                 <div className="flex justify-center gap-2">
-                    <button onClick={handleAdd} className={`${initialFood || initialQuantity ? 'bg-blue-500' : 'bg-green-500'} text-white p-2 rounded w-1/2`}>
-                        {initialFood || initialQuantity ? 'Edit' : 'Add'}
-                    </button>
+                    {(initialFood || initialQuantity) ?
+                        <button onClick={handleEdit} className='bg-blue-500 text-white p-2 rounded w-1/2'>
+                            Edit
+                        </button> : <button onClick={handleAdd} className='bg-green-500 text-white p-2 rounded w-1/2'>
+                            Add
+                        </button>
+                    }
+
                     <button onClick={onCancel} className="bg-red-500 text-white p-2 rounded w-1/2">
                         Cancel
                     </button>

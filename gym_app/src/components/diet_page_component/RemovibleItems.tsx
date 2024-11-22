@@ -10,7 +10,7 @@ interface RemovibleItemsProps {
     food: string;
     quantity: string;
     onRemove: () => void;
-    onEdit: () => void;
+    onEdit: (index: number) => void;
     latestDietId: number | null;
     dayOfWeek: string;
     meal: string;
@@ -40,6 +40,10 @@ export default function RemovibleItems({ index, food, quantity, onRemove, onEdit
         setShowDeleteConfirm(false);
     };
 
+    const handleEditClick = () => {
+        onEdit(index);
+    };
+
     return (
         <>
             <div className="bg-white text-black p-2 rounded-lg flex flex-col items-center justify-center gap-2 cursor-pointer mt-2 w-full lg:max-w-40 text-balance overflow-hidden">
@@ -54,7 +58,7 @@ export default function RemovibleItems({ index, food, quantity, onRemove, onEdit
                     <p className="break-words">{food}</p>
                 </div>
                 <div className="flex gap-2 w-full">
-                    <div onClick={onEdit} className="flex items-center justify-center w-1/2 rounded-md p-1 hover:bg-black">
+                    <div onClick={handleEditClick} className="flex items-center justify-center w-1/2 rounded-md p-1 hover:bg-black">
                         <IoPencilOutline className="cursor-pointer text-blue-500 text-xl rounded-md" />
                     </div>
                     <div onClick={handleDeleteClick} className="flex items-center justify-center w-1/2 rounded-md p-1 hover:bg-black">

@@ -74,6 +74,7 @@ export default function AddItemButton({ title, latestDiet, dayOfWeek, meal, diet
                     latestDiet={latestDiet}
                     dayOfWeek={dayOfWeek}
                     meal={meal}
+                    itemId={editIndex !== null ? editIndex : undefined}
                 />
             )}
             {/* item added */}
