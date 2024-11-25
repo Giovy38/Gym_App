@@ -13,15 +13,20 @@ import SwapBodyCheck from '@/src/services/body-check-page-services/SwapBodyCheck
 import RemoveDiet from '@/src/services/diet-page-services/RemoveDiet.services';
 import SwapDiet from '@/src/services/diet-page-services/SelectDiet.services';
 import { DietData } from '@/src/type/DietData.type';
+import RemoveTraining from '@/src/services/training-card-page-services/RemoveTrainingCard.services';
+import SwapTraining from '@/src/services/training-card-page-services/SwapTraining.services';
+import { TrainingData } from '@/src/type/TrainingData.type';
 
 type DataSliderProps = DataSliderType & {
     onNewBodyCheck: (() => void);
     onNewDiet: (() => void);
     onRemoveDiet: (() => void);
-    onUpdateSelectedData: (selectedData: DietData) => void;
+    onRemoveTraining: (() => void);
+    onUpdateSelectedData: ((selectedData: DietData) => void) | ((selectedData: TrainingData) => void);
+    onNewTraining: (() => void);
 };
 
-export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCheck, onNewDiet, onRemoveDiet, onUpdateSelectedData }: DataSliderProps) {
+export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCheck, onNewDiet, onNewTraining, onRemoveDiet, onUpdateSelectedData }: DataSliderProps) {
     const [dataList, setDataList] = useState([
         { id: 1, isAdd: true, dataDate: '00/00/0000', dataType: 'add' },
     ]);
@@ -51,6 +56,9 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
                 RemoveDiet(id);
                 onRemoveDiet();
                 break;
+            case 'training':
+                RemoveTraining(id);
+                break;
         }
     };
 
@@ -73,13 +81,21 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
                     onUpdateSelectedData(selectedData);
                 }
                 break;
+            case 'training':
+                selectedData = await SwapTraining(id);
+                if (selectedData) {
+                    console.log("Selected Data:", selectedData);
+                    onUpdateData(selectedData);
+                    onUpdateSelectedData(selectedData);
+                }
+                break;
         }
     };
 
     const renderForm = () => {
         switch (dataPage) {
             case 'training':
-                return <NewTrainingCardForm onClose={() => setShowForm(false)} />;
+                return <NewTrainingCardForm onClose={() => setShowForm(false)} onNewTraining={onNewTraining} />;
             case 'body':
                 return <NewBodyCheckForm onClose={() => setShowForm(false)} onNewBodyCheck={onNewBodyCheck} />;
             case 'diet':

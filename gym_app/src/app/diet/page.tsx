@@ -64,6 +64,8 @@ export default function DietPage() {
                 onNewBodyCheck={() => { }}
                 onRemoveDiet={handleRemoveDiet}
                 onUpdateSelectedData={handleUpdateSelectedData}
+                onNewTraining={() => { }}
+                onRemoveTraining={() => { }}
             />
 
             {diets.length === 0 ? (
