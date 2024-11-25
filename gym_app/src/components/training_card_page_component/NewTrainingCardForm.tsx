@@ -5,6 +5,9 @@ import { TrainingData, days, Exercise } from "@/src/type/TrainingData.type";
 import CreateNewTrainingCard from "@/src/services/training-card-page-services/CreateNewTrainingCard.services";
 import { TbBarbellOff } from "react-icons/tb";
 import { IoBarbellOutline } from "react-icons/io5";
+import { MdDeleteForever } from "react-icons/md";
+
+
 
 
 type NewTrainingCardFormProps = {
@@ -66,6 +69,11 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
         }
     };
 
+    const removeWorkoutDay = (dayIndex: number) => {
+        const updatedDays = workoutDays.filter((_, index) => index !== dayIndex);
+        setWorkoutDays(updatedDays);
+    };
+
     return (
         <div className="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center text-white z-50">
             <div className="p-4 shadow-md rounded-lg w-full max-w-4xl bg-black overflow-auto max-h-full">
@@ -85,8 +93,15 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                 </div>
                 <div className="flex flex-col gap-3 mt-4">
                     {workoutDays.map((day, dayIndex) => (
-                        <div key={dayIndex} className="flex flex-col gap-3 bg-[#111111] p-3 rounded-lg mb-10">
-                            <label className="bg-[#f8bf58] text-black rounded-lg p-2 text-center uppercase font-extrabold text-lg italic text-md select-none" htmlFor={`workoutName-${dayIndex}`}>Muscle Group</label>
+                        <div key={dayIndex} className="flex flex-col gap-3 bg-[#111111] p-3 rounded-lg mb-10 relative">
+                            <div className="grid grid-cols-[1fr_auto] gap-3 items-center">
+                                <label className="bg-[#f8bf58] text-black rounded-lg p-2 text-center uppercase font-extrabold text-lg italic text-md select-none" htmlFor={`workoutName-${dayIndex}`}>Muscle Group</label>
+                                <MdDeleteForever
+                                    className="top-2 right-2 text-red-300 text-4xl cursor-pointer hover:text-white bg-black hover:bg-red-500 rounded-lg p-1"
+                                    onClick={() => removeWorkoutDay(dayIndex)}
+                                />
+                            </div>
+
                             <input
                                 id={`workoutName-${dayIndex}`}
                                 className="rounded-lg p-2 text-center text-black"
@@ -100,8 +115,17 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                 }}
                             />
                             {day.exercises.map((exercise, exerciseIndex) => (
-                                <div key={exerciseIndex} className="flex flex-col gap-2 text-black bg-[#2b2a2a80] p-3 rounded-lg">
-                                    <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`exerciseName-${dayIndex}-${exerciseIndex}`}>Exercise</label>
+                                <div key={exerciseIndex} className="flex flex-col gap-2 text-black bg-[#2b2a2a80] p-3 rounded-lg relative">
+                                    <MdDeleteForever
+                                        className="absolute top-2 right-2 text-red-300 text-3xl cursor-pointer hover:text-white bg-black hover:bg-red-500 rounded-lg p-1"
+                                        onClick={() => {
+                                            const updatedExercises = day.exercises.filter((_, index) => index !== exerciseIndex);
+                                            const updatedDays = [...workoutDays];
+                                            updatedDays[dayIndex].exercises = updatedExercises;
+                                            setWorkoutDays(updatedDays);
+                                        }}
+                                    />
+                                    <label className="text-[#f8bf58] uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-${exerciseIndex}`}>Exercise</label>
                                     <input
                                         id={`exerciseName-${dayIndex}-${exerciseIndex}`}
                                         className="rounded-lg p-2 text-center"
