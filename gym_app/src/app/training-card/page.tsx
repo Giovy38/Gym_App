@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { MdOutlineTimer } from "react-icons/md";
 import { TrainingData } from "@/src/type/TrainingData.type";
 import LoadAllTraining from "@/src/services/training-card-page-services/LoadAllTraining.services";
+import { GiWeightLiftingUp } from "react-icons/gi";
 
 export default function TrainingCardPage() {
 
@@ -50,43 +51,11 @@ export default function TrainingCardPage() {
         fetchData();
     }
 
-    const pancaPiana = {
-        exerciseTitle: "Panca Piana",
-        sets: 4,
-        reps: 5,
-        restTime: 90,
-        totalweight: 50,
-        barbell: true,
-        note: [],
-        cardio: false
-    };
-    const pancaInclinata = {
-        exerciseTitle: "Panca Inclinata",
-        sets: 4,
-        reps: 6,
-        restTime: 30,
-        totalweight: 45,
-        barbell: true,
-        note: [],
-        cardio: false
-    };
-    const pancaInclinataManubri = {
-        exerciseTitle: "Panca Inclinata Manubri",
-        sets: 3,
-        reps: 8,
-        restTime: 240,
-        totalweight: 15,
-        barbell: false,
-        note: [],
-        cardio: true
-    };
-
     const [isTimerVisible, setIsTimerVisible] = useState(false);
 
     const showTimer = () => {
         setIsTimerVisible(true)
     }
-
 
     return (
         <div className="p-5 ">
@@ -107,43 +76,39 @@ export default function TrainingCardPage() {
                 onRemoveDiet={() => { }}
             />
 
-            <TrainingAccordion
-                accordionTitle="petto e tricipiti"
-                buttons={
-                    <>
-                        <SingleExercise exercise={pancaPiana} />
-                        <SingleExercise exercise={pancaInclinata} />
-                        <SingleExercise exercise={pancaInclinataManubri} />
-                    </>
-                }
-            />
-            <TrainingAccordion
-                accordionTitle="gambe"
-                buttons={
-                    <>
-                        <SingleExercise exercise={pancaPiana} />
-                        <SingleExercise exercise={pancaInclinata} />
-                        <SingleExercise exercise={pancaInclinataManubri} />
-                    </>
-                }
-            />
-            <TrainingAccordion
-                accordionTitle="spalle e bicipiti"
-                buttons={
-                    <>
-                        <SingleExercise exercise={pancaPiana} />
-                        <SingleExercise exercise={pancaInclinata} />
-                        <SingleExercise exercise={pancaInclinataManubri} />
-                        <SingleExercise exercise={pancaPiana} />
-                        <SingleExercise exercise={pancaInclinata} />
-                        <SingleExercise exercise={pancaInclinataManubri} />
-                        <SingleExercise exercise={pancaPiana} />
-                        <SingleExercise exercise={pancaInclinata} />
-                        <SingleExercise exercise={pancaInclinataManubri} />
-                    </>
-                }
-            />
-
+            {latestTraining ? (
+                latestTraining.workoutDays.map((workoutDay) => (
+                    <TrainingAccordion
+                        key={workoutDay.workoutName}
+                        accordionTitle={workoutDay.workoutName}
+                        buttons={
+                            <>
+                                {workoutDay.exercises.map((exercise) => (
+                                    <SingleExercise
+                                        key={exercise.name}
+                                        exercise={{
+                                            exerciseTitle: exercise.name,
+                                            sets: exercise.sets,
+                                            reps: exercise.reps,
+                                            restTime: exercise.restTime.minutes * 60 + exercise.restTime.seconds,
+                                            barbellWeight: exercise.barbell ? exercise.barbellWeight : 0,
+                                            totalweight: exercise.barbell ? (exercise.barbellWeight || 0) : 0,
+                                            barbell: exercise.barbell,
+                                            note: exercise.notes,
+                                            cardio: false
+                                        }}
+                                    />
+                                ))}
+                            </>
+                        }
+                    />
+                ))
+            ) : (
+                <div className="flex flex-col items-center justify-center gap-5 animate-pulse">
+                    <SectionTitle title="Add a new training card to see workout plan" />
+                    <GiWeightLiftingUp className="text-5xl text-[#f8bf58] animate-bounce" />
+                </div>
+            )}
         </div>
     )
 }

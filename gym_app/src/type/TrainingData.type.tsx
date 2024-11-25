@@ -19,7 +19,7 @@ export type Exercise = {
         seconds: number;
     };
     barbell: boolean;
-    barbellWeight?: number;
+    barbellWeight: number;
     Workouts: LastWorkout[];
     notes: string[];
 }

@@ -3,14 +3,14 @@ import { IoBarbellOutline } from "react-icons/io5";
 
 
 
-export default function BarbellInfo({ haveBarbell, totalWeight }: BarbellInfoType) {
+export default function BarbellInfo({ haveBarbell, totalWeight, barbellWeight }: BarbellInfoType) {
     return (
         <div>
             {haveBarbell ?
                 <div className="flex justify-center gap-3 bg-black p-3 rounded-full mb-2 ">
-                    <p>{(totalWeight - 20) / 2} kg</p>
+                    <p>{(totalWeight - barbellWeight) / 2} kg</p>
                     <IoBarbellOutline className="text-green-500 text-2xl" />
-                    <p>{(totalWeight - 20) / 2} kg</p>
+                    <p>{(totalWeight - barbellWeight) / 2} kg</p>
                 </div>
                 :
                 <div className="flex gap-3 bg-black p-3 rounded-full m-2 justify-center">

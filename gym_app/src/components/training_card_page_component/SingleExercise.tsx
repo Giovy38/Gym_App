@@ -70,7 +70,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                             <MdOutlineTimer />
                             <p>Start Timer</p>
                         </div>
-                        <BarbellInfo haveBarbell={exercise.barbell} totalWeight={exercise.totalweight} />
+                        <BarbellInfo haveBarbell={exercise.barbell} totalWeight={exercise.totalweight} barbellWeight={exercise.barbellWeight} />
                         <LastTrainingDetails cardio={exercise.cardio} />
                         <NoteArea exercise={exercise} />
                     </div>
