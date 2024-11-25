@@ -87,6 +87,7 @@ export default function TrainingCardPage() {
                                     <SingleExercise
                                         key={exercise.name}
                                         exercise={{
+                                            index: exercise.index,
                                             exerciseTitle: exercise.name,
                                             sets: exercise.sets,
                                             reps: exercise.reps,
@@ -95,7 +96,8 @@ export default function TrainingCardPage() {
                                             totalweight: exercise.barbell ? (exercise.barbellWeight || 0) : 0,
                                             barbell: exercise.barbell,
                                             note: exercise.notes,
-                                            cardio: false
+                                            cardio: false,
+                                            latestTraining: latestTraining
                                         }}
                                     />
                                 ))}

@@ -71,7 +71,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                             <p>Start Timer</p>
                         </div>
                         <BarbellInfo haveBarbell={exercise.barbell} totalWeight={exercise.totalweight} barbellWeight={exercise.barbellWeight} />
-                        <LastTrainingDetails cardio={exercise.cardio} />
+                        <LastTrainingDetails cardio={exercise.cardio} latestTraining={exercise.latestTraining} index={exercise.index} />
                         <NoteArea exercise={exercise} />
                     </div>
                 </div>

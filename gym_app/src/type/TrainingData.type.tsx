@@ -11,6 +11,7 @@ export type days = {
 
 
 export type Exercise = {
+    index: number;
     name: string;
     sets: number;
     reps: number;
@@ -28,7 +29,7 @@ type LastWorkout = {
     lastWorkout: singleWorkout[];
 }
 
-type singleWorkout = {
+export type singleWorkout = {
     sets: number;
     reps: number;
     weight: number;

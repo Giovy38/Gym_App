@@ -1,4 +1,7 @@
+import { TrainingData } from "./TrainingData.type"
+
 export type SingleExerciseType = {
+    index: number;
     exerciseTitle: string,
     reps: number,
     sets: number,
@@ -7,5 +10,6 @@ export type SingleExerciseType = {
     barbell: boolean,
     note: string[],
     cardio: boolean,
-    barbellWeight: number
+    barbellWeight: number,
+    latestTraining: TrainingData
 }

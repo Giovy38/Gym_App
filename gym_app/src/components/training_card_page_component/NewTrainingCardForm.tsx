@@ -160,7 +160,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                     </div>
                                     <div className="flex gap-2">
                                         <div className="flex flex-col w-1/2 justify-center items-center">
-                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`restTimeMinutes-${dayIndex}-${exerciseIndex}`}>Rest Time (Minutes)</label>
+                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none text-center" htmlFor={`restTimeMinutes-${dayIndex}-${exerciseIndex}`}>Rest Time (Minutes)</label>
                                             <input
                                                 id={`restTimeMinutes-${dayIndex}-${exerciseIndex}`}
                                                 className="rounded-lg p-2 text-center w-1/2"
@@ -171,7 +171,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                             />
                                         </div>
                                         <div className="flex flex-col w-1/2 justify-center items-center">
-                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`restTimeSeconds-${dayIndex}-${exerciseIndex}`}>Rest Time (Seconds)</label>
+                                            <label className="text-[#f8bf58] uppercase text-center font-bold text-md select-none" htmlFor={`restTimeSeconds-${dayIndex}-${exerciseIndex}`}>Rest Time (Seconds)</label>
                                             <input
                                                 id={`restTimeSeconds-${dayIndex}-${exerciseIndex}`}
                                                 className="rounded-lg p-2 text-center w-1/2"
@@ -209,7 +209,9 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                             ))}
                             <AddRemoveButton text="Add Exercise" onClick={() => {
                                 const updatedDays = [...workoutDays];
+                                const newExerciseIndex = updatedDays[dayIndex].exercises.length;
                                 updatedDays[dayIndex].exercises.push({
+                                    index: newExerciseIndex,
                                     name: '',
                                     sets: 0,
                                     reps: 0,

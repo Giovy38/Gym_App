@@ -8,9 +8,8 @@ import { SiPastebin } from "react-icons/si";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
 import { IoDownloadSharp } from "react-icons/io5";
 import { HiCloudArrowUp } from "react-icons/hi2";
-
-
-
+import { TrainingData } from '@/src/type/TrainingData.type';
+import AddNewWorkout from '@/src/services/training-card-page-services/AddNewWorkout.services';
 
 
 
@@ -23,7 +22,7 @@ interface Workout {
     cardio: boolean;
 }
 
-export default function LastTrainingDetails({ cardio }: { cardio: boolean }) {
+export default function LastTrainingDetails({ cardio, latestTraining, index }: { cardio: boolean, latestTraining: TrainingData, index: number }) {
     const [workouts, setWorkouts] = useState<Workout[]>([]);
     const [showForm, setShowForm] = useState<boolean>(false);
     const [showPreviousWorkout, setShowPreviousWorkout] = useState<boolean>(false);
@@ -56,8 +55,26 @@ export default function LastTrainingDetails({ cardio }: { cardio: boolean }) {
         setWorkouts([...workouts, duplicatedWorkout]);
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         setIsSaved(!isSaved);
+        console.log('latestTraining', latestTraining);
+
+        if (!isSaved) {
+            const workoutData = workouts.map((workout) => ({
+                sets: workout.sets,
+                reps: workout.reps || 0,
+                weight: workout.weight || 0,
+            }));
+
+            try {
+                const res = await AddNewWorkout(latestTraining.id, index, workoutData)
+                if (!res) {
+                    throw new Error('Error during the workout addition');
+                }
+            } catch (error) {
+                console.error('Error during the workout addition:', error);
+            }
+        }
     };
 
     return (
