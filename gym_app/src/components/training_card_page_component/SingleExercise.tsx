@@ -72,7 +72,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                         </div>
                         <BarbellInfo haveBarbell={exercise.barbell} totalWeight={exercise.totalweight} barbellWeight={exercise.barbellWeight} />
                         <LastTrainingDetails cardio={exercise.cardio} latestTraining={exercise.latestTraining} index={exercise.index} />
-                        <NoteArea exercise={exercise} />
+                        <NoteArea exercise={exercise} latestTraining={exercise.latestTraining} index={exercise.index} />
                     </div>
                 </div>
             )}
