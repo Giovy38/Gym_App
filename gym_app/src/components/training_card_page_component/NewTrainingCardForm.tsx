@@ -6,6 +6,8 @@ import CreateNewTrainingCard from "@/src/services/training-card-page-services/Cr
 import { TbBarbellOff } from "react-icons/tb";
 import { IoBarbellOutline } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
+import { CgGym } from "react-icons/cg";
+import { MdDirectionsRun } from "react-icons/md";
 
 
 
@@ -53,7 +55,25 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
         setWorkoutDays(updatedDays);
     };
 
+    const isFormValid = () => {
+        return workoutDays.length > 0 && workoutDays.every(day =>
+            day.workoutName.trim() !== '' &&
+            day.exercises.length > 0 &&
+            day.exercises.every(exercise =>
+                exercise.name.trim() !== '' &&
+                exercise.sets > 0 &&
+                exercise.reps > 0
+            )
+        );
+    };
+
+    const [showWarning, setShowWarning] = useState(false);
+
     const handleSubmit = async () => {
+        if (!isFormValid()) {
+            setShowWarning(true);
+            return;
+        }
         const trainingData: TrainingData = {
             id: 0,
             date,
@@ -91,6 +111,11 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                         onChange={(e) => setDate(e.target.value)}
                     />
                 </div>
+                {showWarning && (
+                    <div className="text-red-500 text-center mb-3">
+                        Per favore, compila tutti i campi obbligatori.
+                    </div>
+                )}
                 <div className="flex flex-col gap-3 mt-4">
                     {workoutDays.map((day, dayIndex) => (
                         <div key={dayIndex} className="flex flex-col gap-3 bg-[#111111] p-3 rounded-lg mb-10 relative">
@@ -104,7 +129,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
 
                             <input
                                 id={`workoutName-${dayIndex}`}
-                                className="rounded-lg p-2 text-center text-black"
+                                className={`rounded-lg p-2 text-center text-black ${showWarning && day.workoutName.trim() === '' ? 'border-red-500' : ''}`}
                                 type='text'
                                 placeholder="Muscle Group"
                                 value={day.workoutName}
@@ -128,31 +153,45 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                     <label className="text-[#f8bf58] uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-${exerciseIndex}`}>Exercise</label>
                                     <input
                                         id={`exerciseName-${dayIndex}-${exerciseIndex}`}
-                                        className="rounded-lg p-2 text-center"
+                                        className={`rounded-lg p-2 text-center ${showWarning && exercise.name.trim() === '' ? 'border-red-500' : ''}`}
                                         type='text'
                                         placeholder="Exercise Name"
                                         value={exercise.name}
                                         onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'name', e.target.value)}
                                     />
+                                    <div className="flex gap-2 justify-center items-center text-xl mt-3 bg-black p-3 rounded-lg">
+                                        <span className="ml-2">
+                                            {exercise.isCardio ? <MdDirectionsRun className="text-green-400 text-2xl" /> : <CgGym className="text-red-400 text-2xl" />}
+                                        </span>
+                                        <label className="text-[#f8bf58] uppercase font-bold text-md select-none">Cardio?</label>
+                                        <Switch
+                                            checked={exercise.isCardio}
+                                            onChange={() => handleExerciseChange(dayIndex, exerciseIndex, 'isCardio', !exercise.isCardio)}
+                                        />
+                                    </div>
                                     <div className="flex gap-2">
                                         <div className="flex flex-col w-1/2 justify-center items-center">
-                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`sets-${dayIndex}-${exerciseIndex}`}>Sets</label>
+                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`sets-${dayIndex}-${exerciseIndex}`}>
+                                                {exercise.isCardio ? 'Time (min)' : 'Sets'}
+                                            </label>
                                             <input
                                                 id={`sets-${dayIndex}-${exerciseIndex}`}
-                                                className="rounded-lg p-2 text-center w-1/2"
+                                                className={`rounded-lg p-2 text-center w-1/2 ${showWarning && exercise.sets <= 0 ? 'border-red-500' : ''}`}
                                                 type='number'
-                                                placeholder="Sets"
+                                                placeholder={exercise.isCardio ? 'Time in minutes' : 'Sets'}
                                                 value={exercise.sets}
                                                 onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'sets', parseInt(e.target.value) || 0)}
                                             />
                                         </div>
                                         <div className="flex flex-col w-1/2 justify-center items-center">
-                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`reps-${dayIndex}-${exerciseIndex}`}>Reps</label>
+                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`reps-${dayIndex}-${exerciseIndex}`}>
+                                                {exercise.isCardio ? 'Distance (km)' : 'Reps'}
+                                            </label>
                                             <input
                                                 id={`reps-${dayIndex}-${exerciseIndex}`}
-                                                className="rounded-lg p-2 text-center w-1/2"
+                                                className={`rounded-lg p-2 text-center w-1/2 ${showWarning && exercise.reps <= 0 ? 'border-red-500' : ''}`}
                                                 type='number'
-                                                placeholder="Reps"
+                                                placeholder={exercise.isCardio ? 'Distance in km' : 'Reps'}
                                                 value={exercise.reps}
                                                 onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'reps', parseInt(e.target.value) || 0)}
                                             />
@@ -182,16 +221,18 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                             />
                                         </div>
                                     </div>
-                                    <div className="flex gap-2 justify-center items-center text-xl mt-3 bg-black p-3 rounded-lg">
-                                        <span className="ml-2">
-                                            {exercise.barbell ? <IoBarbellOutline className="text-green-400 text-2xl" /> : <TbBarbellOff className="text-red-400 text-2xl" />}
-                                        </span>
-                                        <label className="text-[#f8bf58] uppercase font-bold text-md select-none">Barbell?</label>
-                                        <Switch
-                                            checked={exercise.barbell}
-                                            onChange={() => handleExerciseChange(dayIndex, exerciseIndex, 'barbell', !exercise.barbell)}
-                                        />
-                                    </div>
+                                    {!exercise.isCardio && (
+                                        <div className="flex gap-2 justify-center items-center text-xl mt-3 bg-black p-3 rounded-lg">
+                                            <span className="ml-2">
+                                                {exercise.barbell ? <IoBarbellOutline className="text-green-400 text-2xl" /> : <TbBarbellOff className="text-red-400 text-2xl" />}
+                                            </span>
+                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none">Barbell?</label>
+                                            <Switch
+                                                checked={exercise.barbell}
+                                                onChange={() => handleExerciseChange(dayIndex, exerciseIndex, 'barbell', !exercise.barbell)}
+                                            />
+                                        </div>
+                                    )}
                                     {exercise.barbell && (
                                         <div className="flex gap-2 justify-center items-center">
                                             <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`barbellWeight-${dayIndex}-${exerciseIndex}`}>Barbell Weight</label>
@@ -219,7 +260,8 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                     barbell: false,
                                     barbellWeight: 0,
                                     Workouts: [],
-                                    notes: []
+                                    notes: [],
+                                    isCardio: false
                                 });
                                 setWorkoutDays(updatedDays);
                             }} isAdd />
@@ -229,7 +271,13 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                 </div>
                 <div className="flex justify-center items-center gap-3 mt-4">
                     <div className="w-1/2">
-                        <AddRemoveButton text="Create" onClick={handleSubmit} isAdd />
+                        <button
+                            className={`bg-blue-700 text-white w-full rounded-md p-2 text-center mt-5 uppercase font-bold ${!isFormValid() ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:bg-blue-600'}`}
+                            onClick={handleSubmit}
+                            disabled={!isFormValid()}
+                        >
+                            Create
+                        </button>
                     </div>
                     <div className="w-1/2">
                         <AddRemoveButton text="Cancel" onClick={onClose} isAdd={false} />

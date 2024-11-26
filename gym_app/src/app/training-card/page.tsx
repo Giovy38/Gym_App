@@ -96,7 +96,7 @@ export default function TrainingCardPage() {
                                             totalweight: exercise.barbell ? (exercise.barbellWeight || 0) : 0,
                                             barbell: exercise.barbell,
                                             note: exercise.notes,
-                                            cardio: false,
+                                            cardio: exercise.isCardio,
                                             latestTraining: latestTraining
                                         }}
                                     />

@@ -75,7 +75,13 @@ export default function LastTrainingDetails({ cardio, latestTraining, index }: {
 
     const handleAddWorkout = (newWorkout: Omit<Workout, 'sets' | 'cardio'>) => {
         const newSetNumber = workouts.length + 1;
-        const workoutWithSet = { ...newWorkout, sets: newSetNumber, cardio };
+        const workoutWithSet = {
+            ...newWorkout,
+            sets: newSetNumber,
+            cardio,
+            reps: cardio ? newWorkout.time : newWorkout.reps,
+            weight: cardio ? newWorkout.km : newWorkout.weight,
+        };
         setWorkouts([...workouts, workoutWithSet]);
         setShowForm(false);
     };
@@ -182,17 +188,8 @@ export default function LastTrainingDetails({ cardio, latestTraining, index }: {
                             workouts.map((workout, index) => (
                                 <tr key={index}>
                                     <td>{workout.sets}</td>
-                                    {workout.cardio ? (
-                                        <>
-                                            <td>{workout.time}</td>
-                                            <td>{workout.km}</td>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <td>{workout.reps}</td>
-                                            <td>{workout.weight}</td>
-                                        </>
-                                    )}
+                                    <td>{workout.reps}</td>
+                                    <td>{workout.weight}</td>
                                     <td>
                                         <IoDownloadSharp
                                             className='text-blue-500 cursor-pointer'

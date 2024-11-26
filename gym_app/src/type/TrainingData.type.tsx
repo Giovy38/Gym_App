@@ -23,6 +23,7 @@ export type Exercise = {
     barbellWeight: number;
     Workouts: LastWorkout[];
     notes: string[];
+    isCardio: boolean;
 }
 
 type LastWorkout = {
