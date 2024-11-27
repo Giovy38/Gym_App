@@ -136,19 +136,20 @@ export default function LastTrainingDetails({ cardio, latestTraining, index }: {
 
             <div className="bg-white rounded-lg w-full text-black p-2 flex flex-col gap-1 items-center">
                 <div
-                    className='bg-[#f8bf58] w-full flex items-center justify-center gap-5 p-1 rounded-lg cursor-pointer'
+                    className={`w-full flex items-center justify-center gap-5 p-1 rounded-lg cursor-pointer ${showPreviousWorkout ? 'bg-blue-500 hover:bg-blue-700' : 'bg-[#f8bf58] hover:bg-[#d4a347]'
+                        }`}
                     onClick={toggleWorkoutView}
                 >
                     {showPreviousWorkout ? (
                         <>
                             <SiPastebin className='text-2xl' />
-                            <h1 className='font-bold'>Current Workout</h1>
+                            <h1 className='font-bold'>Go to Current Workout</h1>
                             <IoMdArrowDropright className='text-2xl' />
                         </>
                     ) : (
                         <>
                             <IoMdArrowDropleft className='text-2xl' />
-                            <h1 className='font-bold'>Previous Workout</h1>
+                            <h1 className='font-bold'>Go to Previous Workout</h1>
                             <SiPastebin className='text-2xl' />
                         </>
                     )}

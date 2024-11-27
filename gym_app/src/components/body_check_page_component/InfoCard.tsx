@@ -14,7 +14,7 @@ export default function InfoCard({ infoTitle, leftData, rightData, useConditiona
                 <h5 className="text-white">{leftData}</h5>
                 <FaArrowsLeftRight className="text-black" />
                 <h5 className={`text-xl font-bold ${useConditionalColor
-                    ? (isRightDataGreater ? 'text-green-300' : isRightDataEqual ? 'text-white' : 'text-red-300')
+                    ? (isRightDataGreater ? 'text-green-300' : isRightDataEqual ? 'text-white' : 'text-blue-300')
                     : 'text-white'
                     }`}>
                     {rightData}

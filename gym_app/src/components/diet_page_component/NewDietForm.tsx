@@ -58,7 +58,7 @@ export default function NewDietForm({ onClose, onNewDiet }: NewDietFormProps) {
                 <div className="flex justify-end">
                     <IoMdCloseCircle className="text-red-400 text-2xl cursor-pointer hover:text-red-500" onClick={onClose} />
                 </div>
-                <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-[#f8bf58] mb-3">Add New Body Check </h1>
+                <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-[#f8bf58] mb-3">Add New Diet </h1>
                 <div className="text-black flex flex-col justify-center items-center">
                     <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor="date">Date</label>
                     <input
