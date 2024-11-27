@@ -4,11 +4,16 @@ import InputText from "../reusable_components/InputText";
 import SectionTitle from "../reusable_components/SectionTitle";
 import PrimaryButton from "../reusable_components/PrimaryButton";
 import Link from "next/link";
+import Switch from "../reusable_components/Switch";
+import { useState } from "react";
+import { FaMale, FaFemale } from "react-icons/fa";
+
 
 
 
 export default function LoginForm() {
 
+    const [bodyCheckImageIsMan, setBodyCheckImageIsMan] = useState(true);
 
 
     return (
@@ -23,17 +28,18 @@ export default function LoginForm() {
                 <InputText label="e-mail" type="email" placeholder='E-mail' />
                 <InputText label="password" type="password" placeholder='Password' />
                 <InputText label="repeat password" type="password" placeholder='Password' />
-                <div className="w-full flex flex-col justify-around items-center gap-2 bg-[#94928f] mt-5 p-2 rounded-md">
-                    <h4 className="uppercase font-bold text-xl">select one for body check image*</h4>
+                <div className="w-full flex flex-col justify-around items-center gap-2 bg-[#131313] mt-5 p-2 rounded-md">
+                    <h4 className="uppercase font-bold text-xl text-white">body check image*</h4>
                     <div className="flex gap-20">
-                        <div className="flex gap-2 text-lg italic font-bold ">
-                            <input id="gender-man" className="cursor-pointer" type="radio" name="gender" value="man" />
-                            <label htmlFor="gender-man" className="cursor-pointer">man</label>
-                        </div>
-                        <div className="flex gap-2 text-lg italic font-bold ">
-                            <input id="gender-woman" className="cursor-pointer" type="radio" name="gender" value="woman" />
-                            <label htmlFor="gender-woman" className="cursor-pointer">woman</label>
-                        </div>
+                        <FaFemale className={`${bodyCheckImageIsMan ? 'text-2xl text-white' : 'text-3xl text-pink-400'}`} />
+                        <Switch
+                            checked={bodyCheckImageIsMan}
+                            onChange={() => { setBodyCheckImageIsMan(!bodyCheckImageIsMan) }}
+                            activeColor="bg-blue-400"
+                            inactiveColor="bg-pink-400"
+                        />
+                        <FaMale className={`${bodyCheckImageIsMan ? 'text-3xl text-blue-400' : 'text-2xl text-white'}`} />
+
                     </div>
                 </div>
 

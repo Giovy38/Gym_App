@@ -8,6 +8,7 @@ import { IoBarbellOutline } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
 import { CgGym } from "react-icons/cg";
 import { MdDirectionsRun } from "react-icons/md";
+import Switch from "../reusable_components/Switch";
 
 
 
@@ -17,14 +18,8 @@ type NewTrainingCardFormProps = {
     onNewTraining: () => void;
 }
 
-// Aggiungi un componente Switch personalizzato
-const Switch = ({ checked, onChange }: { checked: boolean; onChange: () => void }) => (
-    <div className="flex items-center cursor-pointer" onClick={onChange}>
-        <div className={`w-10 h-5 flex items-center rounded-full p-1 duration-300 ease-in-out ${checked ? 'bg-green-400' : 'bg-red-400'}`}>
-            <div className={`bg-white w-4 h-4 rounded-full shadow-md transform duration-300 ease-in-out ${checked ? 'translate-x-5' : ''}`}></div>
-        </div>
-    </div>
-);
+
+
 
 export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrainingCardFormProps) {
     const getCurrentDate = () => {
