@@ -10,6 +10,7 @@ import { IoDownloadSharp } from "react-icons/io5";
 import { HiCloudArrowUp } from "react-icons/hi2";
 import { TrainingData } from '@/src/type/TrainingData.type';
 import AddNewWorkout from '@/src/services/training-card-page-services/AddNewWorkout.services';
+import GetLastWorkout from '@/src/services/training-card-page-services/GetLastWorkout.services';
 
 
 
@@ -28,21 +29,8 @@ interface WorkoutDetail {
     weight: string;
 }
 
-interface Workouts {
-    lastWorkout: WorkoutDetail[];
-}
 
-interface LastWorkout {
-    Workouts: Workouts[];
-    index: number;
-    name: string;
-    sets: number;
-    reps: number;
-    restTime: { minutes: number; seconds: number };
-    barbell: boolean;
-    barbellWeight: number;
-    notes: string[];
-}
+
 
 
 export default function LastTrainingDetails({ cardio, latestTraining, index }: { cardio: boolean, latestTraining: TrainingData, index: number }) {
@@ -50,23 +38,24 @@ export default function LastTrainingDetails({ cardio, latestTraining, index }: {
     const [showForm, setShowForm] = useState<boolean>(false);
     const [showPreviousWorkout, setShowPreviousWorkout] = useState<boolean>(false);
     const [isSaved, setIsSaved] = useState<boolean>(false);
-    const [lastWorkout, setLastWorkout] = useState<LastWorkout | null>(null);
     const [lastWorkoutDetails, setLastWorkoutDetails] = useState<WorkoutDetail[] | null>(null);
 
     useEffect(() => {
-        if (lastWorkout) {
-            const lastWorkoutData = lastWorkout.Workouts[lastWorkout.Workouts.length - 1];
-            console.log('lastWorkoutData', lastWorkoutData);
+        const fetchLastWorkout = async () => {
+            const res = await GetLastWorkout(latestTraining.id, index);
 
-            const formattedWorkoutDetails: WorkoutDetail[] = lastWorkoutData.lastWorkout.map((workout) => ({
+
+            const formattedWorkoutDetails: WorkoutDetail[] = res.lastWorkout.map((workout: WorkoutDetail) => ({
                 sets: workout.sets,
                 reps: workout.reps,
                 weight: workout.weight.toString(),
             }));
 
             setLastWorkoutDetails(formattedWorkoutDetails);
-        }
-    }, [lastWorkout]);
+        };
+        fetchLastWorkout();
+    }, [latestTraining.id, index, isSaved]);
+
 
     const handleDelete = (index: number) => {
         const updatedWorkouts = workouts.filter((_, i) => i !== index);
@@ -116,9 +105,6 @@ export default function LastTrainingDetails({ cardio, latestTraining, index }: {
                 const res = await AddNewWorkout(latestTraining.id, index, workoutData)
                 if (!res) {
                     throw new Error('Error during the workout addition');
-                } else {
-                    setLastWorkout(res.updatedTraining);
-                    console.log('res', res);
                 }
             } catch (error) {
                 console.error('Error during the workout addition:', error);
