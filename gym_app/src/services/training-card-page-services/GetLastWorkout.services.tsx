@@ -5,12 +5,15 @@ export default async function GetLastWorkout(id: number, exerciseIndex: number) 
 
     try {
         const response = await FetchFunction(urltry, 'GET', {});
-        console.log('Response:', response);
+        if (response.status === 404) {
+            console.warn('No workout found for the given ID and exercise index.');
+            return { lastWorkout: [] };
+        }
         const data = await response.json();
         return data;
     } catch (error) {
         console.error('Error during training card loading:', error);
-        return [];
+        return { lastWorkout: [] };
     }
 }
 

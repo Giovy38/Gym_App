@@ -163,14 +163,20 @@ export default function LastTrainingDetails({ cardio, latestTraining, index }: {
                         </tr>
                     </thead>
                     <tbody>
-                        {showPreviousWorkout && lastWorkoutDetails ? (
-                            lastWorkoutDetails.map((workout, index) => (
-                                <tr key={index}>
-                                    <td>{workout.sets}</td>
-                                    <td>{workout.reps}</td>
-                                    <td>{workout.weight}</td>
+                        {showPreviousWorkout ? (
+                            lastWorkoutDetails && lastWorkoutDetails.length > 0 ? (
+                                lastWorkoutDetails.map((workout, index) => (
+                                    <tr key={index}>
+                                        <td>{workout.sets}</td>
+                                        <td>{workout.reps}</td>
+                                        <td>{workout.weight}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={3} className="text-center text-red-700 italic font-bold p-3">No previous workout found</td>
                                 </tr>
-                            ))
+                            )
                         ) : (
                             workouts.map((workout, index) => (
                                 <tr key={index}>

@@ -11,6 +11,10 @@ export default async function FetchFunction<T>(url: string, method: MethodType, 
 
     const response = await fetch(url, options);
 
+    if (response.status === 404) {
+        throw new Error('Error 404: Resource not found');
+    }
+
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
