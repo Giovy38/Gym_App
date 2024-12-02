@@ -8,8 +8,8 @@ import Timer from "@/src/components/training_card_page_component/Timer";
 import { useEffect, useState } from "react";
 import { MdOutlineTimer } from "react-icons/md";
 import { TrainingData } from "@/src/type/TrainingData.type";
-import LoadAllTraining from "@/src/services/training-card-page-services/LoadAllTraining.services";
 import { GiWeightLiftingUp } from "react-icons/gi";
+import { trainingCardService } from "@/src/services/training-card.services";
 
 export default function TrainingCardPage() {
 
@@ -33,7 +33,7 @@ export default function TrainingCardPage() {
 
     const fetchData = async () => {
         try {
-            const data: TrainingData[] = await LoadAllTraining();
+            const data: TrainingData[] = await trainingCardService.GetAllTraining();
             setTrainings(data);
             if (data.length > 0) {
                 setLatestTraining(data[data.length - 1]);

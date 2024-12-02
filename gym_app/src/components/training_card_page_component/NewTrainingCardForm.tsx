@@ -2,13 +2,13 @@ import { useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import AddRemoveButton from "../reusable_components/AddRemoveButton";
 import { TrainingData, days, Exercise } from "@/src/type/TrainingData.type";
-import CreateNewTrainingCard from "@/src/services/training-card-page-services/CreateNewTrainingCard.services";
 import { TbBarbellOff } from "react-icons/tb";
 import { IoBarbellOutline } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
 import { CgGym } from "react-icons/cg";
 import { MdDirectionsRun } from "react-icons/md";
 import Switch from "../reusable_components/Switch";
+import { trainingCardService } from "@/src/services/training-card.services";
 
 
 
@@ -76,7 +76,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
         };
 
         try {
-            await CreateNewTrainingCard(trainingData);
+            await trainingCardService.CreateNewTrainingCard(trainingData)
             onNewTraining();
             onClose();
         } catch (error) {

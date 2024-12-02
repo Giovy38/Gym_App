@@ -1,6 +1,21 @@
 import { MethodType } from "@/src/type/MethodType.type";
 
-export default async function FetchFunction<T>(url: string, method: MethodType, body?: T): Promise<Response> {
+type Err<T> = {
+    // 2 varianti, erorre e non tramite ok 
+    ok: false;
+    error: T
+}
+
+type Ok<T> = {
+    ok: true;
+    value: T
+};
+
+type Result<T, E> = Ok<T> | Err<E>
+
+
+
+export default async function FetchFunction<T>(url: string, method: MethodType, body?: T): Promise<Result<Response, Response>> {
     const options: RequestInit = {
         method,
         headers: {
@@ -11,13 +26,17 @@ export default async function FetchFunction<T>(url: string, method: MethodType, 
 
     const response = await fetch(url, options);
 
-    if (response.status === 404) {
-        throw new Error('Error 404: Resource not found');
-    }
 
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        return {
+            ok: false,
+            error: response
+        }
+    } else {
+        return {
+            ok: true,
+            value: response
+        }
     }
 
-    return response; // Restituisce la risposta HTTP
 }

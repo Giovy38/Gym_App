@@ -8,14 +8,11 @@ import { DataSliderType } from '@/src/type/DataSlider.type';
 import NewTrainingCardForm from '../training_card_page_component/NewTrainingCardForm';
 import NewBodyCheckForm from '../body_check_page_component/NewBodyCheckForm';
 import NewDietForm from '../diet_page_component/NewDietForm';
-import RemoveBodyCheck from '@/src/services/body-check-page-services/RemoveBodyCheck.services';
-import SwapBodyCheck from '@/src/services/body-check-page-services/SwapBodyCheck.services';
-import RemoveDiet from '@/src/services/diet-page-services/RemoveDiet.services';
-import SwapDiet from '@/src/services/diet-page-services/SelectDiet.services';
 import { DietData } from '@/src/type/DietData.type';
-import RemoveTraining from '@/src/services/training-card-page-services/RemoveTrainingCard.services';
-import SwapTraining from '@/src/services/training-card-page-services/SwapTraining.services';
 import { TrainingData } from '@/src/type/TrainingData.type';
+import { bodyCheckService } from '@/src/services/body-check.services';
+import { dietService } from '@/src/services/diet.services';
+import { trainingCardService } from '@/src/services/training-card.services';
 
 type DataSliderProps = DataSliderType & {
     onNewBodyCheck: (() => void);
@@ -50,14 +47,14 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
         setDataList(dataList.filter(data => data.id !== id));
         switch (dataPage) {
             case 'body':
-                RemoveBodyCheck(id);
+                bodyCheckService.DeleteBodyCheck(id);
                 break;
             case 'diet':
-                RemoveDiet(id);
+                dietService.DeleteDiet(id);
                 onRemoveDiet();
                 break;
             case 'training':
-                RemoveTraining(id);
+                trainingCardService.DeleteTrainingCard(id);
                 break;
         }
     };
@@ -66,7 +63,7 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
         let selectedData;
         switch (dataPage) {
             case 'body':
-                selectedData = await SwapBodyCheck(id);
+                selectedData = await bodyCheckService.SwapBodyCheck(id);
                 if (selectedData) {
                     console.log("Selected Data:", selectedData);
                     onUpdateData(selectedData);
@@ -74,7 +71,7 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
                 }
                 break;
             case 'diet':
-                selectedData = await SwapDiet(id);
+                selectedData = await dietService.SwapDiet(id);
                 if (selectedData) {
                     console.log("Selected Data:", selectedData);
                     onUpdateData(selectedData);
@@ -82,7 +79,7 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
                 }
                 break;
             case 'training':
-                selectedData = await SwapTraining(id);
+                selectedData = await trainingCardService.SwapTrainingCard(id);
                 if (selectedData) {
                     console.log("Selected Data:", selectedData);
                     onUpdateData(selectedData);

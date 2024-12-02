@@ -6,9 +6,9 @@ import man_body from '../../assets/img/man_body.png';
 import woman_body from '../../assets/img/woman_body.png'
 import InfoCard from "@/src/components/body_check_page_component/InfoCard";
 import DataSlider from "@/src/components/data_slider_component/DataSlider";
-import LoadAllBodyCheck from "@/src/services/body-check-page-services/LoadAllBodyCheck.services";
 import { useEffect, useState } from "react";
 import { BodyCheckData } from "@/src/type/BodyCheckData.type";
+import { bodyCheckService } from "@/src/services/body-check.services";
 
 
 export default function BodyCheckPage() {
@@ -23,7 +23,7 @@ export default function BodyCheckPage() {
 
     const fetchData = async () => {
         try {
-            const data: BodyCheckData[] = await LoadAllBodyCheck();
+            const data = await bodyCheckService.getBodyChecks();
             setBodyChecks(data);
             if (data.length > 0) {
                 setLatestCheck(data[data.length - 1]);
@@ -35,7 +35,7 @@ export default function BodyCheckPage() {
     };
 
     const handleNewBodyCheck = () => {
-        fetchData(); // Ricarica i dati quando viene creato un nuovo body check
+        fetchData(); // Refresh the data when a new body check is created
     };
 
     const updateChecks = (selectedData: BodyCheckData) => {

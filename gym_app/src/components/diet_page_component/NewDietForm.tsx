@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import AddRemoveButton from "../reusable_components/AddRemoveButton";
-import AddNewDiet from "@/src/services/diet-page-services/CreateNewDiet.services";
 import { MealPlan } from "@/src/type/DietData.type";
+import { dietService } from "@/src/services/diet.services";
 
 type NewDietFormProps = {
     onClose: () => void;
@@ -44,7 +44,7 @@ export default function NewDietForm({ onClose, onNewDiet }: NewDietFormProps) {
         };
 
         try {
-            await AddNewDiet(dietData);
+            await dietService.CreateNewDiet(dietData)
             onNewDiet();
             onClose();
         } catch (error) {

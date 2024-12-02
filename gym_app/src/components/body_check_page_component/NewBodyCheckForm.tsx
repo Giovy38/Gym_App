@@ -4,7 +4,8 @@ import { useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import AddRemoveButton from "../reusable_components/AddRemoveButton";
-import AddBodyCheck from "@/src/services/body-check-page-services/AddBodyCheck.services";
+import { bodyCheckService } from "@/src/services/body-check.services";
+
 
 type NewBodyCheckFormProps = {
     onClose: () => void;
@@ -68,7 +69,7 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
         };
 
         try {
-            await AddBodyCheck(bodyCheckData);
+            await bodyCheckService.addBodyCheck(bodyCheckData);
             onNewBodyCheck();
             onClose();
 

@@ -5,9 +5,8 @@ import AddBlueButton from "../reusable_components/AddBlueButton";
 import { useState } from "react";
 import { SingleExerciseType } from "../../type/SingleExercise.type";
 import { TrainingData } from "@/src/type/TrainingData.type";
-import AddNewNote from "@/src/services/training-card-page-services/AddNewNote.services";
-import EditNote from "@/src/services/training-card-page-services/EditNote.services";
-import DeleteNote from "@/src/services/training-card-page-services/DeleteNote.services";
+import { trainingCardService } from "@/src/services/training-card.services";
+
 
 export default function NoteArea({ exercise, latestTraining, index }: { exercise: SingleExerciseType, latestTraining: TrainingData, index: number }) {
 
@@ -24,7 +23,7 @@ export default function NoteArea({ exercise, latestTraining, index }: { exercise
 
 
             try {
-                const result = await AddNewNote(latestTraining.id, index, newNote);
+                const result = await trainingCardService.AddNewNote(latestTraining.id, index, newNote)
                 if (!result) {
                     console.error('Errore durante l\'aggiunta della nota al database');
                 }
@@ -36,7 +35,7 @@ export default function NoteArea({ exercise, latestTraining, index }: { exercise
 
     const removeNote = async (noteIndex: number) => {
         try {
-            const result = await DeleteNote(latestTraining.id, index, noteIndex);
+            const result = await trainingCardService.DeleteNote(latestTraining.id, index, noteIndex)
             if (!result) {
                 console.error('Errore durante la cancellazione della nota nel database');
             } else {
@@ -49,7 +48,7 @@ export default function NoteArea({ exercise, latestTraining, index }: { exercise
 
     const saveNote = async (noteIndex: number) => {
         try {
-            const result = await EditNote(latestTraining.id, index, notes[noteIndex], noteIndex);
+            const result = await trainingCardService.EditNote(latestTraining.id, index, notes[noteIndex], noteIndex);
             if (!result) {
                 console.error('Errore durante la modifica della nota nel database');
             } else {

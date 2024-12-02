@@ -4,7 +4,7 @@ import DataSlider from "@/src/components/data_slider_component/DataSlider"
 import Accordion from "@/src/components/diet_page_component/Accordion"
 import AddItemButton from "@/src/components/diet_page_component/AddItemButton"
 import SectionTitle from "@/src/components/reusable_components/SectionTitle"
-import LoadAllDiet from "@/src/services/diet-page-services/LoadDiet.services"
+import { dietService } from "@/src/services/diet.services"
 import { DietData } from "@/src/type/DietData.type"
 import { useEffect, useState } from "react"
 import { FaBowlFood } from "react-icons/fa6";
@@ -32,7 +32,7 @@ export default function DietPage() {
 
     const fetchData = async () => {
         try {
-            const data: DietData[] = await LoadAllDiet();
+            const data = await dietService.GetAllDiet();
             setDiets(data);
             if (data.length > 0) {
                 setLatestDiet(data[data.length - 1]);

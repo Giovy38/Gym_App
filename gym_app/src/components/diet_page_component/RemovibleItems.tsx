@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IoPencilOutline } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
 import DeleteConfirm from "../reusable_components/DeleteConfirm";
-import RemoveDietItem from "@/src/services/diet-page-services/RemoveDietItem.services";
+import { dietService } from "@/src/services/diet.services";
 
 interface RemovibleItemsProps {
     index: number;
@@ -31,7 +31,7 @@ export default function RemovibleItems({ index, food, quantity, onRemove, onEdit
         setShowDeleteConfirm(false);
         console.log('latestDietId', latestDietId);
         if (latestDietId) {
-            RemoveDietItem(latestDietId, dayOfWeek, meal, index);
+            dietService.DeleteDietItem(latestDietId, dayOfWeek, meal, index);
         }
         onRemove();
     };

@@ -1,8 +1,8 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { DietData } from '@/src/type/DietData.type';
-import AddDietItem from '@/src/services/diet-page-services/AddDietItem.services';
-import EditDietItem from '@/src/services/diet-page-services/EditDietItem.services';
+import { dietService } from '@/src/services/diet.services';
+
 
 interface AddFoodFormProps {
     onAdd: (food: string, quantity: string) => void;
@@ -27,7 +27,7 @@ export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initial
     const handleAdd = async () => {
         if (food && quantity) {
             if (latestDiet) {
-                const res = await AddDietItem(latestDiet.id, dayOfWeek, meal, food, quantity);
+                const res = await dietService.AddDietItem(latestDiet.id, dayOfWeek, meal, food, quantity)
                 if (res) {
                     onAdd(food, quantity);
                 }
@@ -45,7 +45,7 @@ export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initial
         console.log('food', food)
         if (latestDiet) {
             if (itemId !== undefined) {
-                const res = await EditDietItem(latestDiet.id, dayOfWeek, meal, quantity, food, itemId);
+                const res = await dietService.EditDietItem(latestDiet.id, dayOfWeek, meal, quantity, food, itemId);
                 if (res) {
                     onAdd(food, quantity);
                 }

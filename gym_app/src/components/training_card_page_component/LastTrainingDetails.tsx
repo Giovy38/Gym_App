@@ -9,8 +9,7 @@ import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
 import { IoDownloadSharp } from "react-icons/io5";
 import { HiCloudArrowUp } from "react-icons/hi2";
 import { TrainingData } from '@/src/type/TrainingData.type';
-import AddNewWorkout from '@/src/services/training-card-page-services/AddNewWorkout.services';
-import GetLastWorkout from '@/src/services/training-card-page-services/GetLastWorkout.services';
+import { trainingCardService } from '@/src/services/training-card.services';
 
 
 
@@ -42,7 +41,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, index }: {
 
     useEffect(() => {
         const fetchLastWorkout = async () => {
-            const res = await GetLastWorkout(latestTraining.id, index);
+            const res = await trainingCardService.GetLastWorkout(latestTraining.id, index)
 
 
             const formattedWorkoutDetails: WorkoutDetail[] = res.lastWorkout.map((workout: WorkoutDetail) => ({
@@ -102,7 +101,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, index }: {
             }));
 
             try {
-                const res = await AddNewWorkout(latestTraining.id, index, workoutData)
+                const res = await trainingCardService.AddNewWorkout(latestTraining.id, index, workoutData)
                 if (!res) {
                     throw new Error('Error during the workout addition');
                 }
