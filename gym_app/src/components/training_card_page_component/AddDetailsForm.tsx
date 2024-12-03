@@ -13,9 +13,10 @@ interface AddDetailsFormProps {
     onAddWorkout: (workout: Omit<Workout, 'sets'>) => void;
     onCancel: () => void;
     cardio: boolean;
+    haveBarbell: boolean
 }
 
-export default function AddDetailsForm({ onAddWorkout, onCancel, cardio }: AddDetailsFormProps) {
+export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBarbell }: AddDetailsFormProps) {
     const [newWorkout, setNewWorkout] = useState<Omit<Workout, 'sets'>>(
         cardio ? { time: 0, km: 0 } : { reps: 0, weight: 0 }
     );
@@ -82,7 +83,10 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio }: AddDe
                         className="border p-1 rounded-lg"
                         step="1"
                     />
-                    <label className='uppercase font-bold' htmlFor="weight">weight</label>
+                    <div className='flex flex-col'>
+                        <label className='uppercase font-bold' htmlFor="weight">Total weight</label>
+                        {haveBarbell ? <label className='italic text-sm' htmlFor="weight">(Including barbell weight)</label> : null}
+                    </div>
                     <input
                         type="text"
                         name="weight"

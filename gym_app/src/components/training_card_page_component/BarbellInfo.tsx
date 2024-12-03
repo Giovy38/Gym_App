@@ -4,6 +4,9 @@ import { IoBarbellOutline } from "react-icons/io5";
 
 
 export default function BarbellInfo({ haveBarbell, totalWeight, barbellWeight }: BarbellInfoType) {
+    if (totalWeight < barbellWeight) {
+        totalWeight = barbellWeight
+    }
     return (
         <div>
             {haveBarbell ?

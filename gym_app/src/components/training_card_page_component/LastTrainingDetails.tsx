@@ -27,7 +27,7 @@ interface Workout {
 
 
 
-export default function LastTrainingDetails({ cardio, latestTraining, index }: { cardio: boolean, latestTraining: TrainingData, index: number }) {
+export default function LastTrainingDetails({ cardio, latestTraining, index, haveBarbell }: { cardio: boolean, latestTraining: TrainingData, index: number, haveBarbell: boolean }) {
     const [workouts, setWorkouts] = useState<Workout[]>([]);
     const [showForm, setShowForm] = useState<boolean>(false);
     const [showPreviousWorkout, setShowPreviousWorkout] = useState<boolean>(false);
@@ -116,7 +116,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, index }: {
     return (
         <div className="relative flex flex-col items-center gap-2">
             {showForm && !showPreviousWorkout && (
-                <AddDetailsForm onAddWorkout={handleAddWorkout} onCancel={handleCancel} cardio={cardio} />
+                <AddDetailsForm onAddWorkout={handleAddWorkout} onCancel={handleCancel} cardio={cardio} haveBarbell={haveBarbell} />
             )}
 
             <div className="bg-white rounded-lg w-full text-black p-2 flex flex-col gap-1 items-center">
@@ -155,7 +155,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, index }: {
                             ) : (
                                 <>
                                     <th>Reps</th>
-                                    <th>Weight</th>
+                                    <th>Total Weight</th>
                                 </>
                             )}
                             <th></th>
