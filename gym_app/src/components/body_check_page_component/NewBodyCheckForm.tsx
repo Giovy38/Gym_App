@@ -69,7 +69,7 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
         };
 
         try {
-            await bodyCheckService.addBodyCheck(bodyCheckData);
+            await bodyCheckService.createBodyCheck(bodyCheckData);
             onNewBodyCheck();
             onClose();
 

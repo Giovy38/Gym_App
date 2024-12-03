@@ -8,7 +8,7 @@ import { SiPastebin } from "react-icons/si";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
 import { IoDownloadSharp } from "react-icons/io5";
 import { HiCloudArrowUp } from "react-icons/hi2";
-import { TrainingData } from '@/src/type/TrainingData.type';
+import { singleWorkout, TrainingData } from '@/src/type/TrainingData.type';
 import { trainingCardService } from '@/src/services/training-card.services';
 
 
@@ -22,11 +22,6 @@ interface Workout {
     cardio: boolean;
 }
 
-interface WorkoutDetail {
-    sets: number;
-    reps: number;
-    weight: string;
-}
 
 
 
@@ -37,17 +32,16 @@ export default function LastTrainingDetails({ cardio, latestTraining, index }: {
     const [showForm, setShowForm] = useState<boolean>(false);
     const [showPreviousWorkout, setShowPreviousWorkout] = useState<boolean>(false);
     const [isSaved, setIsSaved] = useState<boolean>(false);
-    const [lastWorkoutDetails, setLastWorkoutDetails] = useState<WorkoutDetail[] | null>(null);
+    const [lastWorkoutDetails, setLastWorkoutDetails] = useState<singleWorkout[] | null>(null);
 
     useEffect(() => {
         const fetchLastWorkout = async () => {
-            const res = await trainingCardService.GetLastWorkout(latestTraining.id, index)
+            const res = await trainingCardService.getLastWorkout(latestTraining.id, index)
 
-
-            const formattedWorkoutDetails: WorkoutDetail[] = res.lastWorkout.map((workout: WorkoutDetail) => ({
+            const formattedWorkoutDetails = res.lastWorkout.map((workout) => ({
                 sets: workout.sets,
                 reps: workout.reps,
-                weight: workout.weight.toString(),
+                weight: workout.weight,
             }));
 
             setLastWorkoutDetails(formattedWorkoutDetails);
@@ -57,6 +51,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, index }: {
 
 
     const handleDelete = (index: number) => {
+        setIsSaved(false);
         const updatedWorkouts = workouts.filter((_, i) => i !== index);
         setWorkouts(updatedWorkouts.map((workout, i) => ({ ...workout, sets: i + 1 })));
     };
@@ -90,6 +85,11 @@ export default function LastTrainingDetails({ cardio, latestTraining, index }: {
     };
 
     const handleSave = async () => {
+
+        if (workouts.length === 0) {
+            return;
+        }
+
         setIsSaved(!isSaved);
         console.log('latestTraining', latestTraining);
 
@@ -101,7 +101,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, index }: {
             }));
 
             try {
-                const res = await trainingCardService.AddNewWorkout(latestTraining.id, index, workoutData)
+                const res = await trainingCardService.createNewWorkout(latestTraining.id, index, workoutData)
                 if (!res) {
                     throw new Error('Error during the workout addition');
                 }

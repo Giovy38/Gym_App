@@ -76,7 +76,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
         };
 
         try {
-            await trainingCardService.CreateNewTrainingCard(trainingData)
+            await trainingCardService.createNewTrainingCard(trainingData)
             onNewTraining();
             onClose();
         } catch (error) {

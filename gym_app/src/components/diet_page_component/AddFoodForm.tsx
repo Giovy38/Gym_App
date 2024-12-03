@@ -27,7 +27,7 @@ export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initial
     const handleAdd = async () => {
         if (food && quantity) {
             if (latestDiet) {
-                const res = await dietService.AddDietItem(latestDiet.id, dayOfWeek, meal, food, quantity)
+                const res = await dietService.addDietItem(latestDiet.id, dayOfWeek, meal, food, quantity)
                 if (res) {
                     onAdd(food, quantity);
                 }
@@ -45,7 +45,7 @@ export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initial
         console.log('food', food)
         if (latestDiet) {
             if (itemId !== undefined) {
-                const res = await dietService.EditDietItem(latestDiet.id, dayOfWeek, meal, quantity, food, itemId);
+                const res = await dietService.editDietItem(latestDiet.id, dayOfWeek, meal, quantity, food, itemId);
                 if (res) {
                     onAdd(food, quantity);
                 }

@@ -31,7 +31,7 @@ export default function RemovibleItems({ index, food, quantity, onRemove, onEdit
         setShowDeleteConfirm(false);
         console.log('latestDietId', latestDietId);
         if (latestDietId) {
-            dietService.DeleteDietItem(latestDietId, dayOfWeek, meal, index);
+            dietService.deleteDietItem(latestDietId, dayOfWeek, meal, index);
         }
         onRemove();
     };

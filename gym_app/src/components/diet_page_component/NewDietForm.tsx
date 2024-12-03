@@ -44,7 +44,7 @@ export default function NewDietForm({ onClose, onNewDiet }: NewDietFormProps) {
         };
 
         try {
-            await dietService.CreateNewDiet(dietData)
+            await dietService.createNewDiet(dietData)
             onNewDiet();
             onClose();
         } catch (error) {

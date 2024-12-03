@@ -7,7 +7,7 @@ class UserService {
     // backend url 
     private USER_BE_URL = 'http://localhost:3001/user';
 
-    async CreateNewUser(userData: UserData) {
+    async createNewUser(userData: UserData): Promise<{ createdUser: UserData } | null> {
 
         const data = {
             firstName: userData.firstName,
@@ -24,7 +24,7 @@ class UserService {
                 throw new Error('Error during the user creation');
             }
 
-            const createdUser = await res.value.json();
+            const createdUser: UserData = await res.value.json();
             return { createdUser };
         } catch (error) {
             console.error('Error during the user creation:', error);
@@ -32,13 +32,13 @@ class UserService {
         }
     }
 
-    async GetAllUsers() {
+    async getUsers(): Promise<UserData[]> {
         try {
             const res = await FetchFunction(this.USER_BE_URL, 'GET', {});
             if (!res.ok) {
                 throw new Error('Error during the user fetching');
             }
-            const data = await res.value.json();
+            const data: UserData[] = await res.value.json();
 
             return Array.isArray(data) ? data : [];
         } catch (error) {
@@ -47,13 +47,13 @@ class UserService {
         }
     }
 
-    async GetUserById(id: number) {
+    async getUserById(id: number): Promise<UserData | null> {
         try {
             const res = await FetchFunction(`${this.USER_BE_URL}/${id}`, 'GET', {});
             if (!res.ok) {
                 throw new Error('Error during the user fetching');
             }
-            const data = await res.value.json();
+            const data: UserData = await res.value.json();
 
             return data;
         } catch (error) {
@@ -62,13 +62,13 @@ class UserService {
         }
     }
 
-    async DeleteUser(id: number) {
+    async deleteUser(id: number): Promise<UserData[] | null> {
         try {
             const res = await FetchFunction(`${this.USER_BE_URL}/${id}`, 'DELETE', {});
             if (!res.ok) {
                 throw new Error('Error during the user deletion');
             }
-            const data = await res.value.json();
+            const data: UserData[] = await res.value.json();
 
             return Array.isArray(data) ? data : [];
         } catch (error) {
@@ -77,13 +77,13 @@ class UserService {
         }
     }
 
-    async EditUserPassword(id: number, newPassword: string) {
+    async editUserPassword(id: number, newPassword: string): Promise<UserData | null> {
         try {
             const res = await FetchFunction(`${this.USER_BE_URL}/${id}/password`, 'PATCH', { newPassword });
             if (!res.ok) {
                 throw new Error('Error during the user password editing');
             }
-            const data = await res.value.json();
+            const data: UserData = await res.value.json();
 
             return data;
         } catch (error) {

@@ -32,7 +32,7 @@ export default function DietPage() {
 
     const fetchData = async () => {
         try {
-            const data = await dietService.GetAllDiet();
+            const data = await dietService.getDiets();
             setDiets(data);
             if (data.length > 0) {
                 setLatestDiet(data[data.length - 1]);

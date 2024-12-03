@@ -7,17 +7,17 @@ class BodyCheckService {
     private BODY_CHECK_BE_URL = 'http://localhost:3001/body-check';
 
 
-    async addBodyCheck(data: BodyCheckData) {
+    async createBodyCheck(data: BodyCheckData): Promise<void> {
         FetchFunction(this.BODY_CHECK_BE_URL, 'POST', data);
     }
 
-    async DeleteBodyCheck(id: number) {
+    async deleteBodyCheck(id: number): Promise<BodyCheckData[]> {
         try {
             const res = await FetchFunction(`${this.BODY_CHECK_BE_URL}/${id}`, 'DELETE', {});
             if (!res.ok) {
                 throw new Error('Error during the body check removal');
             }
-            const data = await res.value.json();
+            const data: BodyCheckData[] = await res.value.json();
             return Array.isArray(data) ? data : [];
         } catch (error) {
             console.error('Error during the body check removal:', error);
@@ -25,13 +25,13 @@ class BodyCheckService {
         }
     }
 
-    async SwapBodyCheck(id: number) {
+    async swapBodyCheck(id: number): Promise<BodyCheckData | null> {
         try {
             const res = await FetchFunction(`${this.BODY_CHECK_BE_URL}/${id}`, 'GET', {});
             if (!res.ok) {
                 throw new Error('Error during body check selection');
             }
-            const data = await res.value.json();
+            const data: BodyCheckData = await res.value.json();
             return data;
         } catch (error) {
             console.error('Error during the body check selection:', error);
@@ -39,13 +39,13 @@ class BodyCheckService {
         }
     }
 
-    async getBodyChecks() {
+    async getBodyChecks(): Promise<BodyCheckData[]> {
         try {
             const res = await FetchFunction(this.BODY_CHECK_BE_URL, 'GET', {});
             if (!res.ok) {
                 throw new Error('Error during body check loading');
             }
-            const data = await res.value.json();
+            const data: BodyCheckData[] = await res.value.json();
             return Array.isArray(data) ? data : [];
         } catch (error) {
             console.error('Error during body check loading:', error);

@@ -33,7 +33,7 @@ export default function TrainingCardPage() {
 
     const fetchData = async () => {
         try {
-            const data: TrainingData[] = await trainingCardService.GetAllTraining();
+            const data: TrainingData[] = await trainingCardService.getTrainings();
             setTrainings(data);
             if (data.length > 0) {
                 setLatestTraining(data[data.length - 1]);

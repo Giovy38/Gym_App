@@ -47,14 +47,14 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
         setDataList(dataList.filter(data => data.id !== id));
         switch (dataPage) {
             case 'body':
-                bodyCheckService.DeleteBodyCheck(id);
+                bodyCheckService.deleteBodyCheck(id);
                 break;
             case 'diet':
-                dietService.DeleteDiet(id);
+                dietService.deleteDiet(id);
                 onRemoveDiet();
                 break;
             case 'training':
-                trainingCardService.DeleteTrainingCard(id);
+                trainingCardService.deleteTrainingCard(id);
                 break;
         }
     };
@@ -63,7 +63,7 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
         let selectedData;
         switch (dataPage) {
             case 'body':
-                selectedData = await bodyCheckService.SwapBodyCheck(id);
+                selectedData = await bodyCheckService.swapBodyCheck(id);
                 if (selectedData) {
                     console.log("Selected Data:", selectedData);
                     onUpdateData(selectedData);
@@ -71,7 +71,7 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
                 }
                 break;
             case 'diet':
-                selectedData = await dietService.SwapDiet(id);
+                selectedData = await dietService.swapDiet(id);
                 if (selectedData) {
                     console.log("Selected Data:", selectedData);
                     onUpdateData(selectedData);
@@ -79,7 +79,7 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
                 }
                 break;
             case 'training':
-                selectedData = await trainingCardService.SwapTrainingCard(id);
+                selectedData = await trainingCardService.swapTrainingCard(id);
                 if (selectedData) {
                     console.log("Selected Data:", selectedData);
                     onUpdateData(selectedData);

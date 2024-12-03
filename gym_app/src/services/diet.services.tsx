@@ -6,11 +6,11 @@ class DietService {
     // backend url 
     private DIET_BE_URL = 'http://localhost:3001/diet';
 
-    async CreateNewDiet(data: DietData) {
+    async createNewDiet(data: DietData): Promise<void> {
         FetchFunction(this.DIET_BE_URL, 'POST', data);
     }
 
-    async AddDietItem(id: number, day: string, meal: string, newItem: string, newQuantity: string) {
+    async addDietItem(id: number, day: string, meal: string, newItem: string, newQuantity: string): Promise<DietData | null> {
         try {
             const data = {
                 item: {
@@ -25,15 +25,15 @@ class DietService {
                 throw new Error('Error during the diet item addition');
             }
 
-            const updatedDiet = await res.value.json();
-            return { updatedDiet };
+            const updatedDiet: DietData = await res.value.json();
+            return updatedDiet;
         } catch (error) {
             console.error('Error during the diet item addition:', error);
             return null;
         }
     }
 
-    async EditDietItem(id: number, day: string, meal: string, newQuantity: string, newItem: string, idToEdit: number) {
+    async editDietItem(id: number, day: string, meal: string, newQuantity: string, newItem: string, idToEdit: number): Promise<DietData | null> {
         try {
             const data = {
                 quantity: newQuantity,
@@ -46,21 +46,21 @@ class DietService {
                 throw new Error('Error during the diet item edition');
             }
 
-            const updatedDiet = await res.value.json();
-            return { updatedDiet };
+            const updatedDiet: DietData = await res.value.json();
+            return updatedDiet;
         } catch (error) {
             console.error('Error during the diet item edition:', error);
             return null;
         }
     }
 
-    async GetAllDiet() {
+    async getDiets(): Promise<DietData[]> {
         try {
             const res = await FetchFunction(this.DIET_BE_URL, 'GET', {});
             if (!res.ok) {
                 throw new Error('Error during diet loading');
             }
-            const data = await res.value.json();
+            const data: DietData[] = await res.value.json();
             return Array.isArray(data) ? data : [];
         } catch (error) {
             console.error('Error during diet loading:', error);
@@ -68,13 +68,13 @@ class DietService {
         }
     }
 
-    async DeleteDiet(id: number) {
+    async deleteDiet(id: number): Promise<DietData[]> {
         try {
             const res = await FetchFunction(`${this.DIET_BE_URL}/${id}`, 'DELETE', {});
             if (!res.ok) {
                 throw new Error('Error during the diet removal');
             }
-            const data = await res.value.json();
+            const data: DietData[] = await res.value.json();
             return Array.isArray(data) ? data : [];
         } catch (error) {
             console.error('Error during the diet removal:', error);
@@ -82,7 +82,7 @@ class DietService {
         }
     }
 
-    async DeleteDietItem(id: number, day: string, meal: string, idToRemove: number) {
+    async deleteDietItem(id: number, day: string, meal: string, idToRemove: number): Promise<void> {
         try {
             await FetchFunction(`${this.DIET_BE_URL}/${id}/${day}/${meal}/${idToRemove}`, 'DELETE', {});
         } catch (error) {
@@ -90,13 +90,13 @@ class DietService {
         }
     }
 
-    async SwapDiet(id: number) {
+    async swapDiet(id: number): Promise<DietData | null> {
         try {
             const res = await FetchFunction(`${this.DIET_BE_URL}/${id}`, 'GET', {});
             if (!res.ok) {
                 throw new Error('Error during the diet selection');
             }
-            const data = await res.value.json();
+            const data: DietData = await res.value.json();
             return data;
         } catch (error) {
             console.error('Error during the diet selection:', error);
