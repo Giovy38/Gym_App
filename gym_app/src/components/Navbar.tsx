@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaBowlFood } from 'react-icons/fa6';
 import { FaUserCircle, FaHome, FaBars, FaTimes } from "react-icons/fa";
 import { CgGym } from "react-icons/cg";
@@ -11,7 +11,14 @@ import NavbarButton from "./navbar_component/NavbarButton";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
-    const [activePage, setActivePage] = useState('home');
+    const [activePage, setActivePage] = useState('');
+
+    useEffect(() => {
+        const activePage = localStorage.getItem('activePage');
+        if (activePage) {
+            setActivePage(activePage);
+        }
+    }, [])
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -19,6 +26,7 @@ export default function Navbar() {
 
     const handleLinkClick = (page: string) => {
         setActivePage(page);
+        localStorage.setItem('activePage', page);
         setIsOpen(false);
     };
 
