@@ -5,10 +5,8 @@ import dietImg from '../assets/img/diet.jpg'
 import Banner from '../components/home_components/Banner'
 import HomeSectionDetails from '../components/home_components/HomeSectionDetails'
 
-
-
-
 export default function Home() {
+
   return (
     <div className='min-h-[100vh] flex flex-col justify-evenly bg-black'>
       <Banner img={top_banner} />

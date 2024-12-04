@@ -8,12 +8,14 @@ import { dietService } from "@/src/services/diet.services"
 import { DietData } from "@/src/type/DietData.type"
 import { useEffect, useState } from "react"
 import { FaBowlFood } from "react-icons/fa6";
+import LoginPage from "../login/page"
 
 
 export default function DietPage() {
 
     const [latestDiet, setLatestDiet] = useState<DietData | null>(null);
     const [diets, setDiets] = useState<DietData[]>([]);
+    const [islogged, setIsLogged] = useState(false)
 
     const updateDiets = (selectedData: DietData) => {
         setLatestDiet(diets[diets.length - 1]);
@@ -28,6 +30,9 @@ export default function DietPage() {
 
     useEffect(() => {
         fetchData();
+        if (localStorage.getItem('isLogged') === 'true') {
+            setIsLogged(true)
+        }
     }, []);
 
     const fetchData = async () => {
@@ -54,50 +59,54 @@ export default function DietPage() {
     const meals = ['breakfast', 'snack', 'lunch', 'snack 2', 'dinner'];
 
     return (
-        <div className="min-h-[82vh] flex flex-col justify-start xl:items-center gap-3 p-5">
-            <SectionTitle title="Diet page" />
-            <DataSlider
-                dataPage='diet'
-                onUpdateData={updateDiets}
-                dbDate={diets}
-                onNewDiet={handleNewDiet}
-                onNewBodyCheck={() => { }}
-                onRemoveDiet={handleRemoveDiet}
-                onUpdateSelectedData={handleUpdateSelectedData}
-                onNewTraining={() => { }}
-                onRemoveTraining={() => { }}
-            />
+        islogged ? (
+            <>
+                <div className="min-h-[82vh] flex flex-col justify-start xl:items-center gap-3 p-5">
+                    <SectionTitle title="Diet page" />
+                    <DataSlider
+                        dataPage='diet'
+                        onUpdateData={updateDiets}
+                        dbDate={diets}
+                        onNewDiet={handleNewDiet}
+                        onNewBodyCheck={() => { }}
+                        onRemoveDiet={handleRemoveDiet}
+                        onUpdateSelectedData={handleUpdateSelectedData}
+                        onNewTraining={() => { }}
+                        onRemoveTraining={() => { }}
+                    />
 
-            {diets.length === 0 ? (
-                <div className="flex flex-col items-center justify-center gap-5 animate-pulse">
-                    <SectionTitle title="Add a new diet to see weekly plan" />
-                    <FaBowlFood className="text-5xl text-[#f8bf58] animate-bounce" />
+                    {diets.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center gap-5 animate-pulse">
+                            <SectionTitle title="Add a new diet to see weekly plan" />
+                            <FaBowlFood className="text-5xl text-[#f8bf58] animate-bounce" />
+                        </div>
+                    ) : (
+                        <>
+                            {daysOfWeek.map((day) => (
+                                <Accordion
+                                    key={day}
+                                    accordionTitle={day.charAt(0).toUpperCase() + day.slice(1)}
+                                    buttons={
+                                        <>
+                                            {meals.map((meal) => (
+                                                <AddItemButton
+                                                    key={meal}
+                                                    title={meal}
+                                                    latestDiet={diets[diets.length - 1]}
+                                                    dayOfWeek={day}
+                                                    meal={meal}
+                                                    diets={diets}
+                                                    selectedDiet={latestDiet}
+                                                />
+                                            ))}
+                                        </>
+                                    }
+                                />
+                            ))}
+                        </>
+                    )}
                 </div>
-            ) : (
-                <>
-                    {daysOfWeek.map((day) => (
-                        <Accordion
-                            key={day}
-                            accordionTitle={day.charAt(0).toUpperCase() + day.slice(1)}
-                            buttons={
-                                <>
-                                    {meals.map((meal) => (
-                                        <AddItemButton
-                                            key={meal}
-                                            title={meal}
-                                            latestDiet={diets[diets.length - 1]}
-                                            dayOfWeek={day}
-                                            meal={meal}
-                                            diets={diets}
-                                            selectedDiet={latestDiet}
-                                        />
-                                    ))}
-                                </>
-                            }
-                        />
-                    ))}
-                </>
-            )}
-        </div>
+            </>
+        ) : (<LoginPage />)
     )
 }

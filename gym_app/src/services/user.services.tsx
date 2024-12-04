@@ -79,7 +79,7 @@ class UserService {
 
     async editUserPassword(id: number, newPassword: string): Promise<UserData | null> {
         try {
-            const res = await FetchFunction(`${this.USER_BE_URL}/${id}/password`, 'PATCH', { newPassword });
+            const res = await FetchFunction(`${this.USER_BE_URL}/${id}`, 'PATCH', { password: newPassword });
             if (!res.ok) {
                 throw new Error('Error during the user password editing');
             }
