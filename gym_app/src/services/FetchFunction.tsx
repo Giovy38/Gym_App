@@ -1,7 +1,6 @@
 import { MethodType } from "@/src/type/MethodType.type";
 
 type Err<T> = {
-    // 2 varianti, erorre e non tramite ok 
     ok: false;
     error: T
 }

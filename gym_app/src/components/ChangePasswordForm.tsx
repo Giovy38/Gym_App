@@ -4,9 +4,9 @@ import { UserData } from '../type/UserData.type';
 import Toast from './reusable_components/Toast';
 import { userService } from '../services/user.services';
 
-export default function ChangePasswordForm({ onClose, userData }: { onClose: () => void, userData: UserData }) {
+export default function ChangePasswordForm({ onClose }: { onClose: () => void, userData: UserData }) {
 
-    const userId = 161;
+    const userId = localStorage.getItem('userId');
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -17,6 +17,8 @@ export default function ChangePasswordForm({ onClose, userData }: { onClose: () 
         confirmNewPassword: ''
     });
     const [isFormValid, setIsFormValid] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastColor, setToastColor] = useState<'green' | 'red'>('green');
 
     useEffect(() => {
         const newErrors = {
@@ -40,22 +42,29 @@ export default function ChangePasswordForm({ onClose, userData }: { onClose: () 
     const handleChangePassword = async () => {
         if (!isFormValid) return;
 
-        if (currentPassword !== userData.password) {
-            setShowToast(true);
-            return;
-        }
-
-        try {
-            const updatedUser = await userService.editUserPassword(userId, newPassword);
-            if (updatedUser) {
+        if (userId) {
+            const userIdNumber = Number(userId);
+            try {
+                const updatedUser = await userService.editUserPassword(userIdNumber, currentPassword, newPassword);
+                if (updatedUser) {
+                    setToastMessage('Password changed');
+                    setToastColor('green');
+                    setShowToast(true);
+                    const closeFormTimer = setTimeout(() => {
+                        onClose();
+                    }, 3000);
+                    return () => clearTimeout(closeFormTimer);
+                } else {
+                    setToastMessage('Current password doesn\'t match');
+                    setToastColor('red');
+                    setShowToast(true);
+                }
+            } catch (error) {
+                console.error('Error changing password:', error);
+                setToastMessage('Error changing password');
+                setToastColor('red');
                 setShowToast(true);
-                const closeFormTimer = setTimeout(() => {
-                    onClose()
-                }, 3000)
-                return () => clearTimeout(closeFormTimer)
             }
-        } catch (error) {
-            console.error('Error changing password:', error);
         }
     };
 
@@ -115,7 +124,7 @@ export default function ChangePasswordForm({ onClose, userData }: { onClose: () 
                         </button>
                     </div>
                 </div>
-                {showToast && <Toast message={currentPassword !== userData.password ? 'Current password doesn\'t match' : 'Password changed'} color={currentPassword !== userData.password ? 'red' : 'green'} />}
+                {showToast && <Toast message={toastMessage} color={toastColor} />}
             </div>
         </div>
     );

@@ -3,6 +3,5 @@ export type UserData = {
     lastName: string;
     email: string;
     password: string;
-    confirmPassword: string;
     gender: "male" | "female";
 }

@@ -10,10 +10,11 @@ import { useEffect, useState } from "react";
 import { BodyCheckData } from "@/src/type/BodyCheckData.type";
 import { bodyCheckService } from "@/src/services/body-check.services";
 import LoginPage from "../login/page";
+import { userService } from "@/src/services/user.services";
 
 
 export default function BodyCheckPage() {
-    const isMan = true;
+    const [isMan, setIsMan] = useState(true);
     const [bodyChecks, setBodyChecks] = useState<BodyCheckData[]>([]);
     const [latestCheck, setLatestCheck] = useState<BodyCheckData | null>(null);
     const [previousCheck, setPreviousCheck] = useState<BodyCheckData | null>(null);
@@ -23,8 +24,23 @@ export default function BodyCheckPage() {
         fetchData();
         if (localStorage.getItem('isLogged') === 'true') {
             setIsLogged(true)
+            fetchIsMan()
         }
     }, []);
+
+    const fetchIsMan = async () => {
+        const userId = Number(localStorage.getItem('userId'));
+        try {
+            const res = await userService.getUserById(userId)
+            if (res?.gender === 'male') {
+                setIsMan(true)
+            } else {
+                setIsMan(false)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const fetchData = async () => {
         try {

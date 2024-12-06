@@ -3,16 +3,25 @@
 import AddRemoveButton from "@/src/components/reusable_components/AddRemoveButton"
 import PrimaryButton from "@/src/components/reusable_components/PrimaryButton"
 import { userService } from "@/src/services/user.services"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { FaRegEye, FaEyeSlash } from "react-icons/fa6";
 import Toast from "@/src/components/reusable_components/Toast"
 import LoginPage from "../login/page"
 import ChangePasswordForm from "@/src/components/ChangePasswordForm"
 import { UserData } from "@/src/type/UserData.type"
+import DeleteConfirm from "@/src/components/reusable_components/DeleteConfirm"
 
 export default function ProfilePage() {
 
-    const userId = 161
+    const userId = localStorage.getItem('userId');
+    const [userIdNumber, setUserIdNumber] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (userId) {
+            setUserIdNumber(Number(userId));
+        }
+    }, [userId]);
+
 
     const [isEmailShowed, setIsEmailShowed] = useState(false);
     const [userData, setUserData] = useState<UserData>({
@@ -20,30 +29,62 @@ export default function ProfilePage() {
         lastName: "",
         email: "",
         password: "",
-        confirmPassword: "",
         gender: "male"
     })
 
     const [showToast, setShowToast] = useState(false);
     const [isLogged, setIsLogged] = useState(false);
     const [showChangePasswordForm, setShowChangePasswordForm] = useState(false)
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [showDeleteToast, setShowDeleteToast] = useState(false);
 
-    const logout = () => {
-        localStorage.setItem('isLogged', 'false');
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 3000);
+    const logout = async () => {
+        try {
+            await userService.userLogout();
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 3000);
+            localStorage.removeItem('userId');
+        } catch (error) {
+            console.error('Error during the user logout:', error);
+        }
     }
+
+    const handleConfirmDelete = async () => {
+        if (userIdNumber) {
+            try {
+                await userService.deleteUser(userIdNumber);
+                await userService.userLogout();
+                localStorage.removeItem('userId');
+                setShowDeleteToast(true);
+                setTimeout(() => setShowDeleteToast(false), 3000);
+            } catch (error) {
+                console.error('Error during the user deletion:', error);
+            }
+        }
+        setShowDeleteConfirm(false);
+    };
+
+    const handleCancelDelete = () => {
+        setShowDeleteConfirm(false);
+    };
+
+    const deleteAccount = () => {
+        setShowDeleteConfirm(true);
+    };
 
     const showEmail = () => {
         setIsEmailShowed(!isEmailShowed)
     }
 
-    const fetchData = async () => {
-        const userDetails = await userService.getUserById(userId) //change with dinamic ID 
-        if (userDetails !== null) {
-            setUserData(userDetails)
+    const fetchData = useCallback(async () => {
+        if (userId) {
+            const userIdNumber = Number(userId);
+            const userDetails = await userService.getUserById(userIdNumber) //change with dinamic ID 
+            if (userDetails !== null) {
+                setUserData(userDetails)
+            }
         }
-    }
+    }, [userId]);
 
     const changePassword = async () => {
         setShowChangePasswordForm(true)
@@ -58,7 +99,7 @@ export default function ProfilePage() {
         if (localStorage.getItem('isLogged') === 'true') {
             setIsLogged(true)
         }
-    }, [])
+    }, [fetchData])
 
     return (
         isLogged ? (
@@ -74,12 +115,19 @@ export default function ProfilePage() {
                     <div className="flex justify-end">
                         <div className="p-3 md:max-w-64">
                             <PrimaryButton text="Change Password" onClick={changePassword} />
-                            <AddRemoveButton text="Delete Account" onClick={() => { }} />
+                            <AddRemoveButton text="Delete Account" onClick={deleteAccount} />
                             <AddRemoveButton text="Logout" onClick={logout} />
                         </div>
                     </div>
                     {showToast && <Toast message="Successful Logout" color="red" />}
+                    {showDeleteToast && <Toast message="Account successfully deleted" color="red" />}
                     {showChangePasswordForm && <ChangePasswordForm userData={userData} onClose={closeChangePasswordForm} />}
+                    {showDeleteConfirm && (
+                        <DeleteConfirm
+                            onConfirm={handleConfirmDelete}
+                            onCancel={handleCancelDelete}
+                        />
+                    )}
                 </div>
             </>
         ) : (

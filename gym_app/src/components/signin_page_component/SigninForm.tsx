@@ -57,8 +57,9 @@ export default function LoginForm() {
             const result = await userService.createNewUser(userData);
             if (result) {
                 console.log('User created successfully:', result.createdUser);
-                localStorage.setItem('isLogged', 'true');
                 setShowToast(true);
+                window.location.href = '/profile';
+                localStorage.setItem('activePage', 'profile');
                 setTimeout(() => setShowToast(false), 3000);
             } else {
                 console.error('Failed to create user');
