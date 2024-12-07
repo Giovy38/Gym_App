@@ -9,8 +9,9 @@ import { CgGym } from "react-icons/cg";
 import { MdDirectionsRun } from "react-icons/md";
 import Switch from "../reusable_components/Switch";
 import { trainingCardService } from "@/src/services/training-card.services";
-
-
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.css';
+import { Scrollbar, Navigation } from "swiper/modules";
 
 
 type NewTrainingCardFormProps = {
@@ -62,13 +63,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
         );
     };
 
-    const [showWarning, setShowWarning] = useState(false);
-
     const handleSubmit = async () => {
-        if (!isFormValid()) {
-            setShowWarning(true);
-            return;
-        }
         const trainingData: TrainingData = {
             id: 0,
             date,
@@ -106,14 +101,9 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                         onChange={(e) => setDate(e.target.value)}
                     />
                 </div>
-                {showWarning && (
-                    <div className="text-red-500 text-center mb-3">
-                        Per favore, compila tutti i campi obbligatori.
-                    </div>
-                )}
                 <div className="flex flex-col gap-3 mt-4">
                     {workoutDays.map((day, dayIndex) => (
-                        <div key={dayIndex} className="flex flex-col gap-3 bg-[#111111] p-3 rounded-lg mb-10 relative">
+                        <div key={dayIndex} className="flex flex-col gap-3 bg-[#111111] shadow-lg shadow-[#f8bf58] p-3 rounded-lg mb-10 relative">
                             <div className="grid grid-cols-[1fr_auto] gap-3 items-center">
                                 <label className="bg-[#f8bf58] text-black rounded-lg p-2 text-center uppercase font-extrabold text-lg italic text-md select-none" htmlFor={`workoutName-${dayIndex}`}>Muscle Group</label>
                                 <MdDeleteForever
@@ -124,9 +114,9 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
 
                             <input
                                 id={`workoutName-${dayIndex}`}
-                                className={`rounded-lg p-2 text-center text-black ${showWarning && day.workoutName.trim() === '' ? 'border-red-500' : ''}`}
+                                className='rounded-lg p-2 text-center text-black bg-slate-200 font-bold italic'
                                 type='text'
-                                placeholder="Muscle Group"
+                                placeholder="Muscle Group Name*"
                                 value={day.workoutName}
                                 onChange={(e) => {
                                     const updatedDays = [...workoutDays];
@@ -134,115 +124,240 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                     setWorkoutDays(updatedDays);
                                 }}
                             />
-                            {day.exercises.map((exercise, exerciseIndex) => (
-                                <div key={exerciseIndex} className="flex flex-col gap-2 text-black bg-[#2b2a2a80] p-3 rounded-lg relative">
-                                    <MdDeleteForever
-                                        className="absolute top-2 right-2 text-red-300 text-3xl cursor-pointer hover:text-white bg-black hover:bg-red-500 rounded-lg p-1"
-                                        onClick={() => {
-                                            const updatedExercises = day.exercises.filter((_, index) => index !== exerciseIndex);
-                                            const updatedDays = [...workoutDays];
-                                            updatedDays[dayIndex].exercises = updatedExercises;
-                                            setWorkoutDays(updatedDays);
-                                        }}
-                                    />
-                                    <label className="text-[#f8bf58] uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-${exerciseIndex}`}>Exercise</label>
-                                    <input
-                                        id={`exerciseName-${dayIndex}-${exerciseIndex}`}
-                                        className={`rounded-lg p-2 text-center ${showWarning && exercise.name.trim() === '' ? 'border-red-500' : ''}`}
-                                        type='text'
-                                        placeholder="Exercise Name"
-                                        value={exercise.name}
-                                        onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'name', e.target.value)}
-                                    />
-                                    <div className="flex gap-2 justify-center items-center text-xl mt-3 bg-black p-3 rounded-lg">
-                                        <span className="ml-2">
-                                            {exercise.isCardio ? <MdDirectionsRun className="text-green-400 text-2xl" /> : <CgGym className="text-red-400 text-2xl" />}
-                                        </span>
-                                        <label className="text-[#f8bf58] uppercase font-bold text-md select-none">Cardio?</label>
-                                        <Switch
-                                            checked={exercise.isCardio}
-                                            onChange={() => handleExerciseChange(dayIndex, exerciseIndex, 'isCardio', !exercise.isCardio)}
-                                        />
-                                    </div>
-                                    <div className="flex gap-2">
-                                        <div className="flex flex-col w-1/2 justify-center items-center">
-                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`sets-${dayIndex}-${exerciseIndex}`}>
-                                                {exercise.isCardio ? 'Time (min)' : 'Sets'}
-                                            </label>
+                            {day.exercises.length > 0 && (
+                                <div>
+                                    {day.exercises.length === 1 ? (
+                                        <div className="flex flex-col gap-2 text-black bg-[#2b2a2a80] p-3 rounded-lg relative">
+                                            <MdDeleteForever
+                                                className="absolute top-2 right-2 text-red-300 text-3xl cursor-pointer hover:text-white bg-black hover:bg-red-500 rounded-lg p-1"
+                                                onClick={() => {
+                                                    const updatedExercises = day.exercises.filter((_, index) => index !== 0);
+                                                    const updatedDays = [...workoutDays];
+                                                    updatedDays[dayIndex].exercises = updatedExercises;
+                                                    setWorkoutDays(updatedDays);
+                                                }}
+                                            />
+                                            <label className="text-[#f8bf58] uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-0`}>Exercise</label>
                                             <input
-                                                id={`sets-${dayIndex}-${exerciseIndex}`}
-                                                className={`rounded-lg p-2 text-center w-1/2 ${showWarning && exercise.sets <= 0 ? 'border-red-500' : ''}`}
-                                                type='number'
-                                                placeholder={exercise.isCardio ? 'Time in minutes' : 'Sets'}
-                                                value={exercise.sets}
-                                                onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'sets', parseInt(e.target.value) || 0)}
+                                                id={`exerciseName-${dayIndex}-0`}
+                                                className='rounded-lg p-2 text-center bg-slate-200 font-bold italic'
+                                                type='text'
+                                                placeholder="Exercise Name*"
+                                                value={day.exercises[0].name}
+                                                onChange={(e) => handleExerciseChange(dayIndex, 0, 'name', e.target.value)}
                                             />
+                                            <div className="flex gap-2 justify-center items-center text-xl mt-3 bg-black p-3 rounded-lg">
+                                                <span className="ml-2">
+                                                    {day.exercises[0].isCardio ? <MdDirectionsRun className="text-green-400 text-2xl" /> : <CgGym className="text-red-400 text-2xl" />}
+                                                </span>
+                                                <label className="text-[#f8bf58] uppercase font-bold text-md select-none">Cardio?</label>
+                                                <Switch
+                                                    checked={day.exercises[0].isCardio}
+                                                    onChange={() => handleExerciseChange(dayIndex, 0, 'isCardio', !day.exercises[0].isCardio)}
+                                                />
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <div className="flex flex-col w-1/2 justify-center items-center">
+                                                    <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`sets-${dayIndex}-0`}>
+                                                        {day.exercises[0].isCardio ? 'Time (min)' : 'Sets'}
+                                                    </label>
+                                                    <input
+                                                        id={`sets-${dayIndex}-0`}
+                                                        className='rounded-lg p-2 text-center w-1/2 $'
+                                                        type='number'
+                                                        placeholder={day.exercises[0].isCardio ? 'Time in minutes' : 'Sets'}
+                                                        value={day.exercises[0].sets}
+                                                        onChange={(e) => handleExerciseChange(dayIndex, 0, 'sets', parseInt(e.target.value) || 0)}
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col w-1/2 justify-center items-center">
+                                                    <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`reps-${dayIndex}-0`}>
+                                                        {day.exercises[0].isCardio ? 'Distance (km)' : 'Reps'}
+                                                    </label>
+                                                    <input
+                                                        id={`reps-${dayIndex}-0`}
+                                                        className='rounded-lg p-2 text-center w-1/2'
+                                                        type='number'
+                                                        placeholder={day.exercises[0].isCardio ? 'Distance in km' : 'Reps'}
+                                                        value={day.exercises[0].reps}
+                                                        onChange={(e) => handleExerciseChange(dayIndex, 0, 'reps', parseInt(e.target.value) || 0)}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <div className="flex flex-col w-1/2 justify-center items-center">
+                                                    <label className="text-[#f8bf58] uppercase font-bold text-md select-none text-center" htmlFor={`restTimeMinutes-${dayIndex}-0`}>Rest Time (Minutes)</label>
+                                                    <input
+                                                        id={`restTimeMinutes-${dayIndex}-0`}
+                                                        className="rounded-lg p-2 text-center w-1/2"
+                                                        type='number'
+                                                        placeholder="Rest Time Minutes"
+                                                        value={day.exercises[0].restTime.minutes}
+                                                        onChange={(e) => handleExerciseChange(dayIndex, 0, 'restTime', { ...day.exercises[0].restTime, minutes: parseInt(e.target.value) || 0 })}
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col w-1/2 justify-center items-center">
+                                                    <label className="text-[#f8bf58] uppercase text-center font-bold text-md select-none" htmlFor={`restTimeSeconds-${dayIndex}-0`}>Rest Time (Seconds)</label>
+                                                    <input
+                                                        id={`restTimeSeconds-${dayIndex}-0`}
+                                                        className="rounded-lg p-2 text-center w-1/2"
+                                                        type='number'
+                                                        placeholder="Rest Time Seconds"
+                                                        value={day.exercises[0].restTime.seconds}
+                                                        onChange={(e) => handleExerciseChange(dayIndex, 0, 'restTime', { ...day.exercises[0].restTime, seconds: parseInt(e.target.value) || 0 })}
+                                                    />
+                                                </div>
+                                            </div>
+                                            {!day.exercises[0].isCardio && (
+                                                <div className="flex gap-2 justify-center items-center text-xl mt-3 bg-black p-3 rounded-lg">
+                                                    <span className="ml-2">
+                                                        {day.exercises[0].barbell ? <IoBarbellOutline className="text-green-400 text-2xl" /> : <TbBarbellOff className="text-red-400 text-2xl" />}
+                                                    </span>
+                                                    <label className="text-[#f8bf58] uppercase font-bold text-md select-none">Barbell?</label>
+                                                    <Switch
+                                                        checked={day.exercises[0].barbell}
+                                                        onChange={() => handleExerciseChange(dayIndex, 0, 'barbell', !day.exercises[0].barbell)}
+                                                    />
+                                                </div>
+                                            )}
+                                            {day.exercises[0].barbell && (
+                                                <div className="flex gap-2 justify-center items-center">
+                                                    <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`barbellWeight-${dayIndex}-0`}>Barbell Weight</label>
+                                                    <input
+                                                        id={`barbellWeight-${dayIndex}-0`}
+                                                        className="rounded-lg p-2 text-center"
+                                                        type='number'
+                                                        placeholder="Barbell Weight"
+                                                        value={day.exercises[0].barbellWeight}
+                                                        onChange={(e) => handleExerciseChange(dayIndex, 0, 'barbellWeight', parseFloat(e.target.value) || 0)}
+                                                    />
+                                                </div>
+                                            )}
                                         </div>
-                                        <div className="flex flex-col w-1/2 justify-center items-center">
-                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`reps-${dayIndex}-${exerciseIndex}`}>
-                                                {exercise.isCardio ? 'Distance (km)' : 'Reps'}
-                                            </label>
-                                            <input
-                                                id={`reps-${dayIndex}-${exerciseIndex}`}
-                                                className={`rounded-lg p-2 text-center w-1/2 ${showWarning && exercise.reps <= 0 ? 'border-red-500' : ''}`}
-                                                type='number'
-                                                placeholder={exercise.isCardio ? 'Distance in km' : 'Reps'}
-                                                value={exercise.reps}
-                                                onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'reps', parseInt(e.target.value) || 0)}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="flex gap-2">
-                                        <div className="flex flex-col w-1/2 justify-center items-center">
-                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none text-center" htmlFor={`restTimeMinutes-${dayIndex}-${exerciseIndex}`}>Rest Time (Minutes)</label>
-                                            <input
-                                                id={`restTimeMinutes-${dayIndex}-${exerciseIndex}`}
-                                                className="rounded-lg p-2 text-center w-1/2"
-                                                type='number'
-                                                placeholder="Rest Time Minutes"
-                                                value={exercise.restTime.minutes}
-                                                onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'restTime', { ...exercise.restTime, minutes: parseInt(e.target.value) || 0 })}
-                                            />
-                                        </div>
-                                        <div className="flex flex-col w-1/2 justify-center items-center">
-                                            <label className="text-[#f8bf58] uppercase text-center font-bold text-md select-none" htmlFor={`restTimeSeconds-${dayIndex}-${exerciseIndex}`}>Rest Time (Seconds)</label>
-                                            <input
-                                                id={`restTimeSeconds-${dayIndex}-${exerciseIndex}`}
-                                                className="rounded-lg p-2 text-center w-1/2"
-                                                type='number'
-                                                placeholder="Rest Time Seconds"
-                                                value={exercise.restTime.seconds}
-                                                onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'restTime', { ...exercise.restTime, seconds: parseInt(e.target.value) || 0 })}
-                                            />
-                                        </div>
-                                    </div>
-                                    {!exercise.isCardio && (
-                                        <div className="flex gap-2 justify-center items-center text-xl mt-3 bg-black p-3 rounded-lg">
-                                            <span className="ml-2">
-                                                {exercise.barbell ? <IoBarbellOutline className="text-green-400 text-2xl" /> : <TbBarbellOff className="text-red-400 text-2xl" />}
-                                            </span>
-                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none">Barbell?</label>
-                                            <Switch
-                                                checked={exercise.barbell}
-                                                onChange={() => handleExerciseChange(dayIndex, exerciseIndex, 'barbell', !exercise.barbell)}
-                                            />
-                                        </div>
-                                    )}
-                                    {exercise.barbell && (
-                                        <div className="flex gap-2 justify-center items-center">
-                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`barbellWeight-${dayIndex}-${exerciseIndex}`}>Barbell Weight</label>
-                                            <input
-                                                id={`barbellWeight-${dayIndex}-${exerciseIndex}`}
-                                                className="rounded-lg p-2 text-center"
-                                                type='number'
-                                                placeholder="Barbell Weight"
-                                                value={exercise.barbellWeight}
-                                                onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'barbellWeight', parseFloat(e.target.value) || 0)}
-                                            />
-                                        </div>
+                                    ) : (
+                                        <Swiper
+                                            spaceBetween={10}
+                                            modules={[Scrollbar, Navigation]}
+                                            slidesPerView={1.1}
+                                            scrollbar={{ draggable: true }}
+                                            navigation
+                                            style={{ cursor: 'grab' }}
+                                        >
+                                            {day.exercises.map((exercise, exerciseIndex) => (
+                                                <SwiperSlide key={exerciseIndex}>
+                                                    <div className="flex flex-col gap-2 text-black bg-[#2b2a2a80] p-3 rounded-lg relative">
+                                                        <MdDeleteForever
+                                                            className="absolute top-2 right-2 text-red-300 text-3xl cursor-pointer hover:text-white bg-black hover:bg-red-500 rounded-lg p-1"
+                                                            onClick={() => {
+                                                                const updatedExercises = day.exercises.filter((_, index) => index !== exerciseIndex);
+                                                                const updatedDays = [...workoutDays];
+                                                                updatedDays[dayIndex].exercises = updatedExercises;
+                                                                setWorkoutDays(updatedDays);
+                                                            }}
+                                                        />
+                                                        <label className="text-[#f8bf58] uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-${exerciseIndex}`}>Exercise</label>
+                                                        <input
+                                                            id={`exerciseName-${dayIndex}-${exerciseIndex}`}
+                                                            className='rounded-lg p-2 text-center '
+                                                            type='text'
+                                                            placeholder="Exercise Name"
+                                                            value={exercise.name}
+                                                            onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'name', e.target.value)}
+                                                        />
+                                                        <div className="flex gap-2 justify-center items-center text-xl mt-3 bg-black p-3 rounded-lg">
+                                                            <span className="ml-2">
+                                                                {exercise.isCardio ? <MdDirectionsRun className="text-green-400 text-2xl" /> : <CgGym className="text-red-400 text-2xl" />}
+                                                            </span>
+                                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none">Cardio?</label>
+                                                            <Switch
+                                                                checked={exercise.isCardio}
+                                                                onChange={() => handleExerciseChange(dayIndex, exerciseIndex, 'isCardio', !exercise.isCardio)}
+                                                            />
+                                                        </div>
+                                                        <div className="flex gap-2">
+                                                            <div className="flex flex-col w-1/2 justify-center items-center">
+                                                                <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`sets-${dayIndex}-${exerciseIndex}`}>
+                                                                    {exercise.isCardio ? 'Time (min)' : 'Sets'}
+                                                                </label>
+                                                                <input
+                                                                    id={`sets-${dayIndex}-${exerciseIndex}`}
+                                                                    className='rounded-lg p-2 text-center w-1/2 $'
+                                                                    type='number'
+                                                                    placeholder={exercise.isCardio ? 'Time in minutes' : 'Sets'}
+                                                                    value={exercise.sets}
+                                                                    onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'sets', parseInt(e.target.value) || 0)}
+                                                                />
+                                                            </div>
+                                                            <div className="flex flex-col w-1/2 justify-center items-center">
+                                                                <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`reps-${dayIndex}-${exerciseIndex}`}>
+                                                                    {exercise.isCardio ? 'Distance (km)' : 'Reps'}
+                                                                </label>
+                                                                <input
+                                                                    id={`reps-${dayIndex}-${exerciseIndex}`}
+                                                                    className='rounded-lg p-2 text-center w-1/2'
+                                                                    type='number'
+                                                                    placeholder={exercise.isCardio ? 'Distance in km' : 'Reps'}
+                                                                    value={exercise.reps}
+                                                                    onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'reps', parseInt(e.target.value) || 0)}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex gap-2">
+                                                            <div className="flex flex-col w-1/2 justify-center items-center">
+                                                                <label className="text-[#f8bf58] uppercase font-bold text-md select-none text-center" htmlFor={`restTimeMinutes-${dayIndex}-${exerciseIndex}`}>Rest Time (Minutes)</label>
+                                                                <input
+                                                                    id={`restTimeMinutes-${dayIndex}-${exerciseIndex}`}
+                                                                    className="rounded-lg p-2 text-center w-1/2"
+                                                                    type='number'
+                                                                    placeholder="Rest Time Minutes"
+                                                                    value={exercise.restTime.minutes}
+                                                                    onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'restTime', { ...exercise.restTime, minutes: parseInt(e.target.value) || 0 })}
+                                                                />
+                                                            </div>
+                                                            <div className="flex flex-col w-1/2 justify-center items-center">
+                                                                <label className="text-[#f8bf58] uppercase text-center font-bold text-md select-none" htmlFor={`restTimeSeconds-${dayIndex}-${exerciseIndex}`}>Rest Time (Seconds)</label>
+                                                                <input
+                                                                    id={`restTimeSeconds-${dayIndex}-${exerciseIndex}`}
+                                                                    className="rounded-lg p-2 text-center w-1/2"
+                                                                    type='number'
+                                                                    placeholder="Rest Time Seconds"
+                                                                    value={exercise.restTime.seconds}
+                                                                    onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'restTime', { ...exercise.restTime, seconds: parseInt(e.target.value) || 0 })}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        {!exercise.isCardio && (
+                                                            <div className="flex gap-2 justify-center items-center text-xl mt-3 bg-black p-3 rounded-lg">
+                                                                <span className="ml-2">
+                                                                    {exercise.barbell ? <IoBarbellOutline className="text-green-400 text-2xl" /> : <TbBarbellOff className="text-red-400 text-2xl" />}
+                                                                </span>
+                                                                <label className="text-[#f8bf58] uppercase font-bold text-md select-none">Barbell?</label>
+                                                                <Switch
+                                                                    checked={exercise.barbell}
+                                                                    onChange={() => handleExerciseChange(dayIndex, exerciseIndex, 'barbell', !exercise.barbell)}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                        {exercise.barbell && (
+                                                            <div className="flex gap-2 justify-center items-center">
+                                                                <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`barbellWeight-${dayIndex}-${exerciseIndex}`}>Barbell Weight</label>
+                                                                <input
+                                                                    id={`barbellWeight-${dayIndex}-${exerciseIndex}`}
+                                                                    className="rounded-lg p-2 text-center"
+                                                                    type='number'
+                                                                    placeholder="Barbell Weight"
+                                                                    value={exercise.barbellWeight}
+                                                                    onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'barbellWeight', parseFloat(e.target.value) || 0)}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </SwiperSlide>
+                                            ))}
+                                        </Swiper>
                                     )}
                                 </div>
-                            ))}
+                            )}
                             <AddRemoveButton text="Add Exercise" onClick={() => {
                                 const updatedDays = [...workoutDays];
                                 const newExerciseIndex = updatedDays[dayIndex].exercises.length;

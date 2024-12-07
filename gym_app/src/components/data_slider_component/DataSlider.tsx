@@ -13,13 +13,14 @@ import { TrainingData } from '@/src/type/TrainingData.type';
 import { bodyCheckService } from '@/src/services/body-check.services';
 import { dietService } from '@/src/services/diet.services';
 import { trainingCardService } from '@/src/services/training-card.services';
+import { BodyCheckData } from '@/src/type/BodyCheckData.type';
 
 type DataSliderProps = DataSliderType & {
     onNewBodyCheck: (() => void);
     onNewDiet: (() => void);
     onRemoveDiet: (() => void);
     onRemoveTraining: (() => void);
-    onUpdateSelectedData: ((selectedData: DietData) => void) | ((selectedData: TrainingData) => void);
+    onUpdateSelectedData: ((selectedData: DietData | BodyCheckData | TrainingData) => void);
     onNewTraining: (() => void);
 };
 
