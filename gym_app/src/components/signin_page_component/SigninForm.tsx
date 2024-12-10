@@ -10,7 +10,7 @@ import { FaMale, FaFemale } from "react-icons/fa";
 import { userService } from "../../services/user.services";
 import Toast from "../reusable_components/Toast";
 
-export default function LoginForm() {
+export default function SigninForm() {
 
     const [bodyCheckImageIsMan, setBodyCheckImageIsMan] = useState(true);
     const [userData, setUserData] = useState({
@@ -32,6 +32,8 @@ export default function LoginForm() {
 
     const [isFormValid, setIsFormValid] = useState(false);
     const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastColor, setToastColor] = useState<'green' | 'red'>('green');
 
     useEffect(() => {
         const newErrors = {
@@ -57,25 +59,29 @@ export default function LoginForm() {
             const result = await userService.createNewUser(userData);
             if (result) {
                 console.log('User created successfully:', result.createdUser);
-                setShowToast(true);
+                setToastMessage('Successfully registered');
+                setToastColor('green');
                 window.location.href = '/profile';
                 localStorage.setItem('activePage', 'profile');
                 setTimeout(() => setShowToast(false), 3000);
             } else {
-                console.error('Failed to create user');
+                setToastMessage('Email already exists');
+                setToastColor('red');
             }
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 3000);
         } catch (error) {
             console.error('Error during user creation:', error);
+            setToastMessage('Error during user creation');
+            setToastColor('red');
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 3000);
         }
     };
 
     return (
         <div className="bg-black flex flex-col p-5 rounded-lg">
-            {
-                showToast ?
-                    <Toast message="Successful registration" color="green" /> :
-                    null
-            }
+            {showToast && <Toast message={toastMessage} color={toastColor} />}
             <SectionTitle title="signin" />
             <div className="flex flex-col">
                 <div className="flex flex-col md:flex-row gap-3">

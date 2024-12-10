@@ -1,4 +1,3 @@
-
 import { UserData } from "../type/UserData.type";
 import FetchFunction from "./FetchFunction";
 
@@ -14,7 +13,7 @@ class UserService {
         const data = {
             firstName: userData.firstName,
             lastName: userData.lastName,
-            email: userData.email,
+            email: userData.email.toLowerCase(),
             password: userData.password,
             gender: userData.gender
         }
@@ -22,6 +21,9 @@ class UserService {
             const res = await FetchFunction(this.USER_BE_URL, 'POST', data);
 
             if (!res.ok) {
+                if (res.error.status === 400) {
+                    return null;
+                }
                 throw new Error('Error during the user creation');
             }
 
