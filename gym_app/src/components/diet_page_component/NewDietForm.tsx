@@ -44,7 +44,7 @@ export default function NewDietForm({ onClose, onNewDiet }: NewDietFormProps) {
         };
 
         try {
-            await dietService.createNewDiet(dietData)
+            await dietService.createNewDiet(dietData, Number(localStorage.getItem('userId')));
             onNewDiet();
             onClose();
         } catch (error) {

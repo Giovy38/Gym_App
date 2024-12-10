@@ -20,6 +20,7 @@ export default async function FetchFunction<T>(url: string, method: MethodType, 
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: method !== 'GET' && body ? JSON.stringify(body) : undefined,
     };
 

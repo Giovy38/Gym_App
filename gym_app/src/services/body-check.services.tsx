@@ -7,8 +7,9 @@ class BodyCheckService {
     private BODY_CHECK_BE_URL = 'http://localhost:3001/body-check';
 
 
-    async createBodyCheck(data: BodyCheckData): Promise<void> {
-        FetchFunction(this.BODY_CHECK_BE_URL, 'POST', data);
+    async createBodyCheck(data: BodyCheckData, userId: number): Promise<void> {
+        const bodyCheckDataWithUser = { ...data, userId };
+        FetchFunction(this.BODY_CHECK_BE_URL, 'POST', bodyCheckDataWithUser);
     }
 
     async deleteBodyCheck(id: number): Promise<BodyCheckData[]> {
@@ -39,9 +40,9 @@ class BodyCheckService {
         }
     }
 
-    async getBodyChecks(): Promise<BodyCheckData[]> {
+    async getBodyChecks(userId: number): Promise<BodyCheckData[]> {
         try {
-            const res = await FetchFunction(this.BODY_CHECK_BE_URL, 'GET', {});
+            const res = await FetchFunction(`${this.BODY_CHECK_BE_URL}?userId=${userId}`, 'GET', {});
             if (!res.ok) {
                 throw new Error('Error during body check loading');
             }

@@ -44,7 +44,7 @@ export default function BodyCheckPage() {
 
     const fetchData = async () => {
         try {
-            const data = await bodyCheckService.getBodyChecks();
+            const data = await bodyCheckService.getBodyChecks(Number(localStorage.getItem('userId')));
             setBodyChecks(data);
             if (data.length > 0) {
                 setLatestCheck(data[data.length - 1]);

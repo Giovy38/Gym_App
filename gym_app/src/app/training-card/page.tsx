@@ -11,6 +11,8 @@ import { TrainingData } from "@/src/type/TrainingData.type";
 import { GiWeightLiftingUp } from "react-icons/gi";
 import { trainingCardService } from "@/src/services/training-card.services";
 import LoginPage from '@/src/app/login/page';
+import { BodyCheckData } from "@/src/type/BodyCheckData.type";
+import { DietData } from "@/src/type/DietData.type";
 
 export default function TrainingCardPage() {
 
@@ -25,8 +27,12 @@ export default function TrainingCardPage() {
         console.log('selectedData', selectedData);
     };
 
-    const handleUpdateSelectedData = (selectedData: TrainingData) => {
-        setLatestTraining(selectedData);
+    const handleUpdateSelectedData = (selectedData: TrainingData | BodyCheckData | DietData) => {
+        if ('workoutDays' in selectedData) {
+            setLatestTraining(selectedData as TrainingData);
+        } else {
+            setLatestTraining(null);
+        }
     };
 
     useEffect(() => {
@@ -38,7 +44,7 @@ export default function TrainingCardPage() {
 
     const fetchData = async () => {
         try {
-            const data: TrainingData[] = await trainingCardService.getTrainings();
+            const data: TrainingData[] = await trainingCardService.getTrainings(Number(localStorage.getItem('userId')));
             setTrainings(data);
             if (data.length > 0) {
                 setLatestTraining(data[data.length - 1]);

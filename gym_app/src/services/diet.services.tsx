@@ -6,8 +6,9 @@ class DietService {
     // backend url 
     private DIET_BE_URL = 'http://localhost:3001/diet';
 
-    async createNewDiet(data: DietData): Promise<void> {
-        FetchFunction(this.DIET_BE_URL, 'POST', data);
+    async createNewDiet(data: DietData, userId: number): Promise<void> {
+        const dietDataWithUser = { ...data, userId };
+        FetchFunction(this.DIET_BE_URL, 'POST', dietDataWithUser);
     }
 
     async addDietItem(id: number, day: string, meal: string, newItem: string, newQuantity: string): Promise<DietData | null> {
@@ -54,9 +55,9 @@ class DietService {
         }
     }
 
-    async getDiets(): Promise<DietData[]> {
+    async getDiets(userId: number): Promise<DietData[]> {
         try {
-            const res = await FetchFunction(this.DIET_BE_URL, 'GET', {});
+            const res = await FetchFunction(`${this.DIET_BE_URL}?userId=${userId}`, 'GET', {});
             if (!res.ok) {
                 throw new Error('Error during diet loading');
             }

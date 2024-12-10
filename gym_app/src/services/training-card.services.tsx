@@ -26,9 +26,11 @@ class TrainingCardService {
         }
     }
 
-    async createNewTrainingCard(data: TrainingData): Promise<void> {
+    async createNewTrainingCard(data: TrainingData, userId: number): Promise<void> {
         try {
-            await FetchFunction(this.TRAINING_CARD_BE_URL, 'POST', data);
+            const trainingDataWithUser = { ...data, userId };
+            await FetchFunction(this.TRAINING_CARD_BE_URL, 'POST', trainingDataWithUser);
+            console.log('Training card created successfully', trainingDataWithUser);
         } catch (error) {
             console.error('Error during the training card creation:', error);
         }
@@ -138,11 +140,11 @@ class TrainingCardService {
         }
     }
 
-    async getTrainings(): Promise<TrainingData[]> {
+    async getTrainings(userId: number): Promise<TrainingData[]> {
         try {
-            const res = await FetchFunction(this.TRAINING_CARD_BE_URL, 'GET', {});
+            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}?userId=${userId}`, 'GET', {});
             if (!res.ok) {
-                throw new Error('Error during training fetch')
+                throw new Error('Error during training fetch');
             }
             const data: TrainingData[] = await res.value.json();
             return Array.isArray(data) ? data : [];

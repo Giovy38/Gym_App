@@ -69,7 +69,7 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
         };
 
         try {
-            await bodyCheckService.createBodyCheck(bodyCheckData);
+            await bodyCheckService.createBodyCheck(bodyCheckData, Number(localStorage.getItem('userId')));
             onNewBodyCheck();
             onClose();
 

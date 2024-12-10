@@ -9,6 +9,8 @@ import { DietData } from "@/src/type/DietData.type"
 import { useEffect, useState } from "react"
 import { FaBowlFood } from "react-icons/fa6";
 import LoginPage from "../login/page"
+import { BodyCheckData } from "@/src/type/BodyCheckData.type"
+import { TrainingData } from "@/src/type/TrainingData.type"
 
 
 export default function DietPage() {
@@ -24,8 +26,10 @@ export default function DietPage() {
         console.log('selectedData', selectedData);
     };
 
-    const handleUpdateSelectedData = (selectedData: DietData) => {
-        setLatestDiet(selectedData);
+    const handleUpdateSelectedData = (selectedData: DietData | BodyCheckData | TrainingData) => {
+        if ('monday' in selectedData) {
+            setLatestDiet(selectedData as DietData);
+        }
     };
 
     useEffect(() => {
@@ -37,7 +41,7 @@ export default function DietPage() {
 
     const fetchData = async () => {
         try {
-            const data = await dietService.getDiets();
+            const data = await dietService.getDiets(Number(localStorage.getItem('userId')));
             setDiets(data);
             if (data.length > 0) {
                 setLatestDiet(data[data.length - 1]);
