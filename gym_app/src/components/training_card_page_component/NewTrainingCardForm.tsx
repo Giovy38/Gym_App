@@ -71,7 +71,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
         };
 
         try {
-            await trainingCardService.createNewTrainingCard(trainingData, Number(localStorage.getItem('userId')))
+            await trainingCardService.createNewTrainingCard(trainingData)
             onNewTraining();
             onClose();
         } catch (error) {

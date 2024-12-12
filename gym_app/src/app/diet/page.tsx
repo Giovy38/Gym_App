@@ -41,7 +41,7 @@ export default function DietPage() {
 
     const fetchData = async () => {
         try {
-            const data = await dietService.getDiets(Number(localStorage.getItem('userId')));
+            const data = await dietService.getDiets();
             setDiets(data);
             if (data.length > 0) {
                 setLatestDiet(data[data.length - 1]);
