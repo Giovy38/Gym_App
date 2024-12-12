@@ -74,7 +74,7 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
             onClose();
 
         } catch (error) {
-            console.error('Errore durante l\'aggiunta del body check:', error);
+            console.error('Error during body check creation:', error);
         }
     };
 

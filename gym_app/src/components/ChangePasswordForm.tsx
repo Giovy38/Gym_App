@@ -3,10 +3,11 @@ import InputText from './reusable_components/InputText';
 import { UserData } from '../type/UserData.type';
 import Toast from './reusable_components/Toast';
 import { userService } from '../services/user.services';
+import { useUser } from '../context/UserProvider';
 
 export default function ChangePasswordForm({ onClose }: { onClose: () => void, userData: UserData }) {
 
-    const userId = localStorage.getItem('userId');
+
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -19,6 +20,7 @@ export default function ChangePasswordForm({ onClose }: { onClose: () => void, u
     const [isFormValid, setIsFormValid] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [toastColor, setToastColor] = useState<'green' | 'red'>('green');
+    const user = useUser();
 
     useEffect(() => {
         const newErrors = {
@@ -42,10 +44,9 @@ export default function ChangePasswordForm({ onClose }: { onClose: () => void, u
     const handleChangePassword = async () => {
         if (!isFormValid) return;
 
-        if (userId) {
-            const userIdNumber = Number(userId);
+        if (user) {
             try {
-                const updatedUser = await userService.editUserPassword(userIdNumber, currentPassword, newPassword);
+                const updatedUser = await userService.editUserPassword(user.id, currentPassword, newPassword);
                 if (updatedUser) {
                     setToastMessage('Password changed');
                     setToastColor('green');

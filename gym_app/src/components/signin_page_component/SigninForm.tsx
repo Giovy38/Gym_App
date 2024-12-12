@@ -61,7 +61,7 @@ export default function SigninForm() {
                 console.log('User created successfully:', result.createdUser);
                 setToastMessage('Successfully registered');
                 setToastColor('green');
-                window.location.href = '/profile';
+                window.location.href = '/login';
                 localStorage.setItem('activePage', 'profile');
                 setTimeout(() => setShowToast(false), 3000);
             } else {

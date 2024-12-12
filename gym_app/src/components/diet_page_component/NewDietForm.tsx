@@ -48,7 +48,7 @@ export default function NewDietForm({ onClose, onNewDiet }: NewDietFormProps) {
             onNewDiet();
             onClose();
         } catch (error) {
-            console.error('Errore durante l\'aggiunta della dieta:', error);
+            console.error('Error during diet creation:', error);
         }
     };
 

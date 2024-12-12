@@ -75,7 +75,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
             onNewTraining();
             onClose();
         } catch (error) {
-            console.error('Errore durante l\'aggiunta del training:', error);
+            console.error('Error during training card creation:', error);
         }
     };
 

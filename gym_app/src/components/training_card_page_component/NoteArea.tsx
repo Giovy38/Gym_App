@@ -25,10 +25,10 @@ export default function NoteArea({ exercise, latestTraining, index }: { exercise
             try {
                 const result = await trainingCardService.addNewNote(latestTraining.id, index, newNote)
                 if (!result) {
-                    console.error('Errore durante l\'aggiunta della nota al database');
+                    console.error('Error during note addition');
                 }
             } catch (error) {
-                console.error('Errore durante l\'aggiunta della nota:', error);
+                console.error('Error during note addition', error);
             }
         }
     };
@@ -37,12 +37,12 @@ export default function NoteArea({ exercise, latestTraining, index }: { exercise
         try {
             const result = await trainingCardService.deleteNote(latestTraining.id, index, noteIndex)
             if (!result) {
-                console.error('Errore durante la cancellazione della nota nel database');
+                console.error('Error during note deletion');
             } else {
                 setNotes(notes.filter((_, i) => i !== noteIndex));
             }
         } catch (error) {
-            console.error('Errore durante la cancellazione della nota:', error);
+            console.error('Error during note deletion', error);
         }
     };
 
@@ -50,12 +50,12 @@ export default function NoteArea({ exercise, latestTraining, index }: { exercise
         try {
             const result = await trainingCardService.editNote(latestTraining.id, index, notes[noteIndex], noteIndex);
             if (!result) {
-                console.error('Errore durante la modifica della nota nel database');
+                console.error('Error during note editing');
             } else {
                 setEditIndex(null);
             }
         } catch (error) {
-            console.error('Errore durante la modifica della nota:', error);
+            console.error('Error during note editing', error);
         }
     };
 

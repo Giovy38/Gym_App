@@ -23,6 +23,8 @@ export default function LoginForm() {
             if (result) {
                 setToastMessage('Login successful!');
                 setToastColor('green');
+                window.location.href = '/';
+                localStorage.setItem('activePage', 'home');
             } else {
                 setToastMessage('email or password incorrect');
                 setToastColor('red');

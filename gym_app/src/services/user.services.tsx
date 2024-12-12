@@ -50,6 +50,37 @@ class UserService {
         }
     }
 
+    async getUserInfo(): Promise<UserData | null> {
+        try {
+            const res = await FetchFunction(`${this.USER_BE_URL}/about-me`, 'GET', {});
+
+            console.log('cookies presenti', document.cookie);
+
+            if (!res.ok) {
+                console.log('dettagli errore: ', {
+                    status: res.error.status,
+                    statusText: res.error.statusText,
+                    headers: [...res.error.headers.entries()]
+                });
+
+                try {
+                    const errorBody = await res.error.json();
+                    console.log('dettagli errore: ', errorBody);
+                } catch (error) {
+                    console.error('Errore durante il parsing del corpo dell\'errore:', error);
+                }
+
+                return null;
+            }
+
+            const data = await res.value.json();
+            return data;
+        } catch (error) {
+            console.error('Error during the user info fetching:', error);
+            return null;
+        }
+    }
+
     async getUserById(id: number): Promise<UserData | null> {
         try {
             const res = await FetchFunction(`${this.USER_BE_URL}/${id}`, 'GET', {});
@@ -115,8 +146,6 @@ class UserService {
             if (res.ok) {
                 console.log('login ok ', res);
                 const data: { message: string, userId: number } = await res.value.json();
-                localStorage.setItem('isLogged', 'true');
-                localStorage.setItem('userId', data.userId.toString());
                 window.location.reload();
                 return data;
             }
@@ -141,7 +170,6 @@ class UserService {
             const res = await FetchFunction(`${this.LOGOUT_BE_URL}`, 'POST', {});
             if (res.ok) {
                 const data: { message: string } = await res.value.json();
-                localStorage.removeItem('isLogged');
                 setTimeout(() => window.location.reload(), 2000);
                 return data;
             }

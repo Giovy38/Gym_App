@@ -43,16 +43,16 @@ export default function Navbar() {
                     <Link href='/' className="w-full" onClick={() => handleLinkClick('home')}>
                         <NavbarButton title="home" Icon={FaHome} isActive={activePage === 'home'} />
                     </Link>
-                    <Link href='/training-card' className="w-full" onClick={() => handleLinkClick('training-card')}>
+                    <Link href='/user/training-card' className="w-full" onClick={() => handleLinkClick('training-card')}>
                         <NavbarButton title="training card" Icon={CgGym} isActive={activePage === 'training-card'} />
                     </Link>
-                    <Link href='/body-check' className="w-full" onClick={() => handleLinkClick('body-check')}>
+                    <Link href='/user/body-check' className="w-full" onClick={() => handleLinkClick('body-check')}>
                         <NavbarButton title="body check" Icon={IoBody} isActive={activePage === 'body-check'} />
                     </Link>
-                    <Link href='/diet' className="w-full" onClick={() => handleLinkClick('diet')}>
+                    <Link href='/user/diet' className="w-full" onClick={() => handleLinkClick('diet')}>
                         <NavbarButton title="diet" Icon={FaBowlFood} isActive={activePage === 'diet'} />
                     </Link>
-                    <Link href='/profile' className="w-full" onClick={() => handleLinkClick('profile')}>
+                    <Link href='/user/profile' className="w-full" onClick={() => handleLinkClick('profile')}>
                         <NavbarButton title="profile" Icon={FaUserCircle} isActive={activePage === 'profile'} />
                     </Link>
                 </div>
@@ -76,22 +76,22 @@ export default function Navbar() {
                             <NavbarButton title="home" Icon={FaHome} isActive={activePage === 'home'} />
                         </div>
                     </Link>
-                    <Link href='/training-card' onClick={() => handleLinkClick('training-card')} className="w-full mb-4">
+                    <Link href='/user/training-card' onClick={() => handleLinkClick('training-card')} className="w-full mb-4">
                         <div className="bg-[#d79418] w-full text-center py-2 rounded-2xl ">
                             <NavbarButton title="training card" Icon={CgGym} isActive={activePage === 'training-card'} />
                         </div>
                     </Link>
-                    <Link href='/body-check' onClick={() => handleLinkClick('body-check')} className="w-full mb-4">
+                    <Link href='/user/body-check' onClick={() => handleLinkClick('body-check')} className="w-full mb-4">
                         <div className="bg-[#d79418] w-full text-center py-2 rounded-2xl ">
                             <NavbarButton title="body check" Icon={IoBody} isActive={activePage === 'body-check'} />
                         </div>
                     </Link>
-                    <Link href='/diet' onClick={() => handleLinkClick('diet')} className="w-full mb-4">
+                    <Link href='/user/diet' onClick={() => handleLinkClick('diet')} className="w-full mb-4">
                         <div className="bg-[#d79418] w-full text-center py-2 rounded-2xl ">
                             <NavbarButton title="diet" Icon={FaBowlFood} isActive={activePage === 'diet'} />
                         </div>
                     </Link>
-                    <Link href='/profile' onClick={() => handleLinkClick('profile')} className="w-full mb-4">
+                    <Link href='/user/profile' onClick={() => handleLinkClick('profile')} className="w-full mb-4">
                         <div className="bg-[#d79418] w-full text-center py-2 rounded-2xl ">
                             <NavbarButton title="profile" Icon={FaUserCircle} isActive={activePage === 'profile'} />
                         </div>
