@@ -37,11 +37,11 @@ export default function SigninForm() {
 
     useEffect(() => {
         const newErrors = {
-            firstName: userData.firstName.length < 2 && userData.firstName !== '' ? 'Must be at least 2 characters' : '',
-            lastName: userData.lastName.length < 2 && userData.lastName !== '' ? 'Must be at least 2 characters' : '',
+            firstName: userData.firstName.trim().length < 2 ? 'Must be at least 2 characters' : '',
+            lastName: userData.lastName.trim().length < 2 ? 'Must be at least 2 characters' : '',
             email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.email) ? '' : 'Invalid email format',
-            password: userData.password.length < 8 && userData.password !== '' ? 'Password must be at least 8 characters' : '',
-            confirmPassword: userData.password !== userData.confirmPassword && userData.confirmPassword !== '' ? 'Passwords do not match' : ''
+            password: userData.password.trim().length < 8 ? 'Password must be at least 8 characters' : '',
+            confirmPassword: userData.password !== userData.confirmPassword ? 'Passwords do not match' : ''
         };
         setErrors(newErrors);
         setIsFormValid(Object.values(newErrors).every(error => error === ''));

@@ -25,7 +25,6 @@ export default function ProfilePage() {
             await userService.userLogout();
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000);
-            localStorage.removeItem('userId');
         } catch (error) {
             console.error('Error during the user logout:', error);
         }
@@ -36,7 +35,6 @@ export default function ProfilePage() {
             try {
                 await userService.deleteUser(userData.id);
                 await userService.userLogout();
-                localStorage.removeItem('userId');
                 setShowDeleteToast(true);
                 setTimeout(() => setShowDeleteToast(false), 3000);
             } catch (error) {

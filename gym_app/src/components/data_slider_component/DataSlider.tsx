@@ -49,13 +49,16 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
         switch (dataPage) {
             case 'body':
                 bodyCheckService.deleteBodyCheck(id);
+                window.location.reload();
                 break;
             case 'diet':
                 dietService.deleteDiet(id);
                 onRemoveDiet();
+                window.location.reload();
                 break;
             case 'training':
                 trainingCardService.deleteTrainingCard(id);
+                window.location.reload();
                 break;
         }
     };

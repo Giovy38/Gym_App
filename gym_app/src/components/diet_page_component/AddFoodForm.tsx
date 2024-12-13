@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { DietData } from '@/src/type/DietData.type';
 import { dietService } from '@/src/services/diet.services';
+import BlueButton from '../reusable_components/BlueButton';
+import AddRemoveButton from '../reusable_components/AddRemoveButton';
 
 
 interface AddFoodFormProps {
@@ -31,7 +33,6 @@ export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initial
                 if (res) {
                     onAdd(food, quantity);
                 }
-
             }
         };
     }
@@ -73,16 +74,13 @@ export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initial
                 />
                 <div className="flex justify-center gap-2">
                     {(initialFood || initialQuantity) ?
-                        <button onClick={handleEdit} className='bg-blue-500 text-white p-2 rounded w-1/2'>
-                            Edit
-                        </button> : <button onClick={handleAdd} className='bg-green-500 text-white p-2 rounded w-1/2'>
-                            Add
-                        </button>
+                        <BlueButton text="Edit" onClick={handleEdit} disabled={!food || !quantity} />
+                        :
+                        <AddRemoveButton text="Add" onClick={handleAdd} isAdd={true} disabled={!food || !quantity} />
                     }
 
-                    <button onClick={onCancel} className="bg-red-500 text-white p-2 rounded w-1/2">
-                        Cancel
-                    </button>
+
+                    <AddRemoveButton text="Cancel" onClick={onCancel} isAdd={false} disabled={!food || !quantity} />
                 </div>
             </div>
         </div>
