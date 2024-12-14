@@ -2,7 +2,7 @@
 
 import DataSlider from "@/src/components/data_slider_component/DataSlider"
 import Accordion from "@/src/components/diet_page_component/Accordion"
-import AddItemButton from "@/src/components/diet_page_component/AddItemButton"
+// import AddItemButton from "@/src/components/diet_page_component/AddItemButton"
 import SectionTitle from "@/src/components/reusable_components/SectionTitle"
 import { dietService } from "@/src/services/diet.services"
 import { DietData } from "@/src/type/DietData.type"
@@ -10,6 +10,7 @@ import { useEffect, useState } from "react"
 import { FaBowlFood } from "react-icons/fa6";
 import { BodyCheckData } from "@/src/type/BodyCheckData.type"
 import { TrainingData } from "@/src/type/TrainingData.type"
+import AddItemButtonSlider from "@/src/components/diet_page_component/AddItemButtonSlider"
 
 
 export default function DietPage() {
@@ -58,7 +59,7 @@ export default function DietPage() {
     const meals = ['breakfast', 'snack', 'lunch', 'snack 2', 'dinner'];
 
     return (
-        <div className="min-h-[82vh] flex flex-col justify-start xl:items-center gap-3 p-5">
+        <div className="min-h-screen w-full flex flex-col justify-start xl:items-center gap-3 p-5">
             <SectionTitle title="Diet page" />
             <DataSlider
                 dataPage='diet'
@@ -78,29 +79,25 @@ export default function DietPage() {
                     <FaBowlFood className="text-5xl text-[#f8bf58] animate-bounce" />
                 </div>
             ) : (
-                <>
+                <div className="flex flex-col justify-start items-center p-5 gap-3 w-full">
                     {daysOfWeek.map((day) => (
                         <Accordion
                             key={day}
                             accordionTitle={day.charAt(0).toUpperCase() + day.slice(1)}
-                            buttons={
-                                <>
-                                    {meals.map((meal) => (
-                                        <AddItemButton
-                                            key={meal}
-                                            title={meal}
-                                            latestDiet={diets[diets.length - 1]}
-                                            dayOfWeek={day}
-                                            meal={meal}
-                                            diets={diets}
-                                            selectedDiet={latestDiet}
-                                        />
-                                    ))}
-                                </>
-                            }
+                            buttons={meals.map((meal) => (
+                                <AddItemButtonSlider
+                                    key={meal}
+                                    title={meal}
+                                    latestDiet={diets[diets.length - 1]}
+                                    dayOfWeek={day}
+                                    meal={meal}
+                                    diets={diets}
+                                    selectedDiet={latestDiet}
+                                />
+                            ))}
                         />
                     ))}
-                </>
+                </div>
             )}
         </div>
     )

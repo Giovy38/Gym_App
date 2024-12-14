@@ -55,8 +55,8 @@ export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initial
     }
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-black p-4 shadow-md rounded-lg w-2/3 xl:w-1/5 shadow-[#f8bf58]">
+        <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="bg-black p-4 shadow-md rounded-lg w-5/6 xl:w-2/5 shadow-[#f8bf58]">
                 <h3 className="text-center text-2xl font-bold uppercase mb-2 text-[#f8bf58]" >Add new Meal</h3>
                 <input
                     type="text"

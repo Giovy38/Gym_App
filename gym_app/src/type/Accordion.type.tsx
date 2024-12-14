@@ -1,5 +1,5 @@
 
 export type AccordionType = {
     accordionTitle: string
-    buttons: React.ReactNode
+    buttons: React.ReactNode[]
 }
