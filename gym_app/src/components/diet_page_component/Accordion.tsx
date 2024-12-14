@@ -4,9 +4,10 @@ import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { AccordionType } from "@/src/type/Accordion.type";
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Scrollbar, Navigation } from "swiper/modules";
 import 'swiper/css';
-import { Scrollbar } from "swiper/modules";
-import { Navigation } from "swiper/modules";
+import 'swiper/css/navigation';
+import 'swiper/css/scrollbar';
 
 
 
@@ -53,8 +54,14 @@ export default function Accordion({ accordionTitle, buttons }: AccordionType) {
                         spaceBetween={10}
                         modules={[Scrollbar, Navigation]}
                         slidesPerView={1.1}
-                        scrollbar={{ draggable: true }}
-                        navigation
+                        scrollbar={{
+                            el: '.custom-scrollbar',
+                            draggable: true,
+                        }}
+                        navigation={{
+                            nextEl: '.custom-next',
+                            prevEl: '.custom-prev',
+                        }}
                         style={{ cursor: 'grab', width: '100%' }}
                     >
                         {buttons.map((button, index) => (
@@ -62,6 +69,13 @@ export default function Accordion({ accordionTitle, buttons }: AccordionType) {
                                 {button}
                             </SwiperSlide>
                         ))}
+
+                        <div className="custom-next swiper-button-next !text-[#f8bf58]"></div>
+                        <div className="custom-prev swiper-button-prev !text-[#f8bf58] "></div>
+
+                        <div className="custom-scrollbar swiper-scrollbar !bg-black">
+                            <div className="swiper-scrollbar-drag !bg-[#f8bf58] rounded"></div>
+                        </div>
                     </Swiper>
                 </div>
             )}

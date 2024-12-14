@@ -11,6 +11,9 @@ import Switch from "../reusable_components/Switch";
 import { trainingCardService } from "@/src/services/training-card.services";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/scrollbar';
 import { Scrollbar, Navigation } from "swiper/modules";
 import PlusButton from "../reusable_components/PlusButton";
 import BlueButton from "../reusable_components/BlueButton";
@@ -265,8 +268,14 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                             spaceBetween={10}
                                             modules={[Scrollbar, Navigation]}
                                             slidesPerView={1.1}
-                                            scrollbar={{ draggable: true }}
-                                            navigation
+                                            scrollbar={{
+                                                el: '.custom-scrollbar',
+                                                draggable: true
+                                            }}
+                                            navigation={{
+                                                nextEl: '.custom-next',
+                                                prevEl: '.custom-prev'
+                                            }}
                                             style={{ cursor: 'grab' }}
                                         >
                                             {day.exercises.map((exercise, exerciseIndex) => (
@@ -388,6 +397,13 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                     </div>
                                                 </SwiperSlide>
                                             ))}
+
+                                            <div className="custom-next swiper-button-next !text-[#f8bf58]"></div>
+                                            <div className="custom-prev swiper-button-prev !text-[#f8bf58] "></div>
+
+                                            <div className="custom-scrollbar swiper-scrollbar !bg-black">
+                                                <div className="swiper-scrollbar-drag !bg-white rounded"></div>
+                                            </div>
                                         </Swiper>
                                     )}
                                 </div>
