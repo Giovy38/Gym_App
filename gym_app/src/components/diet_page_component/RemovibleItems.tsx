@@ -3,15 +3,20 @@ import { useState } from "react";
 import { IoPencilOutline } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
 import DeleteConfirm from "../reusable_components/DeleteConfirm";
+import { dietService } from "@/src/services/diet.services";
 
 interface RemovibleItemsProps {
+    index: number;
     food: string;
     quantity: string;
     onRemove: () => void;
-    onEdit: () => void;
+    onEdit: (index: number) => void;
+    latestDietId: number | null;
+    dayOfWeek: string;
+    meal: string;
 }
 
-export default function RemovibleItems({ food, quantity, onRemove, onEdit }: RemovibleItemsProps) {
+export default function RemovibleItems({ index, food, quantity, onRemove, onEdit, latestDietId, dayOfWeek, meal }: RemovibleItemsProps) {
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     const truncateText = (text: string, maxLength: number) => {
@@ -24,11 +29,19 @@ export default function RemovibleItems({ food, quantity, onRemove, onEdit }: Rem
 
     const handleConfirmDelete = () => {
         setShowDeleteConfirm(false);
+        console.log('latestDietId', latestDietId);
+        if (latestDietId) {
+            dietService.deleteDietItem(latestDietId, dayOfWeek, meal, index);
+        }
         onRemove();
     };
 
     const handleCancelDelete = () => {
         setShowDeleteConfirm(false);
+    };
+
+    const handleEditClick = () => {
+        onEdit(index);
     };
 
     return (
@@ -45,7 +58,7 @@ export default function RemovibleItems({ food, quantity, onRemove, onEdit }: Rem
                     <p className="break-words">{food}</p>
                 </div>
                 <div className="flex gap-2 w-full">
-                    <div onClick={onEdit} className="flex items-center justify-center w-1/2 rounded-md p-1 hover:bg-black">
+                    <div onClick={handleEditClick} className="flex items-center justify-center w-1/2 rounded-md p-1 hover:bg-black">
                         <IoPencilOutline className="cursor-pointer text-blue-500 text-xl rounded-md" />
                     </div>
                     <div onClick={handleDeleteClick} className="flex items-center justify-center w-1/2 rounded-md p-1 hover:bg-black">

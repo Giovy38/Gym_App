@@ -4,24 +4,61 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 import AddBlueButton from "../reusable_components/AddBlueButton";
 import { useState } from "react";
 import { SingleExerciseType } from "../../type/SingleExercise.type";
+import { TrainingData } from "@/src/type/TrainingData.type";
+import { trainingCardService } from "@/src/services/training-card.services";
 
-export default function NoteArea({ exercise }: { exercise: SingleExerciseType }) {
+
+export default function NoteArea({ exercise, latestTraining, index }: { exercise: SingleExerciseType, latestTraining: TrainingData, index: number }) {
 
     const [editIndex, setEditIndex] = useState<number | null>(null);
     const [notes, setNotes] = useState<string[]>(exercise.note);
     const [newNote, setNewNote] = useState<string>("");
 
 
-    const addNote = () => {
+    const addNote = async () => {
         if (newNote.trim()) {
-            setNotes([...notes, newNote]);
+            const updatedNotes = [...notes, newNote];
+            setNotes(updatedNotes);
             setNewNote("");
+
+
+            try {
+                const result = await trainingCardService.addNewNote(latestTraining.id, index, newNote)
+                if (!result) {
+                    console.error('Error during note addition');
+                }
+            } catch (error) {
+                console.error('Error during note addition', error);
+            }
         }
     };
 
-    const removeNote = (index: number) => {
-        setNotes(notes.filter((_, i) => i !== index));
+    const removeNote = async (noteIndex: number) => {
+        try {
+            const result = await trainingCardService.deleteNote(latestTraining.id, index, noteIndex)
+            if (!result) {
+                console.error('Error during note deletion');
+            } else {
+                setNotes(notes.filter((_, i) => i !== noteIndex));
+            }
+        } catch (error) {
+            console.error('Error during note deletion', error);
+        }
     };
+
+    const saveNote = async (noteIndex: number) => {
+        try {
+            const result = await trainingCardService.editNote(latestTraining.id, index, notes[noteIndex], noteIndex);
+            if (!result) {
+                console.error('Error during note editing');
+            } else {
+                setEditIndex(null);
+            }
+        } catch (error) {
+            console.error('Error during note editing', error);
+        }
+    };
+
     return (
         <div>
             <div className="bg-white text-black p-3 rounded-lg min-h-40 text-balance w-72 overflow-y-auto max-h-60 
@@ -52,9 +89,7 @@ export default function NoteArea({ exercise }: { exercise: SingleExerciseType })
                                     }}
                                 />
                                 <div className="flex gap-2">
-
-                                    <FaCheckSquare className="text-green-500 w-full font-extrabold text-lg cursor-pointer" onClick={() => setEditIndex(null)} />
-
+                                    <FaCheckSquare className="text-green-500 w-full font-extrabold text-lg cursor-pointer" onClick={() => saveNote(index)} />
                                 </div>
                             </>
                         ) : (

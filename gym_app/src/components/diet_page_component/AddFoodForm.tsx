@@ -1,14 +1,23 @@
 'use client'
 import { useState, useEffect } from 'react';
+import { DietData } from '@/src/type/DietData.type';
+import { dietService } from '@/src/services/diet.services';
+import BlueButton from '../reusable_components/BlueButton';
+import AddRemoveButton from '../reusable_components/AddRemoveButton';
+
 
 interface AddFoodFormProps {
     onAdd: (food: string, quantity: string) => void;
     onCancel: () => void;
     initialFood?: string;
     initialQuantity?: string;
+    latestDiet: DietData | null;
+    dayOfWeek: string;
+    meal: string;
+    itemId?: number;
 }
 
-export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initialQuantity = '' }: AddFoodFormProps) {
+export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initialQuantity = '', latestDiet, dayOfWeek, meal, itemId }: AddFoodFormProps) {
     const [food, setFood] = useState(initialFood);
     const [quantity, setQuantity] = useState(initialQuantity);
 
@@ -17,11 +26,33 @@ export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initial
         setQuantity(initialQuantity);
     }, [initialFood, initialQuantity]);
 
-    const handleAdd = () => {
+    const handleAdd = async () => {
         if (food && quantity) {
-            onAdd(food, quantity);
+            if (latestDiet) {
+                const res = await dietService.addDietItem(latestDiet.id, dayOfWeek, meal, food, quantity)
+                if (res) {
+                    onAdd(food, quantity);
+                }
+            }
+        };
+    }
+
+    const handleEdit = async () => {
+        console.log('lastdietid', latestDiet?.id)
+        console.log('itemid', itemId)
+        console.log('dayofweek', dayOfWeek)
+        console.log('meal', meal)
+        console.log('quantity', quantity)
+        console.log('food', food)
+        if (latestDiet) {
+            if (itemId !== undefined) {
+                const res = await dietService.editDietItem(latestDiet.id, dayOfWeek, meal, quantity, food, itemId);
+                if (res) {
+                    onAdd(food, quantity);
+                }
+            }
         }
-    };
+    }
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -42,12 +73,14 @@ export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initial
                     className="border p-2 mb-2 w-full rounded-lg"
                 />
                 <div className="flex justify-center gap-2">
-                    <button onClick={handleAdd} className={`${initialFood || initialQuantity ? 'bg-blue-500' : 'bg-green-500'} text-white p-2 rounded w-1/2`}>
-                        {initialFood || initialQuantity ? 'Edit' : 'Add'}
-                    </button>
-                    <button onClick={onCancel} className="bg-red-500 text-white p-2 rounded w-1/2">
-                        Cancel
-                    </button>
+                    {(initialFood || initialQuantity) ?
+                        <BlueButton text="Edit" onClick={handleEdit} disabled={!food || !quantity} />
+                        :
+                        <AddRemoveButton text="Add" onClick={handleAdd} isAdd={true} disabled={!food || !quantity} />
+                    }
+
+
+                    <AddRemoveButton text="Cancel" onClick={onCancel} isAdd={false} disabled={!food || !quantity} />
                 </div>
             </div>
         </div>

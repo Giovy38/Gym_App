@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaBowlFood } from 'react-icons/fa6';
 import { FaUserCircle, FaHome, FaBars, FaTimes } from "react-icons/fa";
 import { CgGym } from "react-icons/cg";
@@ -11,9 +11,23 @@ import NavbarButton from "./navbar_component/NavbarButton";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const [activePage, setActivePage] = useState('');
+
+    useEffect(() => {
+        const activePage = localStorage.getItem('activePage');
+        if (activePage) {
+            setActivePage(activePage);
+        }
+    }, [])
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
+    };
+
+    const handleLinkClick = (page: string) => {
+        setActivePage(page);
+        localStorage.setItem('activePage', page);
+        setIsOpen(false);
     };
 
     return (
@@ -21,25 +35,25 @@ export default function Navbar() {
             {/* Navbar for tablet and larger screens */}
             <div className="hidden md:block bg-black text-white">
                 <div className='overflow-hidden text-center p-3'>
-                    <Link href='/'>
+                    <Link href='/' onClick={() => handleLinkClick('home')}>
                         <SectionTitle title="super gym" />
                     </Link>
                 </div>
                 <div className='flex justify-around p-1'>
-                    <Link href='/' className="w-full">
-                        <NavbarButton title="home" Icon={FaHome} />
+                    <Link href='/' className="w-full" onClick={() => handleLinkClick('home')}>
+                        <NavbarButton title="home" Icon={FaHome} isActive={activePage === 'home'} />
                     </Link>
-                    <Link href='training-card' className="w-full">
-                        <NavbarButton title="training card" Icon={CgGym} />
+                    <Link href='/user/training-card' className="w-full" onClick={() => handleLinkClick('training-card')}>
+                        <NavbarButton title="training card" Icon={CgGym} isActive={activePage === 'training-card'} />
                     </Link>
-                    <Link href='body-check' className="w-full">
-                        <NavbarButton title="body check" Icon={IoBody} />
+                    <Link href='/user/body-check' className="w-full" onClick={() => handleLinkClick('body-check')}>
+                        <NavbarButton title="body check" Icon={IoBody} isActive={activePage === 'body-check'} />
                     </Link>
-                    <Link href='diet' className="w-full">
-                        <NavbarButton title="diet" Icon={FaBowlFood} />
+                    <Link href='/user/diet' className="w-full" onClick={() => handleLinkClick('diet')}>
+                        <NavbarButton title="diet" Icon={FaBowlFood} isActive={activePage === 'diet'} />
                     </Link>
-                    <Link href='profile' className="w-full">
-                        <NavbarButton title="profile" Icon={FaUserCircle} />
+                    <Link href='/user/profile' className="w-full" onClick={() => handleLinkClick('profile')}>
+                        <NavbarButton title="profile" Icon={FaUserCircle} isActive={activePage === 'profile'} />
                     </Link>
                 </div>
             </div>
@@ -47,7 +61,7 @@ export default function Navbar() {
             {/* Hamburger menu for mobile screens */}
             <div className="md:hidden bg-black text-white p-3 z-40">
                 <div className="flex justify-between items-center">
-                    <Link href='/'>
+                    <Link href='/' onClick={() => handleLinkClick('home')}>
                         <SectionTitle title="super gym" />
                     </Link>
                     <button onClick={toggleMenu} className="text-white z-50">
@@ -55,22 +69,32 @@ export default function Navbar() {
                     </button>
                 </div>
                 <div
-                    className={`fixed top-0 left-0 w-full h-full bg-[#f8c058] text-black p-5 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'} z-40`}
+                    className={`fixed top-0 left-0 w-full h-full bg-[#f8c058] text-black p-5 flex flex-col items-center justify-center transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'} z-40`}
                 >
-                    <Link href='/' onClick={toggleMenu}>
-                        <NavbarButton title="home" Icon={FaHome} />
+                    <Link href='/' onClick={() => handleLinkClick('home')} className="w-full mb-4">
+                        <div className="bg-[#d79418] w-full text-center py-2 rounded-2xl ">
+                            <NavbarButton title="home" Icon={FaHome} isActive={activePage === 'home'} />
+                        </div>
                     </Link>
-                    <Link href='training-card' onClick={toggleMenu}>
-                        <NavbarButton title="training card" Icon={CgGym} />
+                    <Link href='/user/training-card' onClick={() => handleLinkClick('training-card')} className="w-full mb-4">
+                        <div className="bg-[#d79418] w-full text-center py-2 rounded-2xl ">
+                            <NavbarButton title="training card" Icon={CgGym} isActive={activePage === 'training-card'} />
+                        </div>
                     </Link>
-                    <Link href='body-check' onClick={toggleMenu}>
-                        <NavbarButton title="body check" Icon={IoBody} />
+                    <Link href='/user/body-check' onClick={() => handleLinkClick('body-check')} className="w-full mb-4">
+                        <div className="bg-[#d79418] w-full text-center py-2 rounded-2xl ">
+                            <NavbarButton title="body check" Icon={IoBody} isActive={activePage === 'body-check'} />
+                        </div>
                     </Link>
-                    <Link href='diet' onClick={toggleMenu}>
-                        <NavbarButton title="diet" Icon={FaBowlFood} />
+                    <Link href='/user/diet' onClick={() => handleLinkClick('diet')} className="w-full mb-4">
+                        <div className="bg-[#d79418] w-full text-center py-2 rounded-2xl ">
+                            <NavbarButton title="diet" Icon={FaBowlFood} isActive={activePage === 'diet'} />
+                        </div>
                     </Link>
-                    <Link href='profile' onClick={toggleMenu}>
-                        <NavbarButton title="profile" Icon={FaUserCircle} />
+                    <Link href='/user/profile' onClick={() => handleLinkClick('profile')} className="w-full mb-4">
+                        <div className="bg-[#d79418] w-full text-center py-2 rounded-2xl ">
+                            <NavbarButton title="profile" Icon={FaUserCircle} isActive={activePage === 'profile'} />
+                        </div>
                     </Link>
                 </div>
             </div>
