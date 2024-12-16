@@ -63,6 +63,8 @@ export default function TrainingCardPage() {
         setIsTimerVisible(true)
     }
 
+    console.log('latestTraining:', latestTraining);
+
     return (
         <div className="p-5 ">
             <SectionTitle title="training card page" />
@@ -83,7 +85,7 @@ export default function TrainingCardPage() {
             />
 
             {latestTraining ? (
-                latestTraining.workoutDays.map((workoutDay) => (
+                latestTraining.workoutDays.map((workoutDay, dayIndex) => (
                     <TrainingAccordion
                         key={workoutDay.workoutName}
                         accordionTitle={workoutDay.workoutName}
@@ -103,7 +105,8 @@ export default function TrainingCardPage() {
                                             barbell: exercise.barbell,
                                             note: exercise.notes,
                                             cardio: exercise.isCardio,
-                                            latestTraining: latestTraining
+                                            latestTraining: latestTraining,
+                                            dayIndex: dayIndex
                                         }}
                                     />
                                 ))}

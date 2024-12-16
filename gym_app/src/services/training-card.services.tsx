@@ -6,13 +6,17 @@ class TrainingCardService {
     // backend url 
     private TRAINING_CARD_BE_URL = 'http://localhost:3001/training';
 
-    async createNewWorkout(id: number, exerciseIndex: number, workouts: singleWorkout[]): Promise<TrainingData | null> {
+    async createNewWorkout(id: number, dayIndex: number, exerciseIndex: number, workouts: singleWorkout[]): Promise<TrainingData | null> {
         try {
             const data = {
                 workout: workouts
             }
 
-            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/exercise/${exerciseIndex}/workout`, 'POST', data);
+            console.log('Sending data:', data);
+
+            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/day/${dayIndex}/exercise/${exerciseIndex}/workout`, 'POST', data);
+
+            console.log('Response:', res);
 
             if (!res.ok) {
                 throw new Error('Error during the workout addition');
@@ -120,9 +124,9 @@ class TrainingCardService {
         }
     }
 
-    async getLastWorkout(id: number, exerciseIndex: number): Promise<{ lastWorkout: singleWorkout[] }> {
+    async getLastWorkout(id: number, dayIndex: number, exerciseIndex: number): Promise<{ lastWorkout: singleWorkout[] }> {
         try {
-            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/exercise/${exerciseIndex}/last-workout`, 'GET', {});
+            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/day/${dayIndex}/exercise/${exerciseIndex}/last-workout`, 'GET', {});
 
             if (res.ok) {
                 return res.value.json();

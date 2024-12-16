@@ -35,7 +35,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
 
     useEffect(() => {
         const fetchLastWorkout = async () => {
-            const res = await trainingCardService.getLastWorkout(exercise.latestTraining.id, exercise.index)
+            const res = await trainingCardService.getLastWorkout(exercise.latestTraining.id, exercise.dayIndex, exercise.index);
             if (res.lastWorkout.length > 0) {
                 res.lastWorkout.map(workout => {
                     if (workout.weight > maxWeight) {
@@ -46,7 +46,9 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
 
         };
         fetchLastWorkout();
-    }, [exercise.index, exercise.latestTraining.id, maxWeight]);
+    }, [exercise.dayIndex, exercise.index, exercise.latestTraining.id, maxWeight]);
+
+    console.log('Exercise data:', exercise);
 
     return (
         <div className="flex flex-col text-white">
@@ -88,7 +90,13 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                             <p>Start Timer</p>
                         </div>
                         <BarbellInfo haveBarbell={exercise.barbell} totalWeight={maxWeight} barbellWeight={exercise.barbellWeight} />
-                        <LastTrainingDetails cardio={exercise.cardio} latestTraining={exercise.latestTraining} index={exercise.index} haveBarbell={exercise.barbell} />
+                        <LastTrainingDetails
+                            cardio={exercise.cardio}
+                            latestTraining={exercise.latestTraining}
+                            index={exercise.index}
+                            haveBarbell={exercise.barbell}
+                            dayIndex={exercise.dayIndex}
+                        />
                         <NoteArea exercise={exercise} latestTraining={exercise.latestTraining} index={exercise.index} />
                     </div>
                 </div>
