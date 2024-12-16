@@ -61,9 +61,16 @@ export default function SigninForm() {
                 console.log('User created successfully:', result.createdUser);
                 setToastMessage('Successfully registered');
                 setToastColor('green');
-                window.location.href = '/login';
-                localStorage.setItem('activePage', 'profile');
-                setTimeout(() => setShowToast(false), 3000);
+
+                const loginResult = await userService.userLogin(userData.email, userData.password);
+                if (loginResult) {
+                    console.log('User logged in successfully:', loginResult);
+                    window.location.href = '/';
+                    localStorage.setItem('activePage', 'home');
+                } else {
+                    setToastMessage('Login failed');
+                    setToastColor('red');
+                }
             } else {
                 setToastMessage('Email already exists');
                 setToastColor('red');

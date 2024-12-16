@@ -62,8 +62,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
             day.exercises.length > 0 &&
             day.exercises.every(exercise =>
                 exercise.name.trim() !== '' &&
-                exercise.sets > 0 &&
-                (exercise.isCardio || exercise.reps > 0) &&
+                (exercise.isCardio ? (exercise.sets > 0 || exercise.reps > 0) : (exercise.sets > 0 && exercise.reps > 0)) &&
                 (!exercise.barbell || exercise.barbellWeight > 0)
             )
         );
@@ -97,9 +96,9 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
         return numValue;
     };
 
-    const inputClass = (isValid: boolean, isCardio: boolean = false) => {
+    const inputClass = (isValid: boolean, isCardio: boolean = false, hasValue: boolean = false) => {
         if (isCardio) {
-            return 'rounded-lg p-2 text-center text-black bg-slate-200 font-bold italic';
+            return hasValue ? 'rounded-lg p-2 text-center text-black bg-slate-200 font-bold italic' : 'rounded-lg p-2 text-center border-2 bg-red-200 border-red-500';
         }
         return isValid ? 'rounded-lg p-2 text-center text-black bg-slate-200 font-bold italic' : 'rounded-lg p-2 text-center border-2 bg-red-200 border-red-500';
     };
@@ -183,7 +182,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                     </label>
                                                     <input
                                                         id={`sets-${dayIndex}-0`}
-                                                        className={inputClass(day.exercises[0].sets > 0)}
+                                                        className={inputClass(day.exercises[0].sets > 0, day.exercises[0].isCardio, day.exercises[0].sets > 0 || day.exercises[0].reps > 0)}
                                                         type='number'
                                                         placeholder={day.exercises[0].isCardio ? 'Time in minutes' : 'Sets'}
                                                         value={day.exercises[0].sets}
@@ -196,7 +195,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                     </label>
                                                     <input
                                                         id={`reps-${dayIndex}-0`}
-                                                        className={inputClass(day.exercises[0].reps > 0, day.exercises[0].isCardio)}
+                                                        className={inputClass(day.exercises[0].reps > 0, day.exercises[0].isCardio, day.exercises[0].sets > 0 || day.exercises[0].reps > 0)}
                                                         type='number'
                                                         placeholder={day.exercises[0].isCardio ? 'Distance in km' : 'Reps'}
                                                         value={day.exercises[0].reps}
@@ -316,7 +315,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 </label>
                                                                 <input
                                                                     id={`sets-${dayIndex}-${exerciseIndex}`}
-                                                                    className={inputClass(exercise.sets > 0)}
+                                                                    className={inputClass(exercise.sets > 0 || exercise.reps > 0)}
                                                                     type='number'
                                                                     placeholder={exercise.isCardio ? 'Time in minutes' : 'Sets'}
                                                                     value={exercise.sets}
@@ -329,7 +328,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 </label>
                                                                 <input
                                                                     id={`reps-${dayIndex}-${exerciseIndex}`}
-                                                                    className={inputClass(exercise.reps > 0, exercise.isCardio)}
+                                                                    className={inputClass(exercise.reps > 0 || exercise.sets > 0)}
                                                                     type='number'
                                                                     placeholder={exercise.isCardio ? 'Distance in km' : 'Reps'}
                                                                     value={exercise.reps}

@@ -59,9 +59,9 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                 <div className="flex flex-col items-center justify-center">
                     <h1 className="uppercase text-[#f8bf58]">{exercise.exerciseTitle}</h1>
                     <div className="flex gap-5">
-                        <h5 className="text-sm">{exercise.sets} x {exercise.reps} rep</h5>
-                        <h5 className="text-sm">{maxWeight} kg</h5>
-                        <h5 className="text-sm">{formatRestTime(exercise.restTime)} </h5>
+                        {exercise.cardio ? <h5 className="text-sm">{exercise.sets} min | {exercise.reps} km</h5> : <h5 className="text-sm">{exercise.sets} x {exercise.reps} rep</h5>}
+                        {exercise.cardio ? null : <h5 className="text-sm">{maxWeight} kg</h5>}
+                        {exercise.cardio ? null : <h5 className="text-sm">{formatRestTime(exercise.restTime)} </h5>}
                     </div>
                 </div>
                 <div className="block">

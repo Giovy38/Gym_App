@@ -27,6 +27,18 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
         }
     };
 
+    const isFormValid = () => {
+        if (cardio && newWorkout.time) {
+            return newWorkout.time > 0;
+        } else if (cardio && newWorkout.km) {
+            return newWorkout.km > 0;
+        }
+        else if (!cardio && newWorkout.reps && newWorkout.weight) {
+            return newWorkout.reps > 0 && newWorkout.weight > 0;
+        }
+        return false;
+    };
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         if (name === 'reps') {
@@ -40,7 +52,7 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
     };
 
     const handleSubmit = () => {
-        if ((cardio && newWorkout.time && newWorkout.km) || (!cardio && newWorkout.reps && newWorkout.weight)) {
+        if (isFormValid()) {
             onAddWorkout(newWorkout);
             setNewWorkout(cardio ? { time: 0, km: 0 } : { reps: 0, weight: 0 });
         }
@@ -58,7 +70,7 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
                         onFocus={handleFocus}
                         onChange={handleChange}
                         placeholder="Time in minutes"
-                        className="border p-1 rounded-lg"
+                        className='border p-1 rounded-lg'
                     />
                     <label className='uppercase font-bold' htmlFor="km">km</label>
                     <input
@@ -73,18 +85,18 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
                 </>
             ) : (
                 <>
-                    <label className='uppercase font-bold' htmlFor="reps">reps</label>
+                    <label className='uppercase font-bold' htmlFor="reps">reps*</label>
                     <input
                         type="number"
                         name="reps"
                         value={newWorkout.reps}
                         onChange={handleChange}
                         placeholder="Reps"
-                        className="border p-1 rounded-lg"
+                        className='border p-1 rounded-lg'
                         step="1"
                     />
                     <div className='flex flex-col'>
-                        <label className='uppercase font-bold' htmlFor="weight">Total weight</label>
+                        <label className='uppercase font-bold' htmlFor="weight">Total weight*</label>
                         {haveBarbell ? <label className='italic text-sm' htmlFor="weight">(Including barbell weight)</label> : null}
                     </div>
                     <input
@@ -93,13 +105,13 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
                         value={newWorkout.weight}
                         onFocus={handleFocus}
                         onChange={handleChange}
-                        placeholder="Weight"
-                        className="border p-1 rounded-lg"
+                        placeholder="Weight*"
+                        className='border p-1 rounded-lg'
                     />
                 </>
             )}
-            <div className="flex gap-2">
-                <AddRemoveButton text='add' isAdd onClick={handleSubmit} />
+            <div className="flex gap-2 w-full">
+                <AddRemoveButton text='add' isAdd onClick={handleSubmit} disabled={!isFormValid()} />
                 <AddRemoveButton text='cancel' onClick={onCancel} />
             </div>
         </div>
