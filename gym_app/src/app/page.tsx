@@ -14,21 +14,21 @@ export default function Home() {
       <HomeSectionDetails
         isImgRight
         sectionTitle='training card section'
-        sectionDescription='Questa sezione ti permette di gestire in modo completo le tue schede di allenamento. Puoi registrare esercizi forniti da un personal trainer o crearne di nuovi autonomamente. Ogni esercizio può essere personalizzato con dettagli come numero di ripetizioni, peso utilizzato, tempi di recupero e note aggiuntive per tenere traccia di ogni aspetto del tuo allenamento. Con la possibilità di aggiornare i progressi in tempo reale, questa sezione ti aiuta a mantenere il focus sui tuoi obiettivi, monitorando costantemente i miglioramenti e adattando le sessioni alle tue esigenze.'
+        sectionDescription='This section allows you to completely manage your training schedules. You can record exercises provided by a personal trainer or create new ones yourself. Each exercise can be customized with details like number of repetitions, weight used, recovery times, and additional notes to track every aspect of your workout. With the ability to update progress in real time, this section helps you maintain focus on your goals, constantly monitoring improvements and adapting sessions to your needs.'
         img={trainingImg}
       />
       {/* bodycheck section */}
       <HomeSectionDetails
         isImgRight={false}
         sectionTitle="Body Check Section"
-        sectionDescription="In questa sezione puoi monitorare i cambiamenti del tuo corpo nel corso del tempo. Inserisci le misure principali, come circonferenza vita, torace, braccia, gambe e altro, per avere un quadro completo dei tuoi progressi fisici. Il monitoraggio regolare delle tue misure ti consente di valutare i risultati e capire quali aree stanno migliorando e dove puoi ancora lavorare. Che il tuo obiettivo sia perdere peso, tonificare o aumentare la massa muscolare, questa sezione ti permette di avere un controllo costante e motivante sul tuo percorso."
+        sectionDescription="In this section you can monitor the changes in your body over time. Enter key measurements, such as waist circumference, chest, arms, legs and more, to get a complete picture of your physical progress. Regularly monitoring your measures allows you to evaluate your results and understand which areas are improving and where you can still work. Whether your goal is to lose weight, tone up or gain muscle mass, this section allows you to have constant and motivating control over your journey."
         img={bodyCheckImg}
       />
       {/* diet section */}
       <HomeSectionDetails
         isImgRight={true}
         sectionTitle="Diet Section"
-        sectionDescription="Questa sezione è pensata per aiutarti a gestire al meglio il tuo piano alimentare. Che tu segua una dieta consigliata da un nutrizionista o abbia un piano personale, puoi registrare ogni dettaglio riguardante i tuoi pasti. Inserisci gli alimenti, le quantità e le informazioni nutrizionali per ogni pasto, così da monitorare l’apporto calorico e i macronutrienti. La possibilità di modificare o aggiornare il piano alimentare ti aiuta a restare flessibile e adattare l’alimentazione in base ai tuoi obiettivi, sia che tu stia cercando di aumentare massa, perdere peso o migliorare la tua salute complessiva."
+        sectionDescription="This section is designed to help you organize your food plan in a simple and effective way. You can record the name of the foods and the quantities expected for each meal, divided by days of the week and snacks (breakfast, snacks, lunch, etc.). This allows you to precisely follow your diet, maintaining a clear overview of your planned meals. The possibility of updating or modifying the food plan makes management even more flexible, helping you to respect your food goals, whether they are linked to a path of muscle growth, maintenance or lifestyle improvement."
         img={dietImg}
       />
     </div>
