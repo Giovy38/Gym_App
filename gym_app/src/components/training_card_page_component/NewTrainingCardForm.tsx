@@ -96,11 +96,11 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
         return numValue;
     };
 
-    const inputClass = (isValid: boolean, isCardio: boolean = false, hasValue: boolean = false) => {
-        if (isCardio) {
-            return hasValue ? 'rounded-lg p-2 text-center text-black bg-slate-200 font-bold italic' : 'rounded-lg p-2 text-center border-2 bg-red-200 border-red-500';
-        }
-        return isValid ? 'rounded-lg p-2 text-center text-black bg-slate-200 font-bold italic' : 'rounded-lg p-2 text-center border-2 bg-red-200 border-red-500';
+    const inputClass = () => {
+
+        return isFormValid() ? 'rounded-lg p-2 text-center text-black bg-slate-200 font-bold italic' : 'rounded-lg text-black p-2 text-center border-2 bg-red-200 border-red-500';
+
+
     };
 
     return (
@@ -133,7 +133,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
 
                             <input
                                 id={`workoutName-${dayIndex}`}
-                                className={inputClass(day.workoutName.trim() !== '')}
+                                className={inputClass()}
                                 type='text'
                                 placeholder="Muscle Group Name*"
                                 value={day.workoutName}
@@ -159,7 +159,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                             <label className="text-[#f8bf58] uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-0`}>Exercise*</label>
                                             <input
                                                 id={`exerciseName-${dayIndex}-0`}
-                                                className={inputClass(day.exercises[0].name.trim() !== '')}
+                                                className={inputClass()}
                                                 type='text'
                                                 placeholder="Exercise Name*"
                                                 value={day.exercises[0].name}
@@ -182,7 +182,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                     </label>
                                                     <input
                                                         id={`sets-${dayIndex}-0`}
-                                                        className={inputClass(day.exercises[0].sets > 0, day.exercises[0].isCardio, day.exercises[0].sets > 0 || day.exercises[0].reps > 0)}
+                                                        className={`${inputClass()} w-1/2`}
                                                         type='number'
                                                         placeholder={day.exercises[0].isCardio ? 'Time in minutes' : 'Sets'}
                                                         value={day.exercises[0].sets}
@@ -195,7 +195,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                     </label>
                                                     <input
                                                         id={`reps-${dayIndex}-0`}
-                                                        className={inputClass(day.exercises[0].reps > 0, day.exercises[0].isCardio, day.exercises[0].sets > 0 || day.exercises[0].reps > 0)}
+                                                        className={`${inputClass()} w-1/2`}
                                                         type='number'
                                                         placeholder={day.exercises[0].isCardio ? 'Distance in km' : 'Reps'}
                                                         value={day.exercises[0].reps}
@@ -252,7 +252,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                     <div className="flex gap-2 justify-center items-center">
                                                         <input
                                                             id={`barbellWeight-${dayIndex}-0`}
-                                                            className={inputClass(day.exercises[0].barbellWeight > 0)}
+                                                            className={inputClass()}
                                                             type='text'
                                                             value={day.exercises[0].barbellWeight}
                                                             onChange={(e) => handleExerciseChange(dayIndex, 0, 'barbellWeight', parseFloat(e.target.value) || 0)}
@@ -292,9 +292,9 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                         <label className="text-[#f8bf58] uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-${exerciseIndex}`}>Exercise</label>
                                                         <input
                                                             id={`exerciseName-${dayIndex}-${exerciseIndex}`}
-                                                            className={inputClass(exercise.name.trim() !== '')}
+                                                            className={inputClass()}
                                                             type='text'
-                                                            placeholder="Exercise Name"
+                                                            placeholder="Exercise Name*"
                                                             value={exercise.name}
                                                             onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'name', e.target.value)}
                                                         />
@@ -315,7 +315,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 </label>
                                                                 <input
                                                                     id={`sets-${dayIndex}-${exerciseIndex}`}
-                                                                    className={inputClass(exercise.sets > 0 || exercise.reps > 0)}
+                                                                    className={`${inputClass()} w-1/2`}
                                                                     type='number'
                                                                     placeholder={exercise.isCardio ? 'Time in minutes' : 'Sets'}
                                                                     value={exercise.sets}
@@ -328,7 +328,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 </label>
                                                                 <input
                                                                     id={`reps-${dayIndex}-${exerciseIndex}`}
-                                                                    className={inputClass(exercise.reps > 0 || exercise.sets > 0)}
+                                                                    className={`${inputClass()} w-1/2`}
                                                                     type='number'
                                                                     placeholder={exercise.isCardio ? 'Distance in km' : 'Reps'}
                                                                     value={exercise.reps}
@@ -385,7 +385,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`barbellWeight-${dayIndex}-${exerciseIndex}`}>Barbell Weight</label>
                                                                 <input
                                                                     id={`barbellWeight-${dayIndex}-${exerciseIndex}`}
-                                                                    className={inputClass(exercise.barbellWeight > 0)}
+                                                                    className={inputClass()}
                                                                     type='number'
                                                                     placeholder="Barbell Weight"
                                                                     value={exercise.barbellWeight}
