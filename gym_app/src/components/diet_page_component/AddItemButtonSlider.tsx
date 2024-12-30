@@ -79,7 +79,11 @@ export default function AddItemButtonSlider({ latestDiet, dayOfWeek, meal, diets
                     />,
                     document.body
                 )}
-                <div className="flex flex-wrap gap-4 justify-center items-center p-1">
+                <div className="flex flex-wrap gap-4 justify-center items-center p-1 overflow-y-auto  [&::-webkit-scrollbar]:w-2
+                        [&::-webkit-scrollbar-track]:rounded-full
+                        [&::-webkit-scrollbar-track]:bg-black
+                        [&::-webkit-scrollbar-thumb]:rounded-full
+                        [&::-webkit-scrollbar-thumb]:bg-gray-100 h-[200px]">
                     {items.map((item, index) => (
                         <RemovibleItems
                             key={index}

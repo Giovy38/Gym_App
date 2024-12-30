@@ -190,7 +190,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                     />
                                                 </div>
                                                 <div className="flex flex-col w-1/2 justify-center items-center">
-                                                    <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`reps-${dayIndex}-0`}>
+                                                    <label className="text-[#f8bf58] uppercase font-bold text-md select-none text-center" htmlFor={`reps-${dayIndex}-0`}>
                                                         {day.exercises[0].isCardio ? 'Distance (km)*' : 'Reps*'}
                                                     </label>
                                                     <input
@@ -323,8 +323,8 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 />
                                                             </div>
                                                             <div className="flex flex-col w-1/2 justify-center items-center">
-                                                                <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={`reps-${dayIndex}-${exerciseIndex}`}>
-                                                                    {exercise.isCardio ? 'Distance (km)' : 'Reps'}
+                                                                <label className="text-[#f8bf58] uppercase font-bold text-md select-none text-center" htmlFor={`reps-${dayIndex}-${exerciseIndex}`}>
+                                                                    {exercise.isCardio ? 'km' : 'Reps'}
                                                                 </label>
                                                                 <input
                                                                     id={`reps-${dayIndex}-${exerciseIndex}`}
@@ -407,7 +407,6 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                     )}
                                 </div>
                             )}
-                            {/* ciao */}
                             <PlusButton text="add new exercise" onClick={() => {
                                 const updatedDays = [...workoutDays];
                                 const newExerciseIndex = updatedDays[dayIndex].exercises.length;
@@ -425,6 +424,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                 });
                                 setWorkoutDays(updatedDays);
                             }} />
+                            {!isFormValid() ? <div className="w-full flex justify-center items-center"><p className="text-red-500 font-bold text-sm text-center italic">*one or more necessary fields are not compiled correctly*</p></div> : null}
                         </div>
                     ))}
                     <PlusButton text='add new muscle group' onClick={addWorkoutDay} />
