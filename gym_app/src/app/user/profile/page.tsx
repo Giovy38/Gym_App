@@ -3,7 +3,7 @@
 import AddRemoveButton from "@/src/components/reusable_components/AddRemoveButton"
 import PrimaryButton from "@/src/components/reusable_components/PrimaryButton"
 import { userService } from "@/src/services/user.services"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { FaRegEye, FaEyeSlash } from "react-icons/fa6";
 import Toast from "@/src/components/reusable_components/Toast"
 import ChangePasswordForm from "@/src/components/ChangePasswordForm"
@@ -19,6 +19,11 @@ export default function ProfilePage() {
     const [showChangePasswordForm, setShowChangePasswordForm] = useState(false)
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [showDeleteToast, setShowDeleteToast] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    useEffect(() => {
+        setIsLoaded(true);
+    }, []);
 
     const logout = async () => {
         try {
@@ -66,7 +71,7 @@ export default function ProfilePage() {
 
 
     return (
-        <div className="flex flex-col justify-center items-center gap-3">
+        <div className={`flex flex-col justify-center items-center gap-3 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
             <h1 className="text-white uppercase text-xl p-3 font-bold">Welcome <label className="text-[#f8bf58] text-2xl">{userData?.firstName}</label></h1>
             <h3 className="text-white">Your email: </h3>
             <div className="bg-black p-3 rounded-lg flex justify-around items-center gap-3 text-white w-56">

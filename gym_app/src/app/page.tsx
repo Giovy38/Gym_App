@@ -1,14 +1,23 @@
+'use client'
+
 import top_banner from '../assets/img/top_banner.jpg'
 import trainingImg from '../assets/img/training.jpg'
 import bodyCheckImg from '../assets/img/body_check.jpg'
 import dietImg from '../assets/img/diet.jpg'
 import Banner from '../components/home_components/Banner'
 import HomeSectionDetails from '../components/home_components/HomeSectionDetails'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
   return (
-    <div className='min-h-[100vh] flex flex-col justify-evenly bg-black'>
+    <div className={`min-h-[100vh] flex flex-col justify-evenly bg-black transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
       <Banner img={top_banner} />
       {/* training section */}
       <HomeSectionDetails

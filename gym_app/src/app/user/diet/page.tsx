@@ -17,6 +17,7 @@ export default function DietPage() {
 
     const [latestDiet, setLatestDiet] = useState<DietData | null>(null);
     const [diets, setDiets] = useState<DietData[]>([]);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const updateDiets = (selectedData: DietData) => {
         setLatestDiet(diets[diets.length - 1]);
@@ -33,6 +34,7 @@ export default function DietPage() {
 
     useEffect(() => {
         fetchData();
+        setIsLoaded(true);
     }, []);
 
     const fetchData = async () => {
@@ -59,7 +61,7 @@ export default function DietPage() {
     const meals = ['breakfast', 'snack', 'lunch', 'snack 2', 'dinner'];
 
     return (
-        <div className="min-h-screen w-full flex flex-col justify-start xl:items-center gap-3 p-5">
+        <div className={`min-h-screen w-full flex flex-col justify-start xl:items-center gap-3 p-5 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
             <SectionTitle title="Diet page" />
             <DataSlider
                 dataPage='diet'
