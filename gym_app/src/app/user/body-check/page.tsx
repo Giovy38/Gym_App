@@ -19,6 +19,7 @@ export default function BodyCheckPage() {
     const [bodyChecks, setBodyChecks] = useState<BodyCheckData[]>([]);
     const [latestCheck, setLatestCheck] = useState<BodyCheckData | null>(null);
     const [previousCheck, setPreviousCheck] = useState<BodyCheckData | null>(null);
+    const [isLoaded, setIsLoaded] = useState(false);
     const userData = useUser();
 
 
@@ -31,6 +32,12 @@ export default function BodyCheckPage() {
             setIsMan(true)
         }
     }, [userData]);
+
+    useEffect(() => {
+        setIsLoaded(true);
+    }, []);
+
+
 
 
     const fetchData = async () => {
@@ -74,7 +81,7 @@ export default function BodyCheckPage() {
 
 
     return (
-        <div className="flex flex-col p-3">
+        <div className={`flex flex-col p-3 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
             <SectionTitle title="body check page" />
             <DataSlider
                 dataPage='body'

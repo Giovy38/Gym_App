@@ -11,5 +11,6 @@ export type SingleExerciseType = {
     note: string[],
     cardio: boolean,
     barbellWeight: number,
-    latestTraining: TrainingData
+    latestTraining: TrainingData,
+    dayIndex: number
 }

@@ -17,6 +17,7 @@ export default function TrainingCardPage() {
 
     const [latestTraining, setLatestTraining] = useState<TrainingData | null>(null);
     const [trainings, setTrainings] = useState<TrainingData[]>([]);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const updateTrainings = (selectedData: TrainingData) => {
         setLatestTraining(trainings[trainings.length - 1]);
@@ -35,6 +36,7 @@ export default function TrainingCardPage() {
 
     useEffect(() => {
         fetchData();
+        setIsLoaded(true);
     }, []);
 
     const fetchData = async () => {
@@ -63,8 +65,10 @@ export default function TrainingCardPage() {
         setIsTimerVisible(true)
     }
 
+    console.log('latestTraining:', latestTraining);
+
     return (
-        <div className="p-5 ">
+        <div className={` p-5 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
             <SectionTitle title="training card page" />
             <div>
                 <MdOutlineTimer onClick={showTimer} className="text-black text-5xl cursor-pointer bg-[#f8bf58] hover:bg-[#efb242b6] hover:text-white p-2 rounded-xl fixed bottom-5 right-5 z-10 shadow-lg shadow-black" />
@@ -83,7 +87,7 @@ export default function TrainingCardPage() {
             />
 
             {latestTraining ? (
-                latestTraining.workoutDays.map((workoutDay) => (
+                latestTraining.workoutDays.map((workoutDay, dayIndex) => (
                     <TrainingAccordion
                         key={workoutDay.workoutName}
                         accordionTitle={workoutDay.workoutName}
@@ -103,7 +107,8 @@ export default function TrainingCardPage() {
                                             barbell: exercise.barbell,
                                             note: exercise.notes,
                                             cardio: exercise.isCardio,
-                                            latestTraining: latestTraining
+                                            latestTraining: latestTraining,
+                                            dayIndex: dayIndex
                                         }}
                                     />
                                 ))}
