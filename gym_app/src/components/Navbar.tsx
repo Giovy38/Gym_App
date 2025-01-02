@@ -72,27 +72,27 @@ export default function Navbar() {
                     className={`fixed top-0 left-0 w-full h-full bg-[#f8c058] text-black p-5 flex flex-col items-center justify-center transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'} z-40`}
                 >
                     <Link href='/' onClick={() => handleLinkClick('home')} className="w-full mb-4">
-                        <div className="bg-[#d79418] w-full text-center py-2 rounded-2xl ">
+                        <div className="border-2 border-[#d79418] w-full text-center py-2 rounded-2xl ">
                             <NavbarButton title="home" Icon={FaHome} isActive={activePage === 'home'} />
                         </div>
                     </Link>
                     <Link href='/user/training-card' onClick={() => handleLinkClick('training-card')} className="w-full mb-4">
-                        <div className="bg-[#d79418] w-full text-center py-2 rounded-2xl ">
+                        <div className="border-2 border-[#d79418] w-full text-center py-2 rounded-2xl ">
                             <NavbarButton title="training card" Icon={CgGym} isActive={activePage === 'training-card'} />
                         </div>
                     </Link>
                     <Link href='/user/body-check' onClick={() => handleLinkClick('body-check')} className="w-full mb-4">
-                        <div className="bg-[#d79418] w-full text-center py-2 rounded-2xl ">
+                        <div className="border-2 border-[#d79418] w-full text-center py-2 rounded-2xl ">
                             <NavbarButton title="body check" Icon={IoBody} isActive={activePage === 'body-check'} />
                         </div>
                     </Link>
                     <Link href='/user/diet' onClick={() => handleLinkClick('diet')} className="w-full mb-4">
-                        <div className="bg-[#d79418] w-full text-center py-2 rounded-2xl ">
+                        <div className="border-2 border-[#d79418] w-full text-center py-2 rounded-2xl ">
                             <NavbarButton title="diet" Icon={FaBowlFood} isActive={activePage === 'diet'} />
                         </div>
                     </Link>
                     <Link href='/user/profile' onClick={() => handleLinkClick('profile')} className="w-full mb-4">
-                        <div className="bg-[#d79418] w-full text-center py-2 rounded-2xl ">
+                        <div className="border-2 border-[#d79418] w-full text-center py-2 rounded-2xl ">
                             <NavbarButton title="profile" Icon={FaUserCircle} isActive={activePage === 'profile'} />
                         </div>
                     </Link>

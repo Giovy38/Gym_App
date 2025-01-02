@@ -51,9 +51,6 @@ export default function LoginForm() {
             <div className="flex flex-col">
                 <InputText label="e-mail" type="email" placeholder='E-mail' value={email} onChange={(e) => setEmail(e.target.value)} />
                 <InputText label="password" type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
-                <div className="mt-5 w-full flex justify-center">
-                    <a href="#" className=" underline underline-offset-2 text-white">Forgot password</a>
-                </div>
                 <Link href="/signin">
                     <h4 className="text-[#f8bf58] mt-3 underline underline-offset-2">Dont have an account? Register now</h4>
                 </Link>
