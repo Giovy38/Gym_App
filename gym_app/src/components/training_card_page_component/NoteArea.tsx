@@ -119,7 +119,7 @@ export default function NoteArea({ exercise, latestTraining, index }: { exercise
                 />
 
             </div>
-            <AddBlueButton text="+ Aggiungi Nota" onClick={addNote} />
+            <AddBlueButton text="+ New Note" onClick={addNote} />
         </div>
     )
 }

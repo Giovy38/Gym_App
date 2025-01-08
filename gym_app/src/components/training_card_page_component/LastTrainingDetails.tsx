@@ -217,7 +217,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, index, hav
                 )}
                 {!showPreviousWorkout && (
                     <div onClick={handleSave} className={`w-full flex items-center justify-end gap-2  rounded-lg p-1 cursor-pointer border-t-2 border-black`}>
-                        <p className='text-black font-bold'>{!isSaved ? 'Salva' : 'Dati Aggiornati'}</p>
+                        <p className='text-black font-bold'>{!isSaved ? 'Save' : 'Data Saved'}</p>
                         <HiCloudArrowUp
                             className={`${isSaved ? 'text-green-800' : 'text-slate-500'} text-3xl hover:${isSaved ? 'text-green-800' : 'text-slate-800'}`}
                         />
