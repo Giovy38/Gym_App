@@ -71,12 +71,16 @@ export default function BodyCheckPage() {
         shoulder: 0,
         chest: 0,
         waist: 0,
-        biceps: { left: 0, right: 0 },
-        forearm: { left: 0, right: 0 },
+        leftBicep: 0,
+        rightBicep: 0,
+        leftForearm: 0,
+        rightForearm: 0,
         buttocks: 0,
         thigh: 0,
-        quadriceps: { left: 0, right: 0 },
-        calf: { left: 0, right: 0 }
+        leftQuadricep: 0,
+        rightQuadricep: 0,
+        leftCalf: 0,
+        rightCalf: 0
     }
 
 
@@ -129,13 +133,13 @@ export default function BodyCheckPage() {
                             <InfoCard infoTitle="waist" leftData={previousCheck?.waist || defaultData.waist} rightData={latestCheck?.waist || defaultData.waist} />
                             {/* biceps - bicipiti */}
                             <div className="flex gap-3">
-                                <InfoCard infoTitle="biceps sx" leftData={previousCheck?.biceps?.left || defaultData.biceps.left} rightData={latestCheck?.biceps?.left || defaultData.biceps.left} />
-                                <InfoCard infoTitle="biceps dx" leftData={previousCheck?.biceps?.right || defaultData.biceps.right} rightData={latestCheck?.biceps?.right || defaultData.biceps.right} />
+                                <InfoCard infoTitle="biceps sx" leftData={previousCheck?.leftBicep || defaultData.leftBicep} rightData={latestCheck?.leftBicep || defaultData.leftBicep} />
+                                <InfoCard infoTitle="biceps dx" leftData={previousCheck?.rightBicep || defaultData.rightBicep} rightData={latestCheck?.rightBicep || defaultData.rightBicep} />
                             </div>
                             {/* forearm - avambraccio */}
                             <div className="flex gap-3">
-                                <InfoCard infoTitle="forearm sx" leftData={previousCheck?.forearm?.left || defaultData.forearm.left} rightData={latestCheck?.forearm?.left || defaultData.forearm.left} />
-                                <InfoCard infoTitle="forearm dx" leftData={previousCheck?.forearm?.right || defaultData.forearm.right} rightData={latestCheck?.forearm?.right || defaultData.forearm.right} />
+                                <InfoCard infoTitle="forearm sx" leftData={previousCheck?.leftForearm || defaultData.leftForearm} rightData={latestCheck?.leftForearm || defaultData.leftForearm} />
+                                <InfoCard infoTitle="forearm dx" leftData={previousCheck?.rightForearm || defaultData.rightForearm} rightData={latestCheck?.rightForearm || defaultData.rightForearm} />
                             </div>
                             {/* buttocks - glutei */}
                             <InfoCard infoTitle="buttocks" leftData={previousCheck?.buttocks || defaultData.buttocks} rightData={latestCheck?.buttocks || defaultData.buttocks} />
@@ -143,13 +147,13 @@ export default function BodyCheckPage() {
                             <InfoCard infoTitle="thigh" leftData={previousCheck?.thigh || defaultData.thigh} rightData={latestCheck?.thigh || defaultData.thigh} />
                             {/* quadriceps - quadricipite */}
                             <div className="flex gap-3">
-                                <InfoCard infoTitle="quadriceps sx" leftData={previousCheck?.quadriceps?.left || defaultData.quadriceps.left} rightData={latestCheck?.quadriceps?.left || defaultData.quadriceps.left} />
-                                <InfoCard infoTitle="quadriceps dx" leftData={previousCheck?.quadriceps?.right || defaultData.quadriceps.right} rightData={latestCheck?.quadriceps?.right || defaultData.quadriceps.right} />
+                                <InfoCard infoTitle="quadriceps sx" leftData={previousCheck?.leftQuadricep || defaultData.leftQuadricep} rightData={latestCheck?.leftQuadricep || defaultData.leftQuadricep} />
+                                <InfoCard infoTitle="quadriceps dx" leftData={previousCheck?.rightQuadricep || defaultData.rightQuadricep} rightData={latestCheck?.rightQuadricep || defaultData.rightQuadricep} />
                             </div>
                             {/* calf - polpacci */}
                             <div className="flex gap-3">
-                                <InfoCard infoTitle="calf sx" leftData={previousCheck?.calf?.left || defaultData.calf.left} rightData={latestCheck?.calf?.left || defaultData.calf.left} />
-                                <InfoCard infoTitle="calf dx" leftData={previousCheck?.calf?.right || defaultData.calf.right} rightData={latestCheck?.calf?.right || defaultData.calf.right} />
+                                <InfoCard infoTitle="calf sx" leftData={previousCheck?.leftCalf || defaultData.leftCalf} rightData={latestCheck?.leftCalf || defaultData.leftCalf} />
+                                <InfoCard infoTitle="calf dx" leftData={previousCheck?.rightCalf || defaultData.rightCalf} rightData={latestCheck?.rightCalf || defaultData.rightCalf} />
                             </div>
                         </div>
                     </div>

@@ -6,22 +6,14 @@ export type BodyCheckData = {
     shoulder: number;
     chest: number;
     waist: number;
-    biceps: {
-        left: number;
-        right: number;
-    };
-    forearm: {
-        left: number;
-        right: number;
-    };
+    leftBicep: number;
+    rightBicep: number;
+    leftForearm: number;
+    rightForearm: number;
     buttocks: number;
     thigh: number;
-    quadriceps: {
-        left: number;
-        right: number;
-    };
-    calf: {
-        left: number;
-        right: number;
-    };
+    leftQuadricep: number;
+    rightQuadricep: number;
+    leftCalf: number;
+    rightCalf: number;
 }

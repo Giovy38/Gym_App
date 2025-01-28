@@ -48,24 +48,16 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
             shoulder,
             chest,
             waist,
-            biceps: {
-                left: bicepsLeft,
-                right: bicepsRight
-            },
-            forearm: {
-                left: forearmLeft,
-                right: forearmRight
-            },
+            leftBicep: bicepsLeft,
+            rightBicep: bicepsRight,
+            leftForearm: forearmLeft,
+            rightForearm: forearmRight,
             buttocks,
             thigh,
-            quadriceps: {
-                left: quadricepsLeft,
-                right: quadricepsRight
-            },
-            calf: {
-                left: calfLeft,
-                right: calfRight
-            }
+            leftQuadricep: quadricepsLeft,
+            rightQuadricep: quadricepsRight,
+            leftCalf: calfLeft,
+            rightCalf: calfRight
         };
 
         try {
