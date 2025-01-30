@@ -14,11 +14,9 @@ class DietService {
     async addDietItem(id: number, day: string, meal: string, newItem: string, newQuantity: string): Promise<DietData | null> {
         try {
             const data = {
-                item: {
-                    quantity: newQuantity,
-                    name: newItem
-                }
-            }
+                quantity: newQuantity,
+                name: newItem,
+            };
 
             const res = await FetchFunction(`${this.DIET_BE_URL}/${id}/${day}/${meal}`, 'POST', data);
 
