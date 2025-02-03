@@ -89,13 +89,13 @@ class TrainingCardService {
         }
     }
 
-    async editNote(id: number, exerciseIndex: number, notes: string, noteIndex: number): Promise<TrainingData | null> {
+    async editNote(id: number, exerciseId: number, notes: string, noteIndex: number): Promise<TrainingData | null> {
         try {
             const data = {
                 note: notes
             }
 
-            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/exercise/${exerciseIndex}/note/${noteIndex}`, 'PUT', data);
+            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/exercise/${exerciseId}/note/${noteIndex}`, 'PUT', data);
 
             if (!res.ok) {
                 throw new Error('Error during the note edition');
@@ -109,9 +109,9 @@ class TrainingCardService {
         }
     }
 
-    async deleteNote(id: number, exerciseIndex: number, noteIndex: number): Promise<TrainingData | null> {
+    async deleteNote(id: number, exerciseId: number, noteIndex: number): Promise<TrainingData | null> {
         try {
-            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/exercise/${exerciseIndex}/note/${noteIndex}`, 'DELETE', {});
+            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/exercise/${exerciseId}/note/${noteIndex}`, 'DELETE', {});
 
             if (!res.ok) {
                 throw new Error('Error during the note deletion');

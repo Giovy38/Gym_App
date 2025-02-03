@@ -8,7 +8,7 @@ import { TrainingData } from "@/src/type/TrainingData.type";
 import { trainingCardService } from "@/src/services/training-card.services";
 
 
-export default function NoteArea({ exercise, latestTraining, index }: { exercise: SingleExerciseType, latestTraining: TrainingData, index: number }) {
+export default function NoteArea({ exercise, latestTraining }: { exercise: SingleExerciseType, latestTraining: TrainingData }) {
 
     const [editIndex, setEditIndex] = useState<number | null>(null);
     const [notes, setNotes] = useState<string[]>(exercise.note);
@@ -35,7 +35,7 @@ export default function NoteArea({ exercise, latestTraining, index }: { exercise
 
     const removeNote = async (noteIndex: number) => {
         try {
-            const result = await trainingCardService.deleteNote(latestTraining.id, index, noteIndex)
+            const result = await trainingCardService.deleteNote(latestTraining.id, exercise.exerciseId, noteIndex)
             if (!result) {
                 console.error('Error during note deletion');
             } else {
@@ -48,7 +48,7 @@ export default function NoteArea({ exercise, latestTraining, index }: { exercise
 
     const saveNote = async (noteIndex: number) => {
         try {
-            const result = await trainingCardService.editNote(latestTraining.id, index, notes[noteIndex], noteIndex);
+            const result = await trainingCardService.editNote(latestTraining.id, exercise.exerciseId, notes[noteIndex], noteIndex);
             if (!result) {
                 console.error('Error during note editing');
             } else {

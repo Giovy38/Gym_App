@@ -97,7 +97,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                             haveBarbell={exercise.barbell}
                             dayIndex={exercise.dayIndex}
                         />
-                        <NoteArea exercise={exercise} latestTraining={exercise.latestTraining} index={exercise.index} />
+                        <NoteArea exercise={exercise} latestTraining={exercise.latestTraining} />
                     </div>
                 </div>
             )}
