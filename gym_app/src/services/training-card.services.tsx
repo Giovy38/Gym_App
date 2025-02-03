@@ -6,7 +6,7 @@ class TrainingCardService {
     // backend url 
     private TRAINING_CARD_BE_URL = 'http://localhost:3001/training';
 
-    async createNewWorkout(id: number, dayIndex: number, exerciseIndex: number, workouts: singleWorkout[]): Promise<TrainingData | null> {
+    async createNewWorkout(id: number, dayIndex: number, exerciseId: number, workouts: singleWorkout[]): Promise<TrainingData | null> {
         try {
             const data = {
                 workout: workouts
@@ -14,7 +14,7 @@ class TrainingCardService {
 
             console.log('Sending data:', data);
 
-            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/day/${dayIndex}/exercise/${exerciseIndex}/workout`, 'POST', data);
+            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/day/${dayIndex}/exercise/${exerciseId}/workout`, 'POST', data);
 
             console.log('Response:', res);
 

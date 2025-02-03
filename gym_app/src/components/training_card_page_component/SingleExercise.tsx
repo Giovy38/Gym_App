@@ -93,7 +93,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                         <LastTrainingDetails
                             cardio={exercise.cardio}
                             latestTraining={exercise.latestTraining}
-                            index={exercise.index}
+                            exerciseId={exercise.exerciseId}
                             haveBarbell={exercise.barbell}
                             dayIndex={exercise.dayIndex}
                         />

@@ -27,7 +27,7 @@ interface Workout {
 
 
 
-export default function LastTrainingDetails({ cardio, latestTraining, index, haveBarbell, dayIndex }: { cardio: boolean, latestTraining: TrainingData, index: number, haveBarbell: boolean, dayIndex: number }) {
+export default function LastTrainingDetails({ cardio, latestTraining, exerciseId, haveBarbell, dayIndex }: { cardio: boolean, latestTraining: TrainingData, exerciseId: number, haveBarbell: boolean, dayIndex: number }) {
     const [workouts, setWorkouts] = useState<Workout[]>([]);
     const [showForm, setShowForm] = useState<boolean>(false);
     const [showPreviousWorkout, setShowPreviousWorkout] = useState<boolean>(false);
@@ -36,7 +36,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, index, hav
 
     useEffect(() => {
         const fetchLastWorkout = async () => {
-            const res = await trainingCardService.getLastWorkout(latestTraining.id, dayIndex, index);
+            const res = await trainingCardService.getLastWorkout(latestTraining.id, dayIndex, exerciseId);
 
             const formattedWorkoutDetails = res.lastWorkout.map((workout) => ({
                 sets: workout.sets,
@@ -47,7 +47,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, index, hav
             setLastWorkoutDetails(formattedWorkoutDetails);
         };
         fetchLastWorkout();
-    }, [latestTraining.id, dayIndex, index, isSaved]);
+    }, [latestTraining.id, dayIndex, exerciseId, isSaved]);
 
 
     const handleDelete = (index: number) => {
@@ -103,14 +103,14 @@ export default function LastTrainingDetails({ cardio, latestTraining, index, hav
             console.log('Calling createNewWorkout with:', {
                 id: latestTraining.id,
                 dayIndex,
-                exerciseIndex: index,
+                exerciseId: exerciseId,
                 workoutData
             });
 
             console.log('Workouts before saving:', workouts);
 
             try {
-                const res = await trainingCardService.createNewWorkout(latestTraining.id, dayIndex, index, workoutData)
+                const res = await trainingCardService.createNewWorkout(latestTraining.id, dayIndex, exerciseId, workoutData)
                 if (!res) {
                     throw new Error('Error during the workout addition');
                 }
