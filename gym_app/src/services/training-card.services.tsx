@@ -68,13 +68,14 @@ class TrainingCardService {
         }
     }
 
-    async addNewNote(id: number, exerciseIndex: number, notes: string): Promise<TrainingData | null> {
+    async addNewNote(id: number, exerciseId: number, notes: string): Promise<TrainingData | null> {
         try {
             const data = {
+                exerciseId: exerciseId,
                 note: notes
             }
 
-            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/exercise/${exerciseIndex}/note`, 'POST', data);
+            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/exercise/${exerciseId}/note`, 'POST', data);
 
             if (!res.ok) {
                 throw new Error('Error during the note addition');

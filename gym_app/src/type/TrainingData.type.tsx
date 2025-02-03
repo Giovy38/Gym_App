@@ -11,6 +11,7 @@ export type days = {
 
 
 export type Exercise = {
+    id: number;
     index: number;
     name: string;
     sets: number;

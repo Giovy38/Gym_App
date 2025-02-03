@@ -1,6 +1,7 @@
 import { TrainingData } from "./TrainingData.type"
 
 export type SingleExerciseType = {
+    exerciseId: number;
     index: number;
     exerciseTitle: string,
     reps: number,

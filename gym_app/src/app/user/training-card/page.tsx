@@ -97,6 +97,7 @@ export default function TrainingCardPage() {
                                     <SingleExercise
                                         key={exercise.name}
                                         exercise={{
+                                            exerciseId: exercise.id,
                                             index: exercise.index,
                                             exerciseTitle: exercise.name,
                                             sets: exercise.sets,

@@ -23,7 +23,7 @@ export default function NoteArea({ exercise, latestTraining, index }: { exercise
 
 
             try {
-                const result = await trainingCardService.addNewNote(latestTraining.id, index, newNote)
+                const result = await trainingCardService.addNewNote(latestTraining.id, exercise.exerciseId, newNote)
                 if (!result) {
                     console.error('Error during note addition');
                 }
