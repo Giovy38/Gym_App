@@ -89,13 +89,13 @@ export default function TrainingCardPage() {
             {latestTraining ? (
                 latestTraining.workoutDays.map((workoutDay, dayIndex) => (
                     <TrainingAccordion
-                        key={workoutDay.workoutName}
+                        key={`workout-day-${dayIndex}-${workoutDay.workoutName}`}
                         accordionTitle={workoutDay.workoutName}
                         buttons={
                             <>
                                 {workoutDay.exercises.map((exercise) => (
                                     <SingleExercise
-                                        key={exercise.name}
+                                        key={`exercise-${dayIndex}-${exercise.id}-${exercise.index}`}
                                         exercise={{
                                             exerciseId: exercise.id,
                                             index: exercise.index,

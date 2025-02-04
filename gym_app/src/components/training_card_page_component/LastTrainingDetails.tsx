@@ -174,7 +174,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, exerciseId
                         {showPreviousWorkout ? (
                             lastWorkoutDetails && lastWorkoutDetails.length > 0 ? (
                                 lastWorkoutDetails.map((workout, index) => (
-                                    <tr key={index}>
+                                    <tr key={`last-workout-${index}`}>
                                         <td>{workout.sets}</td>
                                         <td>{workout.reps}</td>
                                         <td>{workout.weight}</td>
@@ -187,7 +187,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, exerciseId
                             )
                         ) : (
                             workouts.map((workout, index) => (
-                                <tr key={index}>
+                                <tr key={`workout-${exerciseId}-${dayIndex}-${index}`}>
                                     <td>{workout.sets}</td>
                                     <td>{workout.reps}</td>
                                     <td>{workout.weight}</td>

@@ -35,7 +35,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
 
     useEffect(() => {
         const fetchLastWorkout = async () => {
-            const res = await trainingCardService.getLastWorkout(exercise.latestTraining.id, exercise.dayIndex, exercise.index);
+            const res = await trainingCardService.getLastWorkout(exercise.latestTraining.id, exercise.dayIndex, exercise.exerciseId);
             if (res.lastWorkout.length > 0) {
                 res.lastWorkout.map(workout => {
                     if (workout.weight > maxWeight) {
@@ -46,7 +46,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
 
         };
         fetchLastWorkout();
-    }, [exercise.dayIndex, exercise.index, exercise.latestTraining.id, maxWeight]);
+    }, [exercise.dayIndex, exercise.exerciseId, exercise.latestTraining.id, maxWeight]);
 
     console.log('Exercise data:', exercise);
 

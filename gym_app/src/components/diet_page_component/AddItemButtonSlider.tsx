@@ -86,7 +86,7 @@ export default function AddItemButtonSlider({ latestDiet, dayOfWeek, meal, diets
                         [&::-webkit-scrollbar-thumb]:bg-gray-100 h-[200px]">
                     {items.map((item, index) => (
                         <RemovibleItems
-                            key={index}
+                            key={`${selectedDiet?.id}-${meal}-${index}`}
                             index={index}
                             food={item.name}
                             quantity={item.quantity}

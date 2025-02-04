@@ -278,7 +278,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                             style={{ cursor: 'grab' }}
                                         >
                                             {day.exercises.map((exercise, exerciseIndex) => (
-                                                <SwiperSlide key={exerciseIndex}>
+                                                <SwiperSlide key={`exercise-${dayIndex}-${exerciseIndex}-${exercise.id}`}>
                                                     <div className="flex flex-col gap-2 text-black bg-[#2b2a2a80] p-3 rounded-lg relative">
                                                         <MdDeleteForever
                                                             className="absolute top-2 right-2 text-red-300 text-3xl cursor-pointer hover:text-white bg-black hover:bg-red-500 rounded-lg p-1"
@@ -411,6 +411,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                 const updatedDays = [...workoutDays];
                                 const newExerciseIndex = updatedDays[dayIndex].exercises.length;
                                 updatedDays[dayIndex].exercises.push({
+                                    id: 0,
                                     index: newExerciseIndex,
                                     name: '',
                                     sets: 0,
