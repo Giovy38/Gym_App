@@ -1,25 +1,27 @@
-import { singleWorkout, TrainingData } from "../type/TrainingData.type";
+import { TrainingData, WorkoutSet } from "../type/TrainingData.type";
 import FetchFunction from "./FetchFunction";
 
 class TrainingCardService {
 
     // backend url 
-    private TRAINING_CARD_BE_URL = 'http://localhost:3001/training';
+    private TRAINING_BE_URL = 'http://localhost:3001/training';
 
-    async createNewWorkout(id: number, dayIndex: number, exerciseId: number, workouts: singleWorkout[]): Promise<TrainingData | null> {
+    async createNewWorkout(trainingId: number, exerciseId: number, workoutSets: WorkoutSet[]): Promise<TrainingData | null> {
         try {
-            const data = {
-                workout: workouts
-            }
+            const workoutSession = {
+                date: new Date().toISOString(),
+                workoutSets: workoutSets
+            };
 
-            console.log('Sending data:', data);
-
-            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/day/${dayIndex}/exercise/${exerciseId}/workout`, 'POST', data);
-
-            console.log('Response:', res);
+            const res = await FetchFunction(
+                `${this.TRAINING_BE_URL}/${trainingId}/exercise/${exerciseId}/workout`,
+                'POST',
+                workoutSession
+            );
 
             if (!res.ok) {
-                throw new Error('Error during the workout addition');
+                console.error('Errore server:', res.error);
+                return null;
             }
 
             const updatedTraining: TrainingData = await res.value.json();
@@ -33,7 +35,7 @@ class TrainingCardService {
     async createNewTrainingCard(data: TrainingData): Promise<void> {
         try {
             const trainingDataWithUser = { ...data };
-            await FetchFunction(this.TRAINING_CARD_BE_URL, 'POST', trainingDataWithUser);
+            await FetchFunction(this.TRAINING_BE_URL, 'POST', trainingDataWithUser);
             console.log('Training card created successfully', trainingDataWithUser);
         } catch (error) {
             console.error('Error during the training card creation:', error);
@@ -42,7 +44,7 @@ class TrainingCardService {
 
     async swapTrainingCard(id: number): Promise<TrainingData | null> {
         try {
-            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}`, 'GET', {});
+            const res = await FetchFunction(`${this.TRAINING_BE_URL}/${id}`, 'GET', {});
             if (!res.ok) {
                 throw new Error('Error during the training card selection');
             }
@@ -56,7 +58,7 @@ class TrainingCardService {
 
     async deleteTrainingCard(id: number): Promise<TrainingData[]> {
         try {
-            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}`, 'DELETE', {});
+            const res = await FetchFunction(`${this.TRAINING_BE_URL}/${id}`, 'DELETE', {});
             if (!res.ok) {
                 throw new Error('Error during delete')
             }
@@ -75,7 +77,7 @@ class TrainingCardService {
                 note: notes
             }
 
-            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/exercise/${exerciseId}/note`, 'POST', data);
+            const res = await FetchFunction(`${this.TRAINING_BE_URL}/${id}/exercise/${exerciseId}/note`, 'POST', data);
 
             if (!res.ok) {
                 throw new Error('Error during the note addition');
@@ -95,7 +97,7 @@ class TrainingCardService {
                 note: notes
             }
 
-            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/exercise/${exerciseId}/note/${noteIndex}`, 'PUT', data);
+            const res = await FetchFunction(`${this.TRAINING_BE_URL}/${id}/exercise/${exerciseId}/note/${noteIndex}`, 'PUT', data);
 
             if (!res.ok) {
                 throw new Error('Error during the note edition');
@@ -111,7 +113,7 @@ class TrainingCardService {
 
     async deleteNote(id: number, exerciseId: number, noteIndex: number): Promise<TrainingData | null> {
         try {
-            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/exercise/${exerciseId}/note/${noteIndex}`, 'DELETE', {});
+            const res = await FetchFunction(`${this.TRAINING_BE_URL}/${id}/exercise/${exerciseId}/note/${noteIndex}`, 'DELETE', {});
 
             if (!res.ok) {
                 throw new Error('Error during the note deletion');
@@ -125,20 +127,23 @@ class TrainingCardService {
         }
     }
 
-    async getLastWorkout(id: number, dayIndex: number, exerciseId: number): Promise<{ lastWorkout: singleWorkout[] }> {
+    async getLastWorkout(id: number, exerciseId: number): Promise<{ lastWorkout: WorkoutSet[] }> {
         try {
-            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}/${id}/day/${dayIndex}/exercise/${exerciseId}/last-workout`, 'GET', {});
+            const res = await FetchFunction(
+                `${this.TRAINING_BE_URL}/${id}/exercise/${exerciseId}/last-workout`,
+                'GET',
+                {}
+            );
 
             if (res.ok) {
                 return res.value.json();
             }
 
             if (res.error.status === 404) {
-                return { lastWorkout: [] }
+                return { lastWorkout: [] };
             }
 
             throw new Error('Error during the workout selection');
-
         } catch (error) {
             console.error('Error during the workout selection:', error);
             throw new Error('Error during the workout selection');
@@ -147,7 +152,7 @@ class TrainingCardService {
 
     async getTrainings(): Promise<TrainingData[]> {
         try {
-            const res = await FetchFunction(`${this.TRAINING_CARD_BE_URL}`, 'GET', {});
+            const res = await FetchFunction(`${this.TRAINING_BE_URL}`, 'GET', {});
             if (!res.ok) {
                 throw new Error('Error during training fetch');
             }

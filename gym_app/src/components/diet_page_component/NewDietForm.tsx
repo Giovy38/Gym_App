@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import AddRemoveButton from "../reusable_components/AddRemoveButton";
-import { MealPlan } from "@/src/type/DietData.type";
 import { dietService } from "@/src/services/diet.services";
 
 type NewDietFormProps = {
@@ -20,27 +19,24 @@ export default function NewDietForm({ onClose, onNewDiet }: NewDietFormProps) {
 
     const [date, setDate] = useState(getCurrentDate());
 
+    const emptyDailyMenu = {
+        id: 0,
+        menuItems: []
+    };
 
-
-    const MealPlan: MealPlan = {
-        breakfast: [],
-        snack: [],
-        lunch: [],
-        snack2: [],
-        dinner: []
-    }
+    const days: Array<'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'> =
+        ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
     const handleSubmit = async () => {
+        const dailyDiets = days.map(day => ({
+            day,
+            dailyMenu: emptyDailyMenu
+        }));
+
         const dietData = {
             id: 0,
             date,
-            monday: MealPlan,
-            tuesday: MealPlan,
-            wednesday: MealPlan,
-            thursday: MealPlan,
-            friday: MealPlan,
-            saturday: MealPlan,
-            sunday: MealPlan
+            dailyDiets
         };
 
         try {

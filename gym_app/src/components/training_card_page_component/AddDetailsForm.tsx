@@ -2,23 +2,26 @@ import React, { useState } from 'react';
 import AddRemoveButton from '../reusable_components/AddRemoveButton';
 
 interface Workout {
-    sets: number;
-    reps?: number;
-    weight?: number;
+    setNumber: number;
+    reps: number;
+    weight: number;
     time?: number;
-    km?: number;
+    distanceInKm?: number;
+    exerciseType: 'cardio' | 'stretching' | 'withBarbell' | 'withWeight';
 }
 
 interface AddDetailsFormProps {
-    onAddWorkout: (workout: Omit<Workout, 'sets'>) => void;
+    onAddWorkout: (workout: Omit<Workout, "setNumber">) => void;
     onCancel: () => void;
     cardio: boolean;
     haveBarbell: boolean
 }
 
 export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBarbell }: AddDetailsFormProps) {
-    const [newWorkout, setNewWorkout] = useState<Omit<Workout, 'sets'>>(
-        cardio ? { time: 0, km: 0 } : { reps: 0, weight: 0 }
+    const [newWorkout, setNewWorkout] = useState<Omit<Workout, 'setNumber'>>(
+        cardio
+            ? { reps: 0, weight: 0, time: 0, distanceInKm: 0, exerciseType: 'cardio' }
+            : { reps: 0, weight: 0, time: undefined, distanceInKm: undefined, exerciseType: 'withWeight' }
     );
 
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -30,8 +33,8 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
     const isFormValid = () => {
         if (cardio && newWorkout.time) {
             return newWorkout.time > 0;
-        } else if (cardio && newWorkout.km) {
-            return newWorkout.km > 0;
+        } else if (cardio && newWorkout.distanceInKm) {
+            return newWorkout.distanceInKm > 0;
         }
         else if (!cardio && newWorkout.reps && newWorkout.weight) {
             return newWorkout.reps > 0 && newWorkout.weight > 0;
@@ -54,7 +57,7 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
     const handleSubmit = () => {
         if (isFormValid()) {
             onAddWorkout(newWorkout);
-            setNewWorkout(cardio ? { time: 0, km: 0 } : { reps: 0, weight: 0 });
+            setNewWorkout(cardio ? { reps: 0, weight: 0, time: 0, distanceInKm: 0, exerciseType: 'cardio' } : { reps: 0, weight: 0, time: undefined, distanceInKm: undefined, exerciseType: 'withWeight' });
         }
     };
 
@@ -75,8 +78,8 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
                     <label className='uppercase font-bold' htmlFor="km">km</label>
                     <input
                         type="text"
-                        name="km"
-                        value={newWorkout.km}
+                        name="distanceInKm"
+                        value={newWorkout.distanceInKm}
                         onFocus={handleFocus}
                         onChange={handleChange}
                         placeholder="Kilometers"

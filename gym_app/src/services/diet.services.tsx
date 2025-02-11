@@ -8,17 +8,18 @@ class DietService {
 
     async createNewDiet(data: DietData): Promise<void> {
         const dietDataWithUser = { ...data };
-        FetchFunction(this.DIET_BE_URL, 'POST', dietDataWithUser);
+        await FetchFunction(this.DIET_BE_URL, 'POST', dietDataWithUser);
     }
 
-    async addDietItem(id: number, day: string, meal: string, newItem: string, newQuantity: string): Promise<DietData | null> {
+    async addDietItem(id: number, day: string, mealType: string, newItem: string, newQuantity: string): Promise<DietData | null> {
         try {
             const data = {
                 quantity: newQuantity,
                 name: newItem,
+                mealType: mealType
             };
 
-            const res = await FetchFunction(`${this.DIET_BE_URL}/${id}/${day}/${meal}`, 'POST', data);
+            const res = await FetchFunction(`${this.DIET_BE_URL}/${id}/day/${day}`, 'POST', data);
 
             if (!res.ok) {
                 throw new Error('Error during the diet item addition');

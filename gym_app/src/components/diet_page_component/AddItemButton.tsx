@@ -4,7 +4,7 @@ import { GoPlusCircle } from "react-icons/go";
 import RemovibleItems from "./RemovibleItems";
 import { useState, useEffect } from "react";
 import { AddItemButtonType } from "@/src/type/AddItemButton.type";
-import { DietData, MealItem, MealPlan } from "@/src/type/DietData.type";
+import { DietData, MealItem } from "@/src/type/DietData.type";
 import AddFoodForm from "./AddFoodForm";
 
 export default function AddItemButton({ title, latestDiet, dayOfWeek, meal, diets, selectedDiet }: AddItemButtonType) {
@@ -21,7 +21,7 @@ export default function AddItemButton({ title, latestDiet, dayOfWeek, meal, diet
                 lastDiet = diets[diets.length - 1];
             }
 
-            const dayMeals: MealItem[] = lastDiet[dayOfWeek as keyof Omit<DietData, 'id' | 'date'>]?.[meal as keyof MealPlan] || [];
+            const dayMeals: MealItem[] = (lastDiet[dayOfWeek as keyof Omit<DietData, 'id' | 'date'>] as unknown as { [key: string]: MealItem[] })?.[meal] || [];
             setItems(dayMeals);
         }
     }, [diets, dayOfWeek, meal, selectedDiet]);

@@ -1,21 +1,22 @@
 export type DietData = {
     id: number;
     date: string;
-    monday: MealPlan;
-    tuesday: MealPlan;
-    wednesday: MealPlan;
-    thursday: MealPlan;
-    friday: MealPlan;
-    saturday: MealPlan;
-    sunday: MealPlan;
+    dailyDiets: DailyDiet[];
 }
 
-export type MealPlan = {
-    breakfast: MealItem[];
-    snack: MealItem[];
-    lunch: MealItem[];
-    snack2: MealItem[];
-    dinner: MealItem[];
+export type DailyDiet = {
+    day: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+    dailyMenu: DailyMenu;
+}
+
+export type DailyMenu = {
+    id: number;
+    menuItems: MenuItem[];
+}
+
+export type MenuItem = {
+    mealType: 'breakfast' | 'snack' | 'lunch' | 'snack2' | 'dinner';
+    meal: MealItem;
 }
 
 export type MealItem = {
