@@ -76,10 +76,20 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
             day.workoutName.trim() !== '' &&
             day.exercises.length > 0 &&
             day.exercises.every(exercise => {
-                const isCardioOrStretching = exercise.exerciseType === 'cardio' || exercise.exerciseType === 'stretching';
-                return exercise.name.trim() !== '' &&
-                    (isCardioOrStretching ? (exercise.time > 0 || exercise.distanceInKm > 0) : (exercise.sets > 0 && exercise.reps > 0)) &&
-                    (exercise.exerciseType !== 'withBarbell' || exercise.barbellWeight > 0);
+                // Validazione base per tutti i tipi
+                const baseValidation = exercise.name.trim() !== '';
+
+                switch (exercise.exerciseType) {
+                    case 'cardio':
+                    case 'stretching':
+                        return baseValidation && (exercise.time > 0 || exercise.distanceInKm > 0);
+                    case 'withWeight':
+                        return baseValidation && exercise.sets > 0 && exercise.reps > 0;
+                    case 'withBarbell':
+                        return baseValidation && exercise.sets > 0 && exercise.reps > 0 && exercise.barbellWeight > 0;
+                    default:
+                        return false;
+                }
             })
         );
     };
@@ -263,37 +273,70 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                     )}
                                                 </div>
                                             </div>
-                                            <div className="flex gap-2 items-end">
-                                                <div className="flex flex-col w-1/2 justify-center items-center">
-                                                    <label className="text-[#f8bf58] uppercase font-bold text-md select-none">
-                                                        Time (min)*
-                                                    </label>
-                                                    <input
-                                                        className={`${inputClass()} w-1/2`}
-                                                        type="number"
-                                                        min="0"
-                                                        placeholder="Time in minutes"
-                                                        value={day.exercises[0].time || ''}
-                                                        onChange={(e) => handleTimeChange(dayIndex, 0, handleNumberInputChange(e.target.value, 0))}
-                                                    />
-                                                </div>
-                                                <div className="flex flex-col w-1/2 justify-center items-center">
-                                                    <label className="text-[#f8bf58] uppercase font-bold text-md select-none">
-                                                        Distance (km)*
-                                                    </label>
-                                                    <input
-                                                        className={`${inputClass()} w-1/2`}
-                                                        type="number"
-                                                        min="0"
-                                                        placeholder="Distance in km"
-                                                        value={day.exercises[0].distanceInKm || ''}
-                                                        onChange={(e) => handleDistanceChange(dayIndex, 0, handleNumberInputChange(e.target.value, 0))}
-                                                    />
-                                                </div>
+                                            <div className="flex gap-2">
+                                                {(day.exercises[0].exerciseType === 'cardio' || day.exercises[0].exerciseType === 'stretching') ? (
+                                                    <>
+                                                        <div className="flex flex-col w-1/2 justify-center items-center">
+                                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none">
+                                                                Time (min)*
+                                                            </label>
+                                                            <input
+                                                                className={`${inputClass()} w-1/2`}
+                                                                type="number"
+                                                                min="0"
+                                                                placeholder="Time in minutes"
+                                                                value={day.exercises[0].time || ''}
+                                                                onChange={(e) => handleTimeChange(dayIndex, 0, handleNumberInputChange(e.target.value, 0))}
+                                                            />
+                                                        </div>
+                                                        <div className="flex flex-col w-1/2 justify-center items-center">
+                                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none">
+                                                                Distance (km)*
+                                                            </label>
+                                                            <input
+                                                                className={`${inputClass()} w-1/2`}
+                                                                type="number"
+                                                                min="0"
+                                                                placeholder="Distance in km"
+                                                                value={day.exercises[0].distanceInKm || ''}
+                                                                onChange={(e) => handleDistanceChange(dayIndex, 0, handleNumberInputChange(e.target.value, 0))}
+                                                            />
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <div className="flex flex-col w-1/2 justify-center items-center">
+                                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none">
+                                                                Sets*
+                                                            </label>
+                                                            <input
+                                                                className={`${inputClass()} w-1/2`}
+                                                                type="number"
+                                                                min="0"
+                                                                placeholder="Sets"
+                                                                value={day.exercises[0].sets || ''}
+                                                                onChange={(e) => handleExerciseChange(dayIndex, 0, 'sets', handleNumberInputChange(e.target.value, 0))}
+                                                            />
+                                                        </div>
+                                                        <div className="flex flex-col w-1/2 justify-center items-center">
+                                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none">
+                                                                Reps*
+                                                            </label>
+                                                            <input
+                                                                className={`${inputClass()} w-1/2`}
+                                                                type="number"
+                                                                min="0"
+                                                                placeholder="Reps"
+                                                                value={day.exercises[0].reps || ''}
+                                                                onChange={(e) => handleExerciseChange(dayIndex, 0, 'reps', handleNumberInputChange(e.target.value, 0))}
+                                                            />
+                                                        </div>
+                                                    </>
+                                                )}
                                             </div>
                                             <div className="flex gap-2">
                                                 <div className="flex flex-col w-full justify-center items-center">
-                                                    <label className="text-[#f8bf58] uppercase font-bold text-md select-none text-center" htmlFor={`restTimeSeconds-${dayIndex}-0`}>Rest Time (Seconds)</label>
+                                                    <label className="text-[#f8bf58] uppercase text-center font-bold text-md select-none" htmlFor={`restTimeSeconds-${dayIndex}-0`}>Rest Time (Seconds)</label>
                                                     <input
                                                         id={`restTimeSeconds-${dayIndex}-0`}
                                                         className="rounded-lg p-2 text-center w-1/2"
@@ -428,7 +471,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                         </div>
 
                                                         <div className="flex gap-2">
-                                                            {exercise.exerciseType === 'cardio' || exercise.exerciseType === 'stretching' ? (
+                                                            {(exercise.exerciseType === 'cardio' || exercise.exerciseType === 'stretching') ? (
                                                                 <>
                                                                     <div className="flex flex-col w-1/2 justify-center items-center">
                                                                         <label className="text-[#f8bf58] uppercase font-bold text-md select-none">

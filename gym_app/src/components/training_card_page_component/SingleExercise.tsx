@@ -46,7 +46,8 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
 
     useEffect(() => {
         const fetchLastWorkout = async () => {
-            const res = await trainingCardService.getLastWorkout(exercise.latestTraining.id, exercise.dayIndex, exercise.exerciseId);
+            const res = await trainingCardService.getLastWorkout(exercise.latestTraining.id, exercise.exerciseId);
+            console.log('workout to take weight from', res)
             if (res.lastWorkout.length > 0) {
                 res.lastWorkout.map(workout => {
                     if (workout.weight > maxWeight) {
@@ -76,7 +77,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                             <h5 className="text-sm">{exercise.sets} x {exercise.reps} rep</h5>
                         )}
                         {exercise.exerciseType !== 'cardio' && exercise.exerciseType !== 'stretching' && <h5 className="text-sm">{maxWeight} kg</h5>}
-                        {exercise.exerciseType !== 'cardio' && exercise.exerciseType !== 'stretching' && exercise.restTimeInSeconds && (
+                        {exercise.restTimeInSeconds && (
                             <h5 className="text-sm">{formatRestTime(exercise.restTimeInSeconds)} </h5>
                         )}
                     </div>
@@ -89,7 +90,13 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
             {isOpen && (
                 <div className="flex gap-2 justify-center items-center bg-[#ffffff14] rounded-b-xl p-4">
                     <div className="text-center flex flex-col gap-2">
-                        {exercise.exerciseType !== 'cardio' && exercise.exerciseType !== 'stretching' && (
+                        {exercise.exerciseType === 'cardio' || exercise.exerciseType === 'stretching' ? (
+                            <div className="flex gap-3 text-center bg-black p-2 rounded-full justify-center">
+                                <p>Time: {time} min</p>
+                                <p>|</p>
+                                <p>Distance: {distanceInKm} km</p>
+                            </div>
+                        ) : (
                             <div className="flex gap-3 text-center bg-black p-2 rounded-full justify-center">
                                 <p>Sets: {exercise.sets}</p>
                                 <p>x</p>
@@ -126,7 +133,6 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                             latestTraining={exercise.latestTraining}
                             exerciseId={exercise.exerciseId}
                             haveBarbell={exercise.exerciseType === 'withBarbell'}
-                            dayIndex={exercise.dayIndex}
                         />
                         <NoteArea exercise={exercise} latestTraining={exercise.latestTraining} />
                     </div>

@@ -84,6 +84,7 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
                 break;
             case 'training':
                 selectedData = await trainingCardService.swapTrainingCard(id);
+                console.log("training change", selectedData)
                 if (selectedData) {
                     console.log("Selected Data:", selectedData);
                     onUpdateData(selectedData);
