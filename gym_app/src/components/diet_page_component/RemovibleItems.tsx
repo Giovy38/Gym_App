@@ -9,9 +9,10 @@ interface RemovibleItemsProps {
     index: number;
     food: string;
     quantity: string;
+    mealId: number;
     onRemove: () => void;
     onEdit: (index: number) => void;
-    latestDietId: number | null;
+    latestDietId: number;
     dayOfWeek: string;
     meal: string;
 }

@@ -4,11 +4,11 @@ import { GoPlusCircle } from "react-icons/go";
 import RemovibleItems from "./RemovibleItems";
 import { useState, useEffect } from "react";
 import { AddItemButtonType } from "@/src/type/AddItemButton.type";
-import { DietData, MealItem } from "@/src/type/DietData.type";
+import { DietData, Meal } from "@/src/type/DietData.type";
 import AddFoodForm from "./AddFoodForm";
 
 export default function AddItemButton({ title, latestDiet, dayOfWeek, meal, diets, selectedDiet }: AddItemButtonType) {
-    const [items, setItems] = useState<MealItem[]>([]);
+    const [items, setItems] = useState<Meal[]>([]);
     const [showForm, setShowForm] = useState(false);
     const [editIndex, setEditIndex] = useState<number | null>(null);
 
@@ -21,7 +21,7 @@ export default function AddItemButton({ title, latestDiet, dayOfWeek, meal, diet
                 lastDiet = diets[diets.length - 1];
             }
 
-            const dayMeals: MealItem[] = (lastDiet[dayOfWeek as keyof Omit<DietData, 'id' | 'date'>] as unknown as { [key: string]: MealItem[] })?.[meal] || [];
+            const dayMeals: Meal[] = (lastDiet[dayOfWeek as keyof Omit<DietData, 'id' | 'date'>] as unknown as { [key: string]: Meal[] })?.[meal] || [];
             setItems(dayMeals);
         }
     }, [diets, dayOfWeek, meal, selectedDiet]);
@@ -31,12 +31,12 @@ export default function AddItemButton({ title, latestDiet, dayOfWeek, meal, diet
         if (editIndex !== null) {
             // Edit existing item
             const updatedItems = [...items];
-            updatedItems[editIndex] = { name, quantity };
+            updatedItems[editIndex] = { name, quantity, id: items[editIndex].id };
             setItems(updatedItems);
             setEditIndex(null);
         } else {
             // Add new item
-            setItems([...items, { name, quantity }]);
+            setItems([...items, { name, quantity, id: 0 }]);
         }
         setShowForm(false);
     }
@@ -86,6 +86,7 @@ export default function AddItemButton({ title, latestDiet, dayOfWeek, meal, diet
                     <RemovibleItems
                         key={index}
                         index={index}
+                        mealId={item.id}
                         food={item.name}
                         quantity={item.quantity}
                         onRemove={() => removeItem(index)}

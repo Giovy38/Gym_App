@@ -1,3 +1,21 @@
+export enum DayOfWeek {
+    monday = 'monday',
+    tuesday = 'tuesday',
+    wednesday = 'wednesday',
+    thursday = 'thursday',
+    friday = 'friday',
+    saturday = 'saturday',
+    sunday = 'sunday'
+}
+
+export enum MealType {
+    breakfast = 'breakfast',
+    snack = 'snack',
+    lunch = 'lunch',
+    snack2 = 'snack2',
+    dinner = 'dinner'
+}
+
 export type DietData = {
     id: number;
     date: string;
@@ -5,7 +23,8 @@ export type DietData = {
 }
 
 export type DailyDiet = {
-    day: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+    id: number;
+    day: DayOfWeek;
     dailyMenu: DailyMenu;
 }
 
@@ -15,12 +34,22 @@ export type DailyMenu = {
 }
 
 export type MenuItem = {
-    mealType: 'breakfast' | 'snack' | 'lunch' | 'snack2' | 'dinner';
-    meal: MealItem;
+    id: number;
+    mealType: MealType;
+    meal: Meal;
 }
 
-export type MealItem = {
+export type Meal = {
+    id: number;
     quantity: string;
     name: string;
 }
+
+
+
+
+
+
+
+
 

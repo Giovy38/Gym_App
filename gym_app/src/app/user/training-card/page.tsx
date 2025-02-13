@@ -55,8 +55,11 @@ export default function TrainingCardPage() {
         fetchData();
     }
 
-    const handleRemoveTraining = () => {
-        fetchData();
+    const handleRemoveTraining = async () => {
+        await fetchData();
+        if (trainings.length <= 1) {
+            setLatestTraining(null);
+        }
     }
 
     const [isTimerVisible, setIsTimerVisible] = useState(false);

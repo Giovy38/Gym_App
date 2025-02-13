@@ -53,15 +53,13 @@ export default function BodyCheckPage() {
         }
     };
 
-    const handleNewBodyCheck = () => {
-        fetchData(); // Refresh the data when a new body check is created
+    const handleNewBodyCheck = async () => {
+        await fetchData();
     };
 
     const updateChecks = (selectedData: BodyCheckData) => {
         setLatestCheck(selectedData);
-        if (bodyChecks.length === 1) {
-            setPreviousCheck(selectedData);
-        }
+        setPreviousCheck(bodyChecks.length > 1 ? bodyChecks[bodyChecks.length - 2] : selectedData);
     };
 
     const defaultData = {
@@ -99,7 +97,7 @@ export default function BodyCheckPage() {
                 onRemoveTraining={() => { }}
             />
 
-            {bodyChecks.length === 0 ? (
+            {bodyChecks.length === 0 || !latestCheck ? (
                 <div className="flex flex-col items-center justify-center gap-5 animate-pulse">
                     <SectionTitle title="Add a new body check to see your progress" />
                     <IoBody className="text-5xl text-[#f8bf58] animate-bounce" />

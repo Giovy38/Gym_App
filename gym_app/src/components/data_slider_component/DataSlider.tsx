@@ -24,7 +24,7 @@ type DataSliderProps = DataSliderType & {
     onNewTraining: (() => void);
 };
 
-export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCheck, onNewDiet, onNewTraining, onRemoveDiet, onUpdateSelectedData }: DataSliderProps) {
+export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCheck, onNewDiet, onNewTraining, onRemoveDiet, onUpdateSelectedData, onRemoveTraining }: DataSliderProps) {
     const [dataList, setDataList] = useState([
         { id: 1, isAdd: true, dataDate: '00/00/0000', dataType: 'add' },
     ]);
@@ -44,21 +44,20 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
         setShowForm(true);
     };
 
-    const handleDelete = (id: number) => {
+    const handleDelete = async (id: number) => {
         setDataList(dataList.filter(data => data.id !== id));
         switch (dataPage) {
             case 'body':
-                bodyCheckService.deleteBodyCheck(id);
-                window.location.reload();
+                await bodyCheckService.deleteBodyCheck(id);
+                onNewBodyCheck();
                 break;
             case 'diet':
-                dietService.deleteDiet(id);
+                await dietService.deleteDiet(id);
                 onRemoveDiet();
-                window.location.reload();
                 break;
             case 'training':
-                trainingCardService.deleteTrainingCard(id);
-                window.location.reload();
+                await trainingCardService.deleteTrainingCard(id);
+                onRemoveTraining();
                 break;
         }
     };

@@ -20,7 +20,7 @@ export default function DietPage() {
     const [isLoaded, setIsLoaded] = useState(false);
 
     const updateDiets = (selectedData: DietData) => {
-        setLatestDiet(diets[diets.length - 1]);
+        setLatestDiet(selectedData);
         console.log('latestDiet', latestDiet);
         console.log('diets', diets);
         console.log('selectedData', selectedData);

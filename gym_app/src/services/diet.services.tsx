@@ -15,18 +15,21 @@ class DietService {
         try {
             const data = {
                 quantity: newQuantity,
-                name: newItem,
-                mealType: mealType
+                name: newItem
             };
 
-            const res = await FetchFunction(`${this.DIET_BE_URL}/${id}/day/${day}`, 'POST', data);
+            const res = await FetchFunction(
+                `${this.DIET_BE_URL}/${id}/${day}/${mealType}`,
+                'POST',
+                data
+            );
 
             if (!res.ok) {
                 throw new Error('Error during the diet item addition');
             }
 
-            const updatedDiet: DietData = await res.value.json();
-            return updatedDiet;
+            // Aggiorna la dieta completa dopo l'aggiunta
+            return await this.swapDiet(id);
         } catch (error) {
             console.error('Error during the diet item addition:', error);
             return null;

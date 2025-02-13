@@ -64,7 +64,6 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
             await bodyCheckService.createBodyCheck(bodyCheckData);
             onNewBodyCheck();
             onClose();
-
         } catch (error) {
             console.error('Error during body check creation:', error);
         }
