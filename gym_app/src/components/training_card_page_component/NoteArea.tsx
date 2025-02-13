@@ -11,7 +11,7 @@ import { trainingCardService } from "@/src/services/training-card.services";
 export default function NoteArea({ exercise, latestTraining }: { exercise: SingleExerciseType, latestTraining: TrainingData }) {
 
     const [editIndex, setEditIndex] = useState<number | null>(null);
-    const [notes, setNotes] = useState<string[]>(exercise.note);
+    const [notes, setNotes] = useState<string[]>(exercise.notes);
     const [newNote, setNewNote] = useState<string>("");
 
 

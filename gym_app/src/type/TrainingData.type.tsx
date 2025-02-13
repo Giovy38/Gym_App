@@ -1,7 +1,7 @@
 export type TrainingData = {
     id: number;
-    workoutDays: days[];
     date: string;
+    workoutDays: days[];
 }
 
 export type days = {
@@ -9,30 +9,28 @@ export type days = {
     exercises: Exercise[];
 }
 
-
 export type Exercise = {
     id: number;
-    index: number;
     name: string;
     sets: number;
     reps: number;
-    restTime: {
-        minutes: number;
-        seconds: number;
-    };
-    barbell: boolean;
+    time: number;
+    distanceInKm: number;
+    exerciseType: 'cardio' | 'stretching' | 'withBarbell' | 'withWeight';
+    restTimeInSeconds: number;
     barbellWeight: number;
-    Workouts: LastWorkout[];
     notes: string[];
-    isCardio: boolean;
+    workoutSessions: WorkoutSession[];
 }
 
-type LastWorkout = {
-    lastWorkout: singleWorkout[];
+export type WorkoutSession = {
+    id: number;
+    date: string;
+    workoutSets: WorkoutSet[];
 }
 
-export type singleWorkout = {
-    sets: number;
+export type WorkoutSet = {
+    setNumber: number;
     reps: number;
     weight: number;
 }

@@ -3,41 +3,43 @@
 import RemovibleItems from "./RemovibleItems";
 import { useState, useEffect } from "react";
 import { AddItemButtonType } from "@/src/type/AddItemButton.type";
-import { DietData, MealItem, MealPlan } from "@/src/type/DietData.type";
 import AddFoodForm from "./AddFoodForm";
 import PlusButton from "../reusable_components/PlusButton";
 import ReactDOM from 'react-dom';
+import { Meal } from "@/src/type/DietData.type";
 
-export default function AddItemButtonSlider({ latestDiet, dayOfWeek, meal, diets, selectedDiet }: AddItemButtonType) {
-    const [items, setItems] = useState<MealItem[]>([]);
+export default function AddItemButtonSlider({ latestDiet, dayOfWeek, meal, selectedDiet }: AddItemButtonType) {
+    const [items, setItems] = useState<Meal[]>([]);
     const [showForm, setShowForm] = useState(false);
     const [editIndex, setEditIndex] = useState<number | null>(null);
 
     useEffect(() => {
-        if (diets && diets.length > 0) {
-            let lastDiet: DietData;
-            if (selectedDiet) {
-                lastDiet = selectedDiet;
-            } else {
-                lastDiet = diets[diets.length - 1];
+        if (selectedDiet) {
+            const currentDayDiet = selectedDiet.dailyDiets.find(d => d.day === dayOfWeek);
+            if (currentDayDiet) {
+                const mealItems = currentDayDiet.dailyMenu.menuItems
+                    .filter(item => item.mealType === meal)
+                    .map(item => ({
+                        name: item.meal.name,
+                        quantity: item.meal.quantity,
+                        id: item.meal.id
+                    }));
+                setItems(mealItems);
             }
-
-            const dayMeals: MealItem[] = lastDiet[dayOfWeek as keyof Omit<DietData, 'id' | 'date'>]?.[meal as keyof MealPlan] || [];
-            setItems(dayMeals);
         }
-    }, [diets, dayOfWeek, meal, selectedDiet]);
+    }, [selectedDiet, dayOfWeek, meal]);
 
     // function to add or edit an item
-    const addItem = (name: string, quantity: string) => {
+    const addItem = (name: string, quantity: string, id: number = 0) => {
         if (editIndex !== null) {
             // Edit existing item
             const updatedItems = [...items];
-            updatedItems[editIndex] = { name, quantity };
+            updatedItems[editIndex] = { name, quantity, id: items[editIndex].id };
             setItems(updatedItems);
             setEditIndex(null);
         } else {
             // Add new item
-            setItems([...items, { name, quantity }]);
+            setItems([...items, { name, quantity, id }]);
         }
         setShowForm(false);
     }
@@ -90,6 +92,7 @@ export default function AddItemButtonSlider({ latestDiet, dayOfWeek, meal, diets
                             index={index}
                             food={item.name}
                             quantity={item.quantity}
+                            mealId={item.id}
                             onRemove={() => removeItem(index)}
                             onEdit={() => editItem(index)}
                             latestDietId={selectedDiet!.id}

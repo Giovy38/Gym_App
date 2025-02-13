@@ -9,7 +9,7 @@ class BodyCheckService {
 
     async createBodyCheck(data: BodyCheckData): Promise<void> {
         const bodyCheckDataWithUser = { ...data };
-        FetchFunction(this.BODY_CHECK_BE_URL, 'POST', bodyCheckDataWithUser);
+        await FetchFunction(this.BODY_CHECK_BE_URL, 'POST', bodyCheckDataWithUser);
     }
 
     async deleteBodyCheck(id: number): Promise<BodyCheckData[]> {

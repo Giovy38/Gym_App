@@ -8,38 +8,37 @@ import { SiPastebin } from "react-icons/si";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
 import { IoDownloadSharp } from "react-icons/io5";
 import { HiCloudArrowUp } from "react-icons/hi2";
-import { singleWorkout, TrainingData } from '@/src/type/TrainingData.type';
+import { TrainingData } from '@/src/type/TrainingData.type';
 import { trainingCardService } from '@/src/services/training-card.services';
 
-
-
 interface Workout {
-    sets: number;
-    reps?: number;
-    weight?: number;
+    setNumber: number;
+    reps: number;
+    weight: number;
     time?: number;
-    km?: number;
-    cardio: boolean;
+    distanceInKm?: number;
+    exerciseType: 'cardio' | 'stretching' | 'withBarbell' | 'withWeight';
 }
 
+interface SingleWorkout {
+    sets: number;
+    reps: number;
+    weight: number;
+}
 
-
-
-
-
-export default function LastTrainingDetails({ cardio, latestTraining, exerciseId, haveBarbell, dayIndex }: { cardio: boolean, latestTraining: TrainingData, exerciseId: number, haveBarbell: boolean, dayIndex: number }) {
+export default function LastTrainingDetails({ cardio, latestTraining, exerciseId, haveBarbell }: { cardio: boolean, latestTraining: TrainingData, exerciseId: number, haveBarbell: boolean }) {
     const [workouts, setWorkouts] = useState<Workout[]>([]);
     const [showForm, setShowForm] = useState<boolean>(false);
     const [showPreviousWorkout, setShowPreviousWorkout] = useState<boolean>(false);
     const [isSaved, setIsSaved] = useState<boolean>(false);
-    const [lastWorkoutDetails, setLastWorkoutDetails] = useState<singleWorkout[] | null>(null);
+    const [lastWorkoutDetails, setLastWorkoutDetails] = useState<SingleWorkout[] | null>(null);
 
     useEffect(() => {
         const fetchLastWorkout = async () => {
-            const res = await trainingCardService.getLastWorkout(latestTraining.id, dayIndex, exerciseId);
+            const res = await trainingCardService.getLastWorkout(latestTraining.id, exerciseId);
 
             const formattedWorkoutDetails = res.lastWorkout.map((workout) => ({
-                sets: workout.sets,
+                sets: workout.setNumber,
                 reps: workout.reps,
                 weight: workout.weight,
             }));
@@ -47,7 +46,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, exerciseId
             setLastWorkoutDetails(formattedWorkoutDetails);
         };
         fetchLastWorkout();
-    }, [latestTraining.id, dayIndex, exerciseId, isSaved]);
+    }, [latestTraining.id, exerciseId, isSaved]);
 
 
     const handleDelete = (index: number) => {
@@ -56,14 +55,16 @@ export default function LastTrainingDetails({ cardio, latestTraining, exerciseId
         setWorkouts(updatedWorkouts.map((workout, i) => ({ ...workout, sets: i + 1 })));
     };
 
-    const handleAddWorkout = (newWorkout: Omit<Workout, 'sets' | 'cardio'>) => {
+    const handleAddWorkout = (newWorkout: Omit<Workout, 'setNumber'>) => {
+        setIsSaved(false);
         const newSetNumber = workouts.length + 1;
-        const workoutWithSet = {
-            ...newWorkout,
-            sets: newSetNumber,
-            cardio,
-            reps: cardio ? newWorkout.time : newWorkout.reps,
-            weight: cardio ? newWorkout.km : newWorkout.weight,
+        const workoutWithSet: Workout = {
+            setNumber: newSetNumber,
+            reps: cardio ? 0 : newWorkout.reps,
+            weight: cardio ? 0 : newWorkout.weight,
+            time: cardio ? newWorkout.time : undefined,
+            distanceInKm: cardio ? newWorkout.distanceInKm : undefined,
+            exerciseType: newWorkout.exerciseType
         };
         setWorkouts([...workouts, workoutWithSet]);
         setShowForm(false);
@@ -80,43 +81,49 @@ export default function LastTrainingDetails({ cardio, latestTraining, exerciseId
     const handleDuplicateWorkout = (index: number) => {
         const workoutToDuplicate = workouts[index];
         const newSetNumber = workouts.length + 1;
-        const duplicatedWorkout = { ...workoutToDuplicate, sets: newSetNumber };
+        const duplicatedWorkout = { ...workoutToDuplicate, setNumber: newSetNumber };
         setWorkouts([...workouts, duplicatedWorkout]);
     };
 
     const handleSave = async () => {
+        if (workouts.length === 0) return;
 
-        if (workouts.length === 0) {
-            return;
-        }
-
-        setIsSaved(!isSaved);
-        console.log('latestTraining', latestTraining);
-
-        if (!isSaved) {
-            const workoutData = workouts.map((workout) => ({
-                sets: workout.sets,
-                reps: workout.reps || 0,
-                weight: workout.weight || 0,
+        try {
+            const workoutSets = workouts.map((workout) => ({
+                setNumber: workout.setNumber,
+                reps: workout.exerciseType === 'cardio' ? Number(workout.time) || 0 : Number(workout.reps) || 0,
+                weight: workout.exerciseType === 'cardio' ? Number(workout.distanceInKm) || 0 : Number(workout.weight) || 0
             }));
 
-            console.log('Calling createNewWorkout with:', {
-                id: latestTraining.id,
-                dayIndex,
-                exerciseId: exerciseId,
-                workoutData
+            console.log('Dati inviati:', {
+                trainingId: latestTraining.id,
+                exerciseId,
+                workoutSets
             });
 
-            console.log('Workouts before saving:', workouts);
+            const res = await trainingCardService.createNewWorkout(
+                latestTraining.id,
+                exerciseId,
+                workoutSets
+            );
 
-            try {
-                const res = await trainingCardService.createNewWorkout(latestTraining.id, dayIndex, exerciseId, workoutData)
-                if (!res) {
-                    throw new Error('Error during the workout addition');
-                }
-            } catch (error) {
-                console.error('Error during the workout addition:', error);
+            if (!res) {
+                console.error('Nessuna risposta dal server durante l\'aggiunta del workout');
+                setIsSaved(false);
+                return;
             }
+
+            setIsSaved(true);
+            // Aggiorniamo i dati dell'ultimo allenamento
+            const formattedWorkoutDetails = workoutSets.map((workout) => ({
+                sets: workout.setNumber,
+                reps: workout.reps,
+                weight: workout.weight,
+            }));
+            setLastWorkoutDetails(formattedWorkoutDetails);
+        } catch (error) {
+            console.error('Errore dettagliato durante il salvataggio:', error);
+            setIsSaved(false);
         }
     };
 
@@ -176,21 +183,23 @@ export default function LastTrainingDetails({ cardio, latestTraining, exerciseId
                                 lastWorkoutDetails.map((workout, index) => (
                                     <tr key={`last-workout-${index}`}>
                                         <td>{workout.sets}</td>
-                                        <td>{workout.reps}</td>
-                                        <td>{workout.weight}</td>
+                                        <td>{cardio ? workout.reps : workout.reps}</td>
+                                        <td>{cardio ? workout.weight : workout.weight}</td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={3} className="text-center text-red-700 italic font-bold p-3">No previous workout found</td>
+                                    <td colSpan={4} className="text-center text-red-700 italic font-bold p-3">
+                                        No previous workout found
+                                    </td>
                                 </tr>
                             )
                         ) : (
                             workouts.map((workout, index) => (
-                                <tr key={`workout-${exerciseId}-${dayIndex}-${index}`}>
-                                    <td>{workout.sets}</td>
-                                    <td>{workout.reps}</td>
-                                    <td>{workout.weight}</td>
+                                <tr key={`workout-${exerciseId}-${index}`}>
+                                    <td>{workout.setNumber}</td>
+                                    <td>{cardio ? workout.time : workout.reps}</td>
+                                    <td>{cardio ? workout.distanceInKm : workout.weight}</td>
                                     <td>
                                         <IoDownloadSharp
                                             className='text-blue-500 cursor-pointer'

@@ -55,8 +55,11 @@ export default function TrainingCardPage() {
         fetchData();
     }
 
-    const handleRemoveTraining = () => {
-        fetchData();
+    const handleRemoveTraining = async () => {
+        await fetchData();
+        if (trainings.length <= 1) {
+            setLatestTraining(null);
+        }
     }
 
     const [isTimerVisible, setIsTimerVisible] = useState(false);
@@ -95,19 +98,19 @@ export default function TrainingCardPage() {
                             <>
                                 {workoutDay.exercises.map((exercise) => (
                                     <SingleExercise
-                                        key={`exercise-${dayIndex}-${exercise.id}-${exercise.index}`}
+                                        key={`exercise-${dayIndex}-${exercise.id}`}
                                         exercise={{
                                             exerciseId: exercise.id,
-                                            index: exercise.index,
                                             exerciseTitle: exercise.name,
                                             sets: exercise.sets,
                                             reps: exercise.reps,
-                                            restTime: exercise.restTime.minutes * 60 + exercise.restTime.seconds,
-                                            barbellWeight: exercise.barbell ? exercise.barbellWeight : 0,
-                                            totalweight: exercise.barbell ? (exercise.barbellWeight || 0) : 0,
-                                            barbell: exercise.barbell,
-                                            note: exercise.notes,
-                                            cardio: exercise.isCardio,
+                                            time: exercise.time,
+                                            distanceInKm: exercise.distanceInKm,
+                                            restTimeInSeconds: exercise.restTimeInSeconds,
+                                            exerciseType: exercise.exerciseType,
+                                            barbellWeight: exercise.exerciseType === 'withBarbell' ? exercise.barbellWeight : 0,
+                                            totalWeight: exercise.exerciseType === 'withBarbell' ? (exercise.barbellWeight || 0) : 0,
+                                            notes: exercise.notes,
                                             latestTraining: latestTraining,
                                             dayIndex: dayIndex
                                         }}
