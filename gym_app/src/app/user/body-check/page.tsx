@@ -100,7 +100,7 @@ export default function BodyCheckPage() {
             {bodyChecks.length === 0 || !latestCheck ? (
                 <div className="flex flex-col items-center justify-center gap-5 animate-pulse">
                     <SectionTitle title="Add a new body check to see your progress" />
-                    <IoBody className="text-5xl text-[#f8bf58] animate-bounce" />
+                    <IoBody className="text-5xl text-primary-color animate-bounce" />
                 </div>
             ) : (
                 <div className="flex flex-col lg:flex-row flex-grow items-center justify-around gap-5 lg:gap-20 p-5">

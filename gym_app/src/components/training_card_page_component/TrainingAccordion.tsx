@@ -15,7 +15,7 @@ export default function TrainingAccordion({ accordionTitle, buttons }: TrainingA
     return (
         <div className="flex flex-col ">
             <div
-                className="text-[#f8bf58] p-2 flex justify-center items-center gap-2 rounded-lg font-bold bg-black cursor-pointer w-full mt-5"
+                className="text-primary-color p-2 flex justify-center items-center gap-2 rounded-lg font-bold bg-bg-primary cursor-pointer w-full mt-5"
                 onClick={accordionOpenClose}
             >
                 <h1 className="uppercase">{accordionTitle}</h1>

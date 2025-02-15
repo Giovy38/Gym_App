@@ -124,20 +124,20 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
 
     const inputClass = () => {
 
-        return isFormValid() ? 'rounded-lg p-2 text-center text-black bg-slate-200 font-bold italic' : 'rounded-lg text-black p-2 text-center border-2 bg-red-200 border-red-500';
+        return isFormValid() ? 'rounded-lg p-2 text-center text-text-secondary bg-slate-200 font-bold italic' : 'rounded-lg text-text-secondary p-2 text-center border-2 bg-red-200 border-red-500';
 
 
     };
 
     return (
-        <div className="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center text-white z-50">
-            <div className="p-4 shadow-md rounded-lg w-full max-w-4xl bg-black overflow-auto max-h-full">
+        <div className="fixed inset-0 bg-bg-secondary bg-opacity-50 flex items-center justify-center text-text-primary z-50">
+            <div className="p-4 shadow-md rounded-lg w-full max-w-4xl bg-bg-primary overflow-auto max-h-full">
                 <div className="flex justify-end">
-                    <IoMdCloseCircle className="text-red-400 text-2xl cursor-pointer hover:text-red-500" onClick={onClose} />
+                    <IoMdCloseCircle className="text-btn-exit text-2xl cursor-pointer hover:text-btn-exit-hover" onClick={onClose} />
                 </div>
-                <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-[#f8bf58] mb-3">Add New Training Card</h1>
-                <div className="text-black flex flex-col justify-center items-center">
-                    <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor="date">Date</label>
+                <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-primary-color mb-3">Add New Training Card</h1>
+                <div className="text-text-secondary flex flex-col justify-center items-center">
+                    <label className="text-primary-color uppercase font-bold text-md select-none" htmlFor="date">Date</label>
                     <input
                         className="rounded-lg p-2 text-center"
                         type='date'
@@ -148,11 +148,11 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                 </div>
                 <div className="flex flex-col gap-3 mt-4">
                     {workoutDays.map((day, dayIndex) => (
-                        <div key={dayIndex} className="flex flex-col gap-3 bg-[#111111] shadow-lg shadow-[#f8bf58] p-3 rounded-lg mb-10 relative">
+                        <div key={dayIndex} className="flex flex-col gap-3 bg-bg-third shadow-lg shadow-shadow-secondary p-3 rounded-lg mb-10 relative">
                             <div className="grid grid-cols-[1fr_auto] gap-3 items-center">
-                                <label className="bg-[#f8bf58] text-black rounded-lg p-2 text-center uppercase font-extrabold text-lg italic text-md select-none" htmlFor={`workoutName-${dayIndex}`}>Muscle Group</label>
+                                <label className="bg-primary-color text-text-secondary rounded-lg p-2 text-center uppercase font-extrabold text-lg italic text-md select-none" htmlFor={`workoutName-${dayIndex}`}>Muscle Group</label>
                                 <MdDeleteForever
-                                    className="top-2 right-2 text-red-300 text-4xl cursor-pointer hover:text-white bg-black hover:bg-red-500 rounded-lg p-1"
+                                    className="top-2 right-2 text-icon-delete text-4xl cursor-pointer hover:text-text-primary bg-bg-primary hover:bg-btn-delete rounded-lg p-1"
                                     onClick={() => removeWorkoutDay(dayIndex)}
                                 />
                             </div>
@@ -172,9 +172,9 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                             {day.exercises.length > 0 && (
                                 <div>
                                     {day.exercises.length === 1 ? (
-                                        <div className="flex flex-col gap-2 text-black bg-[#2b2a2a80] p-3 rounded-lg relative">
+                                        <div className="flex flex-col gap-2 text-text-secondary bg-bg-data p-3 rounded-lg relative">
                                             <MdDeleteForever
-                                                className="absolute top-2 right-2 text-red-300 text-3xl cursor-pointer hover:text-white bg-black hover:bg-red-500 rounded-lg p-1"
+                                                className="absolute top-2 right-2 text-icon-delete text-3xl cursor-pointer hover:text-text-primary bg-bg-primary hover:bg-btn-delete rounded-lg p-1"
                                                 onClick={() => {
                                                     const updatedExercises = day.exercises.filter((_, index) => index !== 0);
                                                     const updatedDays = [...workoutDays];
@@ -182,7 +182,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                     setWorkoutDays(updatedDays);
                                                 }}
                                             />
-                                            <label className="text-[#f8bf58] uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-0`}>Exercise*</label>
+                                            <label className="text-primary-color uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-0`}>Exercise*</label>
                                             <input
                                                 id={`exerciseName-${dayIndex}-0`}
                                                 className={inputClass()}
@@ -191,77 +191,77 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                 value={day.exercises[0].name}
                                                 onChange={(e) => handleExerciseChange(dayIndex, 0, 'name', e.target.value)}
                                             />
-                                            <div className="flex flex-col justify-center items-center gap-4 text-xl mt-3 bg-black p-3 rounded-lg min-h-[160px]">
+                                            <div className="flex flex-col justify-center items-center gap-4 text-xl mt-3 bg-bg-primary p-3 rounded-lg min-h-[160px]">
                                                 <div className="flex justify-center items-center gap-4">
                                                     <div className="flex flex-col items-center gap-2">
                                                         <MdDirectionsRun
-                                                            className={`text-2xl cursor-pointer ${day.exercises[0].exerciseType === 'cardio' ? 'text-green-400' : 'text-gray-400'}`}
+                                                            className={`text-2xl cursor-pointer ${day.exercises[0].exerciseType === 'cardio' ? 'text-icon-active' : 'text-icon-inactive'}`}
                                                             onClick={() => handleExerciseChange(dayIndex, 0, 'exerciseType', 'cardio')}
                                                         />
                                                         <div
                                                             className={`w-4 h-4 rounded-full border-2 cursor-pointer ${day.exercises[0].exerciseType === 'cardio'
-                                                                ? 'bg-green-400 border-green-400'
-                                                                : 'border-gray-400'
+                                                                ? 'bg-icon-active border-icon-active'
+                                                                : 'border-icon-inactive'
                                                                 }`}
                                                             onClick={() => handleExerciseChange(dayIndex, 0, 'exerciseType', 'cardio')}
                                                         />
-                                                        <span className="text-xs text-[#f8bf58] uppercase font-bold">Cardio</span>
+                                                        <span className="text-xs text-primary-coloruppercase font-bold">Cardio</span>
                                                     </div>
                                                     <div className="flex flex-col items-center gap-2">
                                                         <TbStretching
-                                                            className={`text-2xl cursor-pointer ${day.exercises[0].exerciseType === 'stretching' ? 'text-green-400' : 'text-gray-400'}`}
+                                                            className={`text-2xl cursor-pointer ${day.exercises[0].exerciseType === 'stretching' ? 'text-icon-active' : 'text-icon-inactive'}`}
                                                             onClick={() => handleExerciseChange(dayIndex, 0, 'exerciseType', 'stretching')}
                                                         />
                                                         <div
                                                             className={`w-4 h-4 rounded-full border-2 cursor-pointer ${day.exercises[0].exerciseType === 'stretching'
-                                                                ? 'bg-green-400 border-green-400'
-                                                                : 'border-gray-400'
+                                                                ? 'bg-icon-active border-icon-active'
+                                                                : 'border-icon-inactive'
                                                                 }`}
                                                             onClick={() => handleExerciseChange(dayIndex, 0, 'exerciseType', 'stretching')}
                                                         />
-                                                        <span className="text-xs text-[#f8bf58] uppercase font-bold">Stretch</span>
+                                                        <span className="text-xs text-primary-color uppercase font-bold">Stretch</span>
                                                     </div>
                                                     <div className="flex flex-col items-center gap-2">
                                                         <CgGym
-                                                            className={`text-2xl cursor-pointer ${day.exercises[0].exerciseType === 'withWeight' ? 'text-green-400' : 'text-gray-400'}`}
+                                                            className={`text-2xl cursor-pointer ${day.exercises[0].exerciseType === 'withWeight' ? 'text-icon-active' : 'text-icon-inactive'}`}
                                                             onClick={() => {
                                                                 handleExerciseChange(dayIndex, 0, 'exerciseType', 'withWeight');
                                                             }}
                                                         />
                                                         <div
                                                             className={`w-4 h-4 rounded-full border-2 cursor-pointer ${day.exercises[0].exerciseType === 'withWeight'
-                                                                ? 'bg-green-400 border-green-400'
-                                                                : 'border-gray-400'
+                                                                ? 'bg-icon-active border-icon-active'
+                                                                : 'border-icon-inactive'
                                                                 }`}
                                                             onClick={() => {
                                                                 handleExerciseChange(dayIndex, 0, 'exerciseType', 'withWeight');
                                                             }}
                                                         />
-                                                        <span className="text-xs text-[#f8bf58] uppercase font-bold">Weight</span>
+                                                        <span className="text-xs text-primary-color uppercase font-bold">Weight</span>
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-center items-center gap-4">
                                                     <div className="flex flex-col items-center gap-2">
                                                         <IoBarbellOutline
-                                                            className={`text-2xl cursor-pointer ${day.exercises[0].exerciseType === 'withBarbell' ? 'text-green-400' : 'text-gray-400'}`}
+                                                            className={`text-2xl cursor-pointer ${day.exercises[0].exerciseType === 'withBarbell' ? 'text-icon-active' : 'text-icon-inactive'}`}
                                                             onClick={() => {
                                                                 handleExerciseChange(dayIndex, 0, 'exerciseType', 'withBarbell');
                                                             }}
                                                         />
                                                         <div
                                                             className={`w-4 h-4 rounded-full border-2 cursor-pointer ${day.exercises[0].exerciseType === 'withBarbell'
-                                                                ? 'bg-green-400 border-green-400'
-                                                                : 'border-gray-400'
+                                                                ? 'bg-icon-active border-icon-active'
+                                                                : 'border-icon-inactive'
                                                                 }`}
                                                             onClick={() => {
                                                                 handleExerciseChange(dayIndex, 0, 'exerciseType', 'withBarbell');
                                                             }}
                                                         />
-                                                        <span className="text-xs text-[#f8bf58] uppercase font-bold">Barbell</span>
+                                                        <span className="text-xs text-primary-color uppercase font-bold">Barbell</span>
                                                     </div>
                                                     {day.exercises[0].exerciseType === 'withBarbell' && (
                                                         <div className="flex flex-col items-center gap-2">
-                                                            <span className="text-xs text-[#f8bf58] uppercase font-bold">Barbell Weight</span>
+                                                            <span className="text-xs text-primary-color uppercase font-bold">Barbell Weight</span>
                                                             <input
                                                                 id={`barbellWeight-${dayIndex}-0`}
                                                                 className={`${inputClass()} w-16 text-sm`}
@@ -277,7 +277,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                 {(day.exercises[0].exerciseType === 'cardio' || day.exercises[0].exerciseType === 'stretching') ? (
                                                     <>
                                                         <div className="flex flex-col w-1/2 justify-center items-center">
-                                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none">
+                                                            <label className="text-primary-color uppercase font-bold text-md select-none">
                                                                 Time (min)*
                                                             </label>
                                                             <input
@@ -290,7 +290,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                             />
                                                         </div>
                                                         <div className="flex flex-col w-1/2 justify-center items-center">
-                                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none">
+                                                            <label className="text-primary-color uppercase font-bold text-md select-none">
                                                                 Distance (km)*
                                                             </label>
                                                             <input
@@ -306,7 +306,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                 ) : (
                                                     <>
                                                         <div className="flex flex-col w-1/2 justify-center items-center">
-                                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none">
+                                                            <label className="text-primary-color uppercase font-bold text-md select-none">
                                                                 Sets*
                                                             </label>
                                                             <input
@@ -319,7 +319,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                             />
                                                         </div>
                                                         <div className="flex flex-col w-1/2 justify-center items-center">
-                                                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none">
+                                                            <label className="text-primary-color uppercase font-bold text-md select-none">
                                                                 Reps*
                                                             </label>
                                                             <input
@@ -336,7 +336,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                             </div>
                                             <div className="flex gap-2">
                                                 <div className="flex flex-col w-full justify-center items-center">
-                                                    <label className="text-[#f8bf58] uppercase text-center font-bold text-md select-none" htmlFor={`restTimeSeconds-${dayIndex}-0`}>Rest Time (Seconds)</label>
+                                                    <label className="text-primary-color uppercase text-center font-bold text-md select-none" htmlFor={`restTimeSeconds-${dayIndex}-0`}>Rest Time (Seconds)</label>
                                                     <input
                                                         id={`restTimeSeconds-${dayIndex}-0`}
                                                         className="rounded-lg p-2 text-center w-1/2"
@@ -368,9 +368,9 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                         >
                                             {day.exercises.map((exercise, exerciseIndex) => (
                                                 <SwiperSlide key={`exercise-${dayIndex}-${exerciseIndex}-${exercise.id}`}>
-                                                    <div className="flex flex-col gap-2 text-black bg-[#2b2a2a80] p-3 rounded-lg relative">
+                                                    <div className="flex flex-col gap-2 text-text-secondary bg-bg-data p-3 rounded-lg relative">
                                                         <MdDeleteForever
-                                                            className="absolute top-2 right-2 text-red-300 text-3xl cursor-pointer hover:text-white bg-black hover:bg-red-500 rounded-lg p-1"
+                                                            className="absolute top-2 right-2 text-icon-delete text-3xl cursor-pointer hover:text-text-primary bg-bg-primary hover:bg-btn-delete rounded-lg p-1"
                                                             onClick={() => {
                                                                 const updatedExercises = day.exercises.filter((_, index) => index !== exerciseIndex);
                                                                 const updatedDays = [...workoutDays];
@@ -378,7 +378,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 setWorkoutDays(updatedDays);
                                                             }}
                                                         />
-                                                        <label className="text-[#f8bf58] uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-${exerciseIndex}`}>Exercise</label>
+                                                        <label className="text-primary-color uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-${exerciseIndex}`}>Exercise</label>
                                                         <input
                                                             id={`exerciseName-${dayIndex}-${exerciseIndex}`}
                                                             className={inputClass()}
@@ -387,77 +387,77 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                             value={exercise.name}
                                                             onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'name', e.target.value)}
                                                         />
-                                                        <div className="flex flex-col justify-center items-center gap-4 text-xl mt-3 bg-black p-3 rounded-lg min-h-[160px]">
+                                                        <div className="flex flex-col justify-center items-center gap-4 text-xl mt-3 bg-bg-primary p-3 rounded-lg min-h-[160px]">
                                                             <div className="flex justify-center items-center gap-4">
                                                                 <div className="flex flex-col items-center gap-2">
                                                                     <MdDirectionsRun
-                                                                        className={`text-2xl cursor-pointer ${exercise.exerciseType === 'cardio' ? 'text-green-400' : 'text-gray-400'}`}
+                                                                        className={`text-2xl cursor-pointer ${exercise.exerciseType === 'cardio' ? 'text-icon-active' : 'text-icon-inactive'}`}
                                                                         onClick={() => handleExerciseChange(dayIndex, exerciseIndex, 'exerciseType', 'cardio')}
                                                                     />
                                                                     <div
                                                                         className={`w-4 h-4 rounded-full border-2 cursor-pointer ${exercise.exerciseType === 'cardio'
-                                                                            ? 'bg-green-400 border-green-400'
-                                                                            : 'border-gray-400'
+                                                                            ? 'bg-icon-active border-icon-active'
+                                                                            : 'border-icon-inactive'
                                                                             }`}
                                                                         onClick={() => handleExerciseChange(dayIndex, exerciseIndex, 'exerciseType', 'cardio')}
                                                                     />
-                                                                    <span className="text-xs text-[#f8bf58] uppercase font-bold">Cardio</span>
+                                                                    <span className="text-xs text-primary-color uppercase font-bold">Cardio</span>
                                                                 </div>
                                                                 <div className="flex flex-col items-center gap-2">
                                                                     <TbStretching
-                                                                        className={`text-2xl cursor-pointer ${exercise.exerciseType === 'stretching' ? 'text-green-400' : 'text-gray-400'}`}
+                                                                        className={`text-2xl cursor-pointer ${exercise.exerciseType === 'stretching' ? 'text-icon-active' : 'text-icon-inactive'}`}
                                                                         onClick={() => handleExerciseChange(dayIndex, exerciseIndex, 'exerciseType', 'stretching')}
                                                                     />
                                                                     <div
                                                                         className={`w-4 h-4 rounded-full border-2 cursor-pointer ${exercise.exerciseType === 'stretching'
-                                                                            ? 'bg-green-400 border-green-400'
-                                                                            : 'border-gray-400'
+                                                                            ? 'bg-icon-active border-icon-active'
+                                                                            : 'border-icon-inactive'
                                                                             }`}
                                                                         onClick={() => handleExerciseChange(dayIndex, exerciseIndex, 'exerciseType', 'stretching')}
                                                                     />
-                                                                    <span className="text-xs text-[#f8bf58] uppercase font-bold">Stretch</span>
+                                                                    <span className="text-xs text-primary-color uppercase font-bold">Stretch</span>
                                                                 </div>
                                                                 <div className="flex flex-col items-center gap-2">
                                                                     <CgGym
-                                                                        className={`text-2xl cursor-pointer ${exercise.exerciseType === 'withWeight' ? 'text-green-400' : 'text-gray-400'}`}
+                                                                        className={`text-2xl cursor-pointer ${exercise.exerciseType === 'withWeight' ? 'text-icon-active' : 'text-icon-inactive'}`}
                                                                         onClick={() => {
                                                                             handleExerciseChange(dayIndex, exerciseIndex, 'exerciseType', 'withWeight');
                                                                         }}
                                                                     />
                                                                     <div
                                                                         className={`w-4 h-4 rounded-full border-2 cursor-pointer ${exercise.exerciseType === 'withWeight'
-                                                                            ? 'bg-green-400 border-green-400'
-                                                                            : 'border-gray-400'
+                                                                            ? 'bg-icon-active border-icon-active'
+                                                                            : 'border-icon-inactive'
                                                                             }`}
                                                                         onClick={() => {
                                                                             handleExerciseChange(dayIndex, exerciseIndex, 'exerciseType', 'withWeight');
                                                                         }}
                                                                     />
-                                                                    <span className="text-xs text-[#f8bf58] uppercase font-bold">Weight</span>
+                                                                    <span className="text-xs text-primary-color uppercase font-bold">Weight</span>
                                                                 </div>
                                                             </div>
                                                             <div className="flex justify-center items-center gap-4">
                                                                 <div className="flex flex-col items-center gap-2">
                                                                     <IoBarbellOutline
-                                                                        className={`text-2xl cursor-pointer ${exercise.exerciseType === 'withBarbell' ? 'text-green-400' : 'text-gray-400'}`}
+                                                                        className={`text-2xl cursor-pointer ${exercise.exerciseType === 'withBarbell' ? 'text-icon-active' : 'text-icon-inactive'}`}
                                                                         onClick={() => {
                                                                             handleExerciseChange(dayIndex, exerciseIndex, 'exerciseType', 'withBarbell');
                                                                         }}
                                                                     />
                                                                     <div
                                                                         className={`w-4 h-4 rounded-full border-2 cursor-pointer ${exercise.exerciseType === 'withBarbell'
-                                                                            ? 'bg-green-400 border-green-400'
-                                                                            : 'border-gray-400'
+                                                                            ? 'bg-icon-active border-icon-active'
+                                                                            : 'border-icon-inactive'
                                                                             }`}
                                                                         onClick={() => {
                                                                             handleExerciseChange(dayIndex, exerciseIndex, 'exerciseType', 'withBarbell');
                                                                         }}
                                                                     />
-                                                                    <span className="text-xs text-[#f8bf58] uppercase font-bold">Barbell</span>
+                                                                    <span className="text-xs text-primary-color uppercase font-bold">Barbell</span>
                                                                 </div>
                                                                 {exercise.exerciseType === 'withBarbell' && (
                                                                     <div className="flex flex-col items-center gap-2">
-                                                                        <span className="text-xs text-[#f8bf58] uppercase font-bold">Barbell Weight</span>
+                                                                        <span className="text-xs text-primary-color uppercase   font-bold">Barbell Weight</span>
                                                                         <input
                                                                             id={`barbellWeight-${dayIndex}-${exerciseIndex}`}
                                                                             className={`${inputClass()} w-16 text-sm`}
@@ -474,7 +474,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                             {(exercise.exerciseType === 'cardio' || exercise.exerciseType === 'stretching') ? (
                                                                 <>
                                                                     <div className="flex flex-col w-1/2 justify-center items-center">
-                                                                        <label className="text-[#f8bf58] uppercase font-bold text-md select-none">
+                                                                        <label className="text-primary-color uppercase font-bold text-md select-none">
                                                                             Time (min)*
                                                                         </label>
                                                                         <input
@@ -487,7 +487,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                         />
                                                                     </div>
                                                                     <div className="flex flex-col w-1/2 justify-center items-center">
-                                                                        <label className="text-[#f8bf58] uppercase font-bold text-md select-none">
+                                                                        <label className="text-primary-color uppercase font-bold text-md select-none">
                                                                             Distance (km)*
                                                                         </label>
                                                                         <input
@@ -503,7 +503,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                             ) : (
                                                                 <>
                                                                     <div className="flex flex-col w-1/2 justify-center items-center">
-                                                                        <label className="text-[#f8bf58] uppercase font-bold text-md select-none">
+                                                                        <label className="text-primary-color uppercase font-bold text-md select-none">
                                                                             Sets*
                                                                         </label>
                                                                         <input
@@ -516,7 +516,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                         />
                                                                     </div>
                                                                     <div className="flex flex-col w-1/2 justify-center items-center">
-                                                                        <label className="text-[#f8bf58] uppercase font-bold text-md select-none">
+                                                                        <label className="text-primary-color uppercase font-bold text-md select-none">
                                                                             Reps*
                                                                         </label>
                                                                         <input
@@ -533,7 +533,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                         </div>
                                                         <div className="flex gap-2">
                                                             <div className="flex flex-col w-full justify-center items-center">
-                                                                <label className="text-[#f8bf58] uppercase text-center font-bold text-md select-none" htmlFor={`restTimeSeconds-${dayIndex}-${exerciseIndex}`}>Rest Time (Seconds)</label>
+                                                                <label className="text-primary-color uppercase text-center font-bold text-md select-none" htmlFor={`restTimeSeconds-${dayIndex}-${exerciseIndex}`}>Rest Time (Seconds)</label>
                                                                 <input
                                                                     id={`restTimeSeconds-${dayIndex}-${exerciseIndex}`}
                                                                     className="rounded-lg p-2 text-center w-1/2"
@@ -551,10 +551,10 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                 </SwiperSlide>
                                             ))}
 
-                                            <div className="custom-next swiper-button-next !text-[#f8bf58]"></div>
-                                            <div className="custom-prev swiper-button-prev !text-[#f8bf58] "></div>
+                                            <div className="custom-next swiper-button-next !text-primary-color"></div>
+                                            <div className="custom-prev swiper-button-prev !text-primary-color "></div>
 
-                                            <div className="custom-scrollbar swiper-scrollbar !bg-black">
+                                            <div className="custom-scrollbar swiper-scrollbar !bg-bg-primary">
                                                 <div className="swiper-scrollbar-drag !bg-white rounded"></div>
                                             </div>
                                         </Swiper>
@@ -578,7 +578,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                 });
                                 setWorkoutDays(updatedDays);
                             }} />
-                            {!isFormValid() ? <div className="w-full flex justify-center items-center"><p className="text-red-500 font-bold text-sm text-center italic">*one or more necessary fields are not compiled correctly*</p></div> : null}
+                            {!isFormValid() ? <div className="w-full flex justify-center items-center"><p className="text-text-error font-bold text-sm text-center italic">*one or more necessary fields are not compiled correctly*</p></div> : null}
                         </div>
                     ))}
                     <PlusButton text='add new muscle group' onClick={addWorkoutDay} />

@@ -55,9 +55,9 @@ export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initial
     }
 
     return (
-        <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-black p-4 shadow-md rounded-lg w-5/6 xl:w-2/5 shadow-[#f8bf58]">
-                <h3 className="text-center text-2xl font-bold uppercase mb-2 text-[#f8bf58]" >Add new Meal</h3>
+        <div className="fixed z-50 inset-0 bg-bg-primary bg-opacity-50 flex items-center justify-center">
+            <div className="bg-bg-primary p-4 shadow-md rounded-lg w-5/6 xl:w-2/5 shadow-shadow-secondary">
+                <h3 className="text-center text-2xl font-bold uppercase mb-2 text-primary-color" >Add new Meal</h3>
                 <input
                     type="text"
                     placeholder="Quantity (es. 120g/ 1.5 kg)"

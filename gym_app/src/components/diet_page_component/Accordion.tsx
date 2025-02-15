@@ -39,7 +39,7 @@ export default function Accordion({ accordionTitle, buttons }: AccordionType) {
     return (
         <div className="flex flex-col lg:min-h-28 md:w-1/2 w-full">
             <div
-                className="bg-black hover:bg-[#111111] p-2 flex justify-center items-center gap-2 rounded-lg font-bold text-[#f8bf58] cursor-pointer min-w-40 md:min-w-72"
+                className="bg-black hover:bg-bg-third p-2 flex justify-center items-center gap-2 rounded-lg font-bold text-primary-color cursor-pointer min-w-40 md:min-w-72"
                 onClick={accordionOpenClose}
             >
                 <h1 className="uppercase">{accordionTitle}</h1>
@@ -70,11 +70,11 @@ export default function Accordion({ accordionTitle, buttons }: AccordionType) {
                             </SwiperSlide>
                         ))}
 
-                        <div className="custom-next swiper-button-next !text-[#f8bf58]"></div>
-                        <div className="custom-prev swiper-button-prev !text-[#f8bf58] "></div>
+                        <div className="custom-next swiper-button-next !text-primary-color"></div>
+                        <div className="custom-prev swiper-button-prev !text-primary-color "></div>
 
-                        <div className="custom-scrollbar swiper-scrollbar !bg-black">
-                            <div className="swiper-scrollbar-drag !bg-[#f8bf58] rounded"></div>
+                        <div className="custom-scrollbar swiper-scrollbar !bg-bg-primary">
+                            <div className="swiper-scrollbar-drag !bg-primary-color rounded"></div>
                         </div>
                     </Swiper>
                 </div>

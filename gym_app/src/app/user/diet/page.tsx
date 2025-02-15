@@ -78,7 +78,7 @@ export default function DietPage() {
             {diets.length === 0 ? (
                 <div className="flex flex-col items-center justify-center gap-5 animate-pulse">
                     <SectionTitle title="Add a new diet to see weekly plan" />
-                    <FaBowlFood className="text-5xl text-[#f8bf58] animate-bounce" />
+                    <FaBowlFood className="text-5xl text-primary-color animate-bounce" />
                 </div>
             ) : (
                 <div className="flex flex-col justify-start items-center p-5 gap-3 w-full">

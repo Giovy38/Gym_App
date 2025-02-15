@@ -135,9 +135,9 @@ export default function LastTrainingDetails({ cardio, latestTraining, exerciseId
                 <AddDetailsForm onAddWorkout={handleAddWorkout} onCancel={handleCancel} cardio={cardio} haveBarbell={haveBarbell} />
             )}
 
-            <div className="bg-white rounded-lg w-full text-black p-2 flex flex-col gap-1 items-center">
+            <div className="bg-bg-secondary rounded-lg w-full text-text-secondary p-2 flex flex-col gap-1 items-center">
                 <div
-                    className={`w-full flex items-center justify-center gap-5 p-1 rounded-lg cursor-pointer ${showPreviousWorkout ? 'bg-blue-500 hover:bg-blue-700' : 'bg-[#f8bf58] hover:bg-[#d4a347]'
+                    className={`w-full flex items-center justify-center gap-5 p-1 rounded-lg cursor-pointer ${showPreviousWorkout ? 'bg-btn-primary hover:bg-btn-primary-hover' : 'bg-primary-color hover:bg-primary-focus'
                         }`}
                     onClick={toggleWorkoutView}
                 >
@@ -189,7 +189,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, exerciseId
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={4} className="text-center text-red-700 italic font-bold p-3">
+                                    <td colSpan={4} className="text-center text-text-error-dark italic font-bold p-3">
                                         No previous workout found
                                     </td>
                                 </tr>
@@ -202,13 +202,13 @@ export default function LastTrainingDetails({ cardio, latestTraining, exerciseId
                                     <td>{cardio ? workout.distanceInKm : workout.weight}</td>
                                     <td>
                                         <IoDownloadSharp
-                                            className='text-blue-500 cursor-pointer'
+                                            className='text-btn-edit cursor-pointer'
                                             onClick={() => handleDuplicateWorkout(index)}
                                         />
                                     </td>
                                     <td>
                                         <RiDeleteBin5Fill
-                                            className='text-red-600 cursor-pointer'
+                                            className='text-btn-delete cursor-pointer'
                                             onClick={() => handleDelete(index)}
                                         />
                                     </td>
@@ -220,15 +220,15 @@ export default function LastTrainingDetails({ cardio, latestTraining, exerciseId
 
                 {!showPreviousWorkout && (
                     <IoAddCircle
-                        className="text-green-500 text-2xl cursor-pointer hover:text-green-800 mb-2"
+                        className="text-btn-plus text-2xl cursor-pointer hover:text-btn-plus-hover mb-2"
                         onClick={() => setShowForm(true)}
                     />
                 )}
                 {!showPreviousWorkout && (
-                    <div onClick={handleSave} className={`w-full flex items-center justify-end gap-2  rounded-lg p-1 cursor-pointer border-t-2 border-black`}>
-                        <p className='text-black font-bold'>{!isSaved ? 'Save' : 'Data Saved'}</p>
+                    <div onClick={handleSave} className={`w-full flex items-center justify-end gap-2  rounded-lg p-1 cursor-pointer border-t-2 border-border-secondary`}>
+                        <p className='text-text-secondary font-bold'>{!isSaved ? 'Save' : 'Data Saved'}</p>
                         <HiCloudArrowUp
-                            className={`${isSaved ? 'text-green-800' : 'text-slate-500'} text-3xl hover:${isSaved ? 'text-green-800' : 'text-slate-800'}`}
+                            className={`${isSaved ? 'text-saved' : 'text-not-saved'} text-3xl ${isSaved ? 'hover:text-saved-hover' : 'hover:text-not-saved-hover'}`}
                         />
                     </div>
                 )}

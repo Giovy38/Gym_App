@@ -74,16 +74,16 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
 
 
     return (
-        <div className="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center text-white z-50">
-            <div className="p-4 shadow-md rounded-lg w-full max-w-4xl bg-black overflow-auto max-h-full">
+        <div className="fixed inset-0 bg-bg-secondary bg-opacity-50 flex items-center justify-center text-text-primary z-50">
+            <div className="p-4 shadow-md rounded-lg w-full max-w-4xl bg-bg-primary overflow-auto max-h-full">
                 <div className="flex justify-end">
-                    <IoMdCloseCircle className="text-red-400 text-2xl cursor-pointer hover:text-red-500" onClick={onClose} />
+                    <IoMdCloseCircle className="text-btn-exit text-2xl cursor-pointer hover:text-btn-exit-hover" onClick={onClose} />
                 </div>
-                <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-[#f8bf58] mb-3">Add New Body Check </h1>
-                <div className="text-black flex flex-col md:flex-row gap-3">
+                <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-primary-color mb-3">Add New Body Check </h1>
+                <div className="text-text-secondary flex flex-col md:flex-row gap-3">
                     <div className="flex flex-col gap-3 w-full md:w-1/2">
                         <div className="flex flex-col justify-center items-center">
-                            <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor="date">Date</label>
+                            <label className="text-primary-color uppercase font-bold text-md select-none" htmlFor="date">Date</label>
                             <input
                                 className="rounded-lg p-2 text-center"
                                 type='date'
@@ -101,9 +101,9 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
                         { label: "Thigh (cm)", value: thigh, setValue: setThigh }]
                             .map(({ label, value, setValue }) => (
                                 <div key={label} className="flex flex-col justify-center items-center">
-                                    <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor={label.toLowerCase()}>{label}</label>
+                                    <label className="text-primary-color uppercase font-bold text-md select-none" htmlFor={label.toLowerCase()}>{label}</label>
                                     <div className="flex justify-center items-center gap-3">
-                                        <FaMinus className="text-white text-2xl cursor-pointer hover:text-red-500" onClick={() => decrement(setValue)} />
+                                        <FaMinus className="text-text-primary text-2xl cursor-pointer hover:text-btn-minus" onClick={() => decrement(setValue)} />
                                         <input
                                             className="rounded-lg p-2 text-center"
                                             type='number'
@@ -112,7 +112,7 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
                                             value={value}
                                             onChange={(e) => setValue(parseFloat(e.target.value) || 0)}
                                         />
-                                        <FaPlus className="text-white text-2xl cursor-pointer hover:text-green-500" onClick={() => increment(setValue)} />
+                                        <FaPlus className="text-text-primary text-2xl cursor-pointer hover:text-btn-plus" onClick={() => increment(setValue)} />
                                     </div>
                                 </div>
                             ))}
@@ -125,12 +125,12 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
                             .map(({ label, leftValue, setLeftValue, rightValue, setRightValue }) => (
                                 <div key={label} className="flex flex-col">
                                     <div className="flex justify-between">
-                                        <label className="text-[#f8bf58] uppercase font-bold text-md text-center w-1/2 select-none">{label} SX (cm)</label>
-                                        <label className="text-[#f8bf58] uppercase font-bold text-md text-center w-1/2 select-none">{label} DX (cm)</label>
+                                        <label className="text-primary-color uppercase font-bold text-md text-center w-1/2 select-none">{label} SX (cm)</label>
+                                        <label className="text-primary-color uppercase font-bold text-md text-center w-1/2 select-none">{label} DX (cm)</label>
                                     </div>
                                     <div className="flex gap-10">
                                         <div className="flex items-center w-1/2 gap-1">
-                                            <FaMinus className="text-white text-2xl cursor-pointer hover:text-red-500" onClick={() => decrement(setLeftValue)} />
+                                            <FaMinus className="text-text-primary text-2xl cursor-pointer hover:text-btn-minus" onClick={() => decrement(setLeftValue)} />
                                             <input
                                                 className="rounded-lg p-2 text-center w-full"
                                                 type='number'
@@ -139,10 +139,10 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
                                                 value={leftValue}
                                                 onChange={(e) => setLeftValue(parseFloat(e.target.value) || 0)}
                                             />
-                                            <FaPlus className="text-white text-2xl cursor-pointer hover:text-green-500" onClick={() => increment(setLeftValue)} />
+                                            <FaPlus className="text-text-primary text-2xl cursor-pointer hover:text-btn-plus" onClick={() => increment(setLeftValue)} />
                                         </div>
                                         <div className="flex items-center w-1/2 gap-1">
-                                            <FaMinus className="text-white text-2xl cursor-pointer hover:text-red-500" onClick={() => decrement(setRightValue)} />
+                                            <FaMinus className="text-text-primary text-2xl cursor-pointer hover:text-btn-minus" onClick={() => decrement(setRightValue)} />
                                             <input
                                                 className="rounded-lg p-2 text-center w-full"
                                                 type='number'
@@ -151,7 +151,7 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
                                                 value={rightValue}
                                                 onChange={(e) => setRightValue(parseFloat(e.target.value) || 0)}
                                             />
-                                            <FaPlus className="text-white text-2xl cursor-pointer hover:text-green-500" onClick={() => increment(setRightValue)} />
+                                            <FaPlus className="text-text-primary text-2xl cursor-pointer hover:text-btn-plus" onClick={() => increment(setRightValue)} />
                                         </div>
                                     </div>
                                 </div>

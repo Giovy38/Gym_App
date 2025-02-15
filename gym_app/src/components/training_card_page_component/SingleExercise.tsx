@@ -63,13 +63,13 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
     console.log('Exercise data:', exercise);
 
     return (
-        <div className="flex flex-col text-white">
+        <div className="flex flex-col text-text-primary">
             <div
-                className="p-2 flex justify-around items-center gap-2 rounded-lg font-bold bg-black cursor-pointer w-full mt-5 md:min-w-80 min-w-[90vw]"
+                className="p-2 flex justify-around items-center gap-2 rounded-lg font-bold bg-bg-primary cursor-pointer w-full mt-5 md:min-w-80 min-w-[90vw]"
                 onClick={accordionOpenClose}
             >
                 <div className="flex flex-col items-center justify-center">
-                    <h1 className="uppercase text-[#f8bf58]">{exercise.exerciseTitle}</h1>
+                    <h1 className="uppercase text-primary-color">{exercise.exerciseTitle}</h1>
                     <div className="flex gap-5">
                         {exercise.exerciseType === 'cardio' || exercise.exerciseType === 'stretching' ? (
                             <h5 className="text-sm">{time} min | {distanceInKm} km</h5>
@@ -88,16 +88,16 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
             </div>
 
             {isOpen && (
-                <div className="flex gap-2 justify-center items-center bg-[#ffffff14] rounded-b-xl p-4">
+                <div className="flex gap-2 justify-center items-center bg-bg-data rounded-b-xl p-4">
                     <div className="text-center flex flex-col gap-2">
                         {exercise.exerciseType === 'cardio' || exercise.exerciseType === 'stretching' ? (
-                            <div className="flex gap-3 text-center bg-black p-2 rounded-full justify-center">
+                            <div className="flex gap-3 text-center bg-bg-primary p-2 rounded-full justify-center">
                                 <p>Time: {time} min</p>
                                 <p>|</p>
                                 <p>Distance: {distanceInKm} km</p>
                             </div>
                         ) : (
-                            <div className="flex gap-3 text-center bg-black p-2 rounded-full justify-center">
+                            <div className="flex gap-3 text-center bg-bg-primary p-2 rounded-full justify-center">
                                 <p>Sets: {exercise.sets}</p>
                                 <p>x</p>
                                 <p>Reps: {exercise.reps}</p>
@@ -115,7 +115,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                                     <MdOutlineTimer />
                                     <p>Rest Time: {formatRestTime(exercise.restTimeInSeconds)}</p>
                                 </div>
-                                <div className="flex gap-2 items-center cursor-pointer justify-center text-black font-bold uppercase hover:bg-[#efb242b6] bg-[#f8bf58] p-2 rounded-full" onClick={handleStartTimer}>
+                                <div className="flex gap-2 items-center cursor-pointer justify-center text-black font-bold uppercase hover:bg-primary-focus bg-primary-color p-2 rounded-full" onClick={handleStartTimer}>
                                     <MdOutlineTimer />
                                     <p>Start Timer</p>
                                 </div>

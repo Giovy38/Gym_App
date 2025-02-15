@@ -61,24 +61,24 @@ export default function NoteArea({ exercise, latestTraining }: { exercise: Singl
 
     return (
         <div>
-            <div className="bg-white text-black p-3 rounded-lg min-h-40 text-balance w-72 overflow-y-auto max-h-60 
+            <div className="bg-bg-secondary text-text-secondary p-3 rounded-lg min-h-40 text-balance w-72 overflow-y-auto max-h-60 
                         [&::-webkit-scrollbar]:w-2
                         [&::-webkit-scrollbar-track]:rounded-full
-                        [&::-webkit-scrollbar-track]:bg-gray-100
+                        [&::-webkit-scrollbar-track]:bg-slider-color
                         [&::-webkit-scrollbar-thumb]:rounded-full
-                        [&::-webkit-scrollbar-thumb]:bg-black">
+                        [&::-webkit-scrollbar-thumb]:bg-bg-primary">
                 <p className="font-bold">Note:</p>
                 {notes.map((note, index) => (
-                    <div className="flex flex-col justify-between items-center py-1 gap-2 w-full border-b-2 border-black" key={index}>
+                    <div className="flex flex-col justify-between items-center py-1 gap-2 w-full border-b-2 border-border-secondary" key={index}>
                         {editIndex === index ? (
                             <>
                                 <textarea
                                     className="italic break-words w-full p-1 resize-none
                                                 [&::-webkit-scrollbar]:w-2
                                                 [&::-webkit-scrollbar-track]:rounded-full
-                                                [&::-webkit-scrollbar-track]:bg-gray-100
+                                                [&::-webkit-scrollbar-track]:bg-slider-color
                                                 [&::-webkit-scrollbar-thumb]:rounded-full
-                                                [&::-webkit-scrollbar-thumb]:bg-black
+                                                [&::-webkit-scrollbar-thumb]:bg-bg-primary
                                                 [&::-webkit-scrollbar-thumb:hover]:cursor-auto
                                                 "
                                     value={note}
@@ -89,15 +89,15 @@ export default function NoteArea({ exercise, latestTraining }: { exercise: Singl
                                     }}
                                 />
                                 <div className="flex gap-2">
-                                    <FaCheckSquare className="text-green-500 w-full font-extrabold text-lg cursor-pointer" onClick={() => saveNote(index)} />
+                                    <FaCheckSquare className="text-btn-plus hover:text-btn-plus-hover w-full font-extrabold text-lg cursor-pointer" onClick={() => saveNote(index)} />
                                 </div>
                             </>
                         ) : (
                             <>
                                 <p className="italic break-words w-full p-1">{note}</p>
                                 <div className="flex gap-2">
-                                    <MdEditSquare className="text-blue-500 cursor-pointer w-full text-lg font-extrabold" onClick={() => setEditIndex(index)} />
-                                    <RiDeleteBin5Fill className="text-red-500 w-full font-extrabold text-lg cursor-pointer" onClick={() => removeNote(index)} />
+                                    <MdEditSquare className="text-btn-edit hover:text-btn-edit-hover cursor-pointer w-full text-lg font-extrabold" onClick={() => setEditIndex(index)} />
+                                    <RiDeleteBin5Fill className="text-btn-delete hover:text-btn-delete-hover w-full font-extrabold text-lg cursor-pointer" onClick={() => removeNote(index)} />
                                 </div>
                             </>
                         )}
@@ -107,9 +107,9 @@ export default function NoteArea({ exercise, latestTraining }: { exercise: Singl
                     className="italic break-words w-full p-1 mt-2 resize-none 
                                 [&::-webkit-scrollbar]:w-2
                                 [&::-webkit-scrollbar-track]:rounded-full
-                                [&::-webkit-scrollbar-track]:bg-gray-100
+                                [&::-webkit-scrollbar-track]:bg-slider-color
                                 [&::-webkit-scrollbar-thumb]:rounded-full
-                                [&::-webkit-scrollbar-thumb]:bg-black
+                                [&::-webkit-scrollbar-thumb]:bg-bg-primary
                                 [&::-webkit-scrollbar-thumb:hover]:cursor-auto
 
                                 "

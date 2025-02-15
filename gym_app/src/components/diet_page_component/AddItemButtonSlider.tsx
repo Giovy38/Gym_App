@@ -56,10 +56,10 @@ export default function AddItemButtonSlider({ latestDiet, dayOfWeek, meal, selec
 
     return (
         <div className="flex flex-col gap-3 mt-4 w-full">
-            <div className="flex flex-col gap-3 bg-[#111111] shadow-lg p-3 rounded-lg mb-10 relative w-full">
-                <h3 className="text-center text-2xl font-bold uppercase font-logo-font text-[#f8bf58] mb-3">{meal}</h3>
+            <div className="flex flex-col gap-3 bg-bg-third shadow-lg p-3 rounded-lg mb-10 relative w-full">
+                <h3 className="text-center text-2xl font-bold uppercase font-logo-font text-primary-color mb-3">{meal}</h3>
                 <div
-                    className="bg-black text-[#f8bf58] p-2 rounded-lg flex justify-around items-center gap-2">
+                    className="bg-bg-primary text-primary-color p-2 rounded-lg flex justify-around items-center gap-2">
                     <PlusButton text=" " onClick={() => {
                         setEditIndex(null);
                         setShowForm(true);
@@ -83,9 +83,9 @@ export default function AddItemButtonSlider({ latestDiet, dayOfWeek, meal, selec
                 )}
                 <div className="flex flex-wrap gap-4 justify-center items-center p-1 overflow-y-auto  [&::-webkit-scrollbar]:w-2
                         [&::-webkit-scrollbar-track]:rounded-full
-                        [&::-webkit-scrollbar-track]:bg-black
+                        [&::-webkit-scrollbar-track]:bg-bg-primary
                         [&::-webkit-scrollbar-thumb]:rounded-full
-                        [&::-webkit-scrollbar-thumb]:bg-gray-100 h-[200px]">
+                        [&::-webkit-scrollbar-thumb]:bg-slider-color h-[200px]">
                     {items.map((item, index) => (
                         <RemovibleItems
                             key={`${selectedDiet?.id}-${meal}-${index}`}

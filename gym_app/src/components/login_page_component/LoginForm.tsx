@@ -46,13 +46,13 @@ export default function LoginForm() {
     }, [toastMessage]);
 
     return (
-        <div className="bg-black flex flex-col p-5 rounded-lg">
+        <div className="bg-bg-primary flex flex-col p-5 rounded-lg">
             <SectionTitle title="login" />
             <div className="flex flex-col">
                 <InputText label="e-mail" type="email" placeholder='E-mail' value={email} onChange={(e) => setEmail(e.target.value)} />
                 <InputText label="password" type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
                 <Link href="/signin">
-                    <h4 className="text-[#f8bf58] mt-3 underline underline-offset-2">Dont have an account? Register now</h4>
+                    <h4 className="text-primary-color mt-3 underline underline-offset-2">Dont have an account? Register now</h4>
                 </Link>
                 <PrimaryButton text="Login" onClick={handleLogin} disabled={!email || !password} />
             </div>

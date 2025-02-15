@@ -62,7 +62,7 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
     };
 
     return (
-        <div className="absolute top-0 left-0 right-0 bg-white rounded-lg w-full text-black p-4 flex flex-col gap-2 items-center shadow-lg z-10">
+        <div className="absolute top-0 left-0 right-0 bg-bg-secondary rounded-lg w-full text-text-secondary p-4 flex flex-col gap-2 items-center shadow-lg z-10">
             {cardio ? (
                 <>
                     <label className='uppercase font-bold' htmlFor="time">time (min)</label>

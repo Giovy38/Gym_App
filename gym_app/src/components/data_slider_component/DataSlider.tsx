@@ -107,7 +107,7 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
     };
 
     return (
-        <div className="w-full bg-black rounded-lg p-5 mt-3">
+        <div className="w-full bg-bg-primary rounded-lg p-5 mt-3">
             {showForm && renderForm()}
             <Swiper
                 key={dataList.length}

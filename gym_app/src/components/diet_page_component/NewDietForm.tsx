@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import AddRemoveButton from "../reusable_components/AddRemoveButton";
 import { dietService } from "@/src/services/diet.services";
+import { DayOfWeek } from "@/src/type/DietData.type";
 
 type NewDietFormProps = {
     onClose: () => void;
@@ -24,13 +25,16 @@ export default function NewDietForm({ onClose, onNewDiet }: NewDietFormProps) {
         menuItems: []
     };
 
-    const days: Array<'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'> =
-        ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const;
 
     const handleSubmit = async () => {
-        const dailyDiets = days.map(day => ({
-            day,
-            dailyMenu: emptyDailyMenu
+        const dailyDiets = days.map((day, index) => ({
+            id: index + 1,
+            day: day as DayOfWeek,
+            dailyMenu: {
+                ...emptyDailyMenu,
+                id: index + 1
+            }
         }));
 
         const dietData = {
@@ -49,14 +53,14 @@ export default function NewDietForm({ onClose, onNewDiet }: NewDietFormProps) {
     };
 
     return (
-        <div className="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center text-white z-50">
-            <div className="p-4 shadow-md rounded-lg w-full max-w-4xl bg-black overflow-auto max-h-full">
+        <div className="fixed inset-0 bg-bg-secondary bg-opacity-50 flex items-center justify-center text-text-primary z-50">
+            <div className="p-4 shadow-md rounded-lg w-full max-w-4xl bg-bg-primary overflow-auto max-h-full">
                 <div className="flex justify-end">
-                    <IoMdCloseCircle className="text-red-400 text-2xl cursor-pointer hover:text-red-500" onClick={onClose} />
+                    <IoMdCloseCircle className="text-btn-exit text-2xl cursor-pointer hover:text-btn-exit-hover" onClick={onClose} />
                 </div>
-                <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-[#f8bf58] mb-3">Add New Diet </h1>
-                <div className="text-black flex flex-col justify-center items-center">
-                    <label className="text-[#f8bf58] uppercase font-bold text-md select-none" htmlFor="date">Date</label>
+                <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-primary-color mb-3">Add New Diet </h1>
+                <div className="text-text-secondary flex flex-col justify-center items-center">
+                    <label className="text-text-primary uppercase font-bold text-md select-none" htmlFor="date">Date</label>
                     <input
                         className="rounded-lg p-2 text-center"
                         type='date'

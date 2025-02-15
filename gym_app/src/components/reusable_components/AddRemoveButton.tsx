@@ -7,7 +7,7 @@ export default function AddButton({ text, isAdd, onClick, disabled = false }: Ge
     return (
         <div className="w-full">
             {isAdd ? <button
-                className={`bg-green-800 text-white w-full rounded-md p-2 text-center mt-5 uppercase font-bold ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:bg-green-600'}`}
+                className={`bg-btn-add-active text-text-primary w-full rounded-md p-2 text-center mt-5 uppercase font-bold ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:bg-btn-add-hover'}`}
                 onClick={onClick}
                 disabled={disabled}
             >
@@ -15,7 +15,7 @@ export default function AddButton({ text, isAdd, onClick, disabled = false }: Ge
             </button>
                 :
                 <button
-                    className={'bg-red-800 text-white w-full rounded-md p-2 text-center mt-5 uppercase font-bold cursor-pointer hover:bg-red-600'}
+                    className={'bg-btn-cancel text-text-primary w-full rounded-md p-2 text-center mt-5 uppercase font-bold cursor-pointer hover:bg-btn-cancel-hover'}
                     onClick={onClick}
                 >
                     {text}

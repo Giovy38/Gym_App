@@ -70,10 +70,10 @@ export default function ChangePasswordForm({ onClose }: { onClose: () => void, u
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-black p-4 shadow-md rounded-lg w-2/3 xl:w-1/5 shadow-[#f8bf58]">
-                <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-[#f8bf58] mb-3">Change Password</h1>
-                <div className="text-black flex flex-col justify-center items-center">
+        <div className="fixed inset-0 bg-bg-primary bg-opacity-50 flex items-center justify-center">
+            <div className="bg-bg-primary p-4 shadow-md rounded-lg w-2/3 xl:w-1/5 shadow-shadow-secondary">
+                <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-primary-color mb-3">Change Password</h1>
+                <div className="text-text-secondary flex flex-col justify-center items-center">
                     <InputText
                         label="Current Password"
                         type="password"
@@ -82,9 +82,9 @@ export default function ChangePasswordForm({ onClose }: { onClose: () => void, u
                         value={currentPassword}
                         onChange={(e) => setCurrentPassword(e.target.value)}
                     />
-                    {errors.currentPassword && <span className="text-red-500">{errors.currentPassword}</span>}
+                    {errors.currentPassword && <span className="text-text-error">{errors.currentPassword}</span>}
                 </div>
-                <div className="text-black flex flex-col justify-center items-center mt-4">
+                <div className="text-text-secondary flex flex-col justify-center items-center mt-4">
                     <InputText
                         label="New Password"
                         type="password"
@@ -93,9 +93,9 @@ export default function ChangePasswordForm({ onClose }: { onClose: () => void, u
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                     />
-                    {errors.newPassword && <span className="text-red-500">{errors.newPassword}</span>}
+                    {errors.newPassword && <span className="text-text-error">{errors.newPassword}</span>}
                 </div>
-                <div className="text-black flex flex-col justify-center items-center mt-4">
+                <div className="text-text-secondary flex flex-col justify-center items-center mt-4">
                     <InputText
                         label="Confirm New Password"
                         type="password"
@@ -104,12 +104,12 @@ export default function ChangePasswordForm({ onClose }: { onClose: () => void, u
                         value={confirmNewPassword}
                         onChange={(e) => setConfirmNewPassword(e.target.value)}
                     />
-                    {errors.confirmNewPassword && <span className="text-red-500">{errors.confirmNewPassword}</span>}
+                    {errors.confirmNewPassword && <span className="text-text-error">{errors.confirmNewPassword}</span>}
                 </div>
                 <div className="flex justify-center items-center gap-3 mt-4">
                     <div className="w-1/2">
                         <button
-                            className={`bg-blue-700 text-white w-full rounded-md p-2 text-center mt-5 uppercase font-bold  ${!isFormValid ? 'opacity-50' : 'opacity-100 cursor-pointer hover:bg-blue-600'}`}
+                            className={`bg-btn-edit text-text-primary w-full rounded-md p-2 text-center mt-5 uppercase font-bold  ${!isFormValid ? 'opacity-50' : 'opacity-100 cursor-pointer hover:bg-btn-edit-hover'}`}
                             onClick={handleChangePassword}
                             disabled={!isFormValid}
                         >
@@ -118,7 +118,7 @@ export default function ChangePasswordForm({ onClose }: { onClose: () => void, u
                     </div>
                     <div className="w-1/2">
                         <button
-                            className="bg-red-700 text-white w-full rounded-md p-2 text-center mt-5 uppercase font-bold cursor-pointer hover:bg-red-600"
+                            className="bg-btn-cancel text-text-primary w-full rounded-md p-2 text-center mt-5 uppercase font-bold cursor-pointer hover:bg-btn-cancel-hover"
                             onClick={onClose}
                         >
                             Cancel

@@ -74,7 +74,7 @@ export default function TrainingCardPage() {
         <div className={` p-5 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
             <SectionTitle title="training card page" />
             <div>
-                <MdOutlineTimer onClick={showTimer} className="text-black text-5xl cursor-pointer bg-[#f8bf58] hover:bg-[#efb242b6] hover:text-white p-2 rounded-xl fixed bottom-5 right-5 z-10 shadow-lg shadow-black" />
+                <MdOutlineTimer onClick={showTimer} className="text-text-secondary text-5xl cursor-pointer bg-primary-color hover:bg-primary-focus hover:text-text-primary p-2 rounded-xl fixed bottom-5 right-5 z-10 shadow-lg shadow-shadow-primary" />
             </div>
             {isTimerVisible && <Timer onClose={() => setIsTimerVisible(false)} />}
             <DataSlider
@@ -123,7 +123,7 @@ export default function TrainingCardPage() {
             ) : (
                 <div className="flex flex-col items-center justify-center gap-5 animate-pulse">
                     <SectionTitle title="Add a new training card to see workout plan" />
-                    <GiWeightLiftingUp className="text-5xl text-[#f8bf58] animate-bounce" />
+                    <GiWeightLiftingUp className="text-5xl text-primary-color animate-bounce" />
                 </div>
             )}
         </div>

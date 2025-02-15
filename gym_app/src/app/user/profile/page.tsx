@@ -72,9 +72,9 @@ export default function ProfilePage() {
 
     return (
         <div className={`flex flex-col justify-center items-center gap-3 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-            <h1 className="text-white uppercase text-xl p-3 font-bold">Welcome <label className="text-[#f8bf58] text-2xl">{userData?.firstName}</label></h1>
-            <h3 className="text-white">Your email: </h3>
-            <div className="bg-black p-3 rounded-lg flex justify-around items-center gap-3 text-white w-56">
+            <h1 className="text-text-primary uppercase text-xl p-3 font-bold">Welcome <label className="text-primary-color text-2xl">{userData?.firstName}</label></h1>
+            <h3 className="text-text-primary">Your email: </h3>
+            <div className="bg-bg-primary p-3 rounded-lg flex justify-around items-center gap-3 text-text-primary w-56">
                 {isEmailShowed ? userData?.email : '•••••••••••••••••'}
                 {isEmailShowed ? <FaEyeSlash onClick={showEmail} className="cursor-pointer" /> : <FaRegEye onClick={showEmail} className="cursor-pointer" />}
             </div>

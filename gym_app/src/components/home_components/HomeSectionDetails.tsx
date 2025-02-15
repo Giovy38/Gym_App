@@ -7,7 +7,7 @@ import Image from 'next/image'
 export default function HomeSectionDetails({ isImgRight, sectionTitle, sectionDescription, img }: HomeSectionDetailsType) {
 
     return (
-        <div className="text-white mt-5">
+        <div className="text-text-primary mt-5">
             {isImgRight ? (
                 // img on right for tablet and above
                 <div className="hidden md:flex">

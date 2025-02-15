@@ -47,23 +47,23 @@ export default function RemovibleItems({ index, food, quantity, onRemove, onEdit
 
     return (
         <>
-            <div className="bg-white text-black p-2 rounded-lg flex flex-col items-center justify-center gap-2 cursor-pointer mt-2 w-full lg:max-w-40 text-balance overflow-hidden">
-                <h3 className="font-bold text-center bg-slate-300 p-1 rounded-lg min-w-14">
+            <div className="bg-bg-secondary text-text-secondary p-2 rounded-lg flex flex-col items-center justify-center gap-2 cursor-pointer mt-2 w-full lg:max-w-40 text-balance overflow-hidden">
+                <h3 className="font-bold text-center bg-bg-meal-title p-1 rounded-lg min-w-14">
                     {truncateText(quantity, 14)}
                 </h3>
                 <div className="text-center font-bold uppercase overflow-auto max-h-20 w-full [&::-webkit-scrollbar]:w-2
                         [&::-webkit-scrollbar-track]:rounded-full
-                        [&::-webkit-scrollbar-track]:bg-gray-100
+                        [&::-webkit-scrollbar-track]:bg-slider-color
                         [&::-webkit-scrollbar-thumb]:rounded-full
-                        [&::-webkit-scrollbar-thumb]:bg-black">
+                        [&::-webkit-scrollbar-thumb]:bg-bg-primary">
                     <p className="break-words">{food}</p>
                 </div>
                 <div className="flex gap-2 w-full">
                     <div onClick={handleEditClick} className="flex items-center justify-center w-1/2 rounded-md p-1 hover:bg-black">
-                        <IoPencilOutline className="cursor-pointer text-blue-500 text-xl rounded-md" />
+                        <IoPencilOutline className="cursor-pointer text-btn-edit text-xl rounded-md" />
                     </div>
                     <div onClick={handleDeleteClick} className="flex items-center justify-center w-1/2 rounded-md p-1 hover:bg-black">
-                        <MdDeleteForever className="cursor-pointer text-red-500 text-xl rounded-md" />
+                        <MdDeleteForever className="cursor-pointer text-btn-delete text-xl rounded-md" />
                     </div>
                 </div>
             </div>

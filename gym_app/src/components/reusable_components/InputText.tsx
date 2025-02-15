@@ -11,10 +11,10 @@ export default function InputText({ label, type, placeholder, name, value, onCha
 
     return (
         <div className="flex flex-col gap-2 mt-2 w-full">
-            <h3 className="text-[#f8bf58] capitalize font-bold text-center">{label}</h3>
+            <h3 className="text-primary-color capitalize font-bold text-center">{label}</h3>
             <div className="relative">
                 <input
-                    className="text-black p-2 text-lg rounded-full text-center w-full"
+                    className="text-text-secondary p-2 text-lg rounded-full text-center w-full"
                     type={inputType}
                     placeholder={placeholder}
                     name={name}

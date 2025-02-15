@@ -58,7 +58,7 @@ export default function AddItemButton({ title, latestDiet, dayOfWeek, meal, diet
                     setEditIndex(null);
                     setShowForm(true);
                 }}
-                className="bg-black text-[#f8bf58] hover:bg-green-800 hover:text-black p-2 rounded-lg flex items-center justify-center gap-2 cursor-pointer mt-2 w-full min-h-28 min-w-40">
+                className="bg-black text-primary-color hover:bg-btn-plus-hover hover:text-text-secondary p-2 rounded-lg flex items-center justify-center gap-2 cursor-pointer mt-2 w-full min-h-28 min-w-40">
                 <h3 className="uppercase font-bold">{title}</h3>
                 <GoPlusCircle />
             </div>

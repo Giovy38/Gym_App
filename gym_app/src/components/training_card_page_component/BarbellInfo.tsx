@@ -10,10 +10,10 @@ export default function BarbellInfo({ haveBarbell, totalWeight, barbellWeight }:
     return (
         <div>
             {haveBarbell ?
-                <div className="bg-black p-3 rounded-full mb-2 flex flex-col items-center justify-center gap-2" >
+                <div className="bg-bg-primary p-3 rounded-full mb-2 flex flex-col items-center justify-center gap-2" >
                     <div className="flex justify-center gap-3">
                         <p>{(totalWeight - barbellWeight) / 2} kg</p>
-                        <IoBarbellOutline className="text-green-500 text-2xl" />
+                        <IoBarbellOutline className="text-barbell-icon text-2xl" />
                         <p>{(totalWeight - barbellWeight) / 2} kg</p>
                     </div>
                     <div>
@@ -21,8 +21,8 @@ export default function BarbellInfo({ haveBarbell, totalWeight, barbellWeight }:
                     </div>
                 </div>
                 :
-                <div className="flex gap-3 bg-black p-3 rounded-full m-2 justify-center">
-                    <IoBarbellOutline className="text-red-500 text-2xl" />
+                <div className="flex gap-3 bg-bg-primary p-3 rounded-full m-2 justify-center">
+                    <IoBarbellOutline className="text-barbell-no-icon text-2xl" />
                 </div>
             }
         </div>

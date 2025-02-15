@@ -87,30 +87,30 @@ export default function SigninForm() {
     };
 
     return (
-        <div className="bg-black flex flex-col p-5 rounded-lg">
+        <div className="bg-bg-primary flex flex-col p-5 rounded-lg">
             {showToast && <Toast message={toastMessage} color={toastColor} />}
             <SectionTitle title="signin" />
             <div className="flex flex-col">
                 <div className="flex flex-col md:flex-row gap-3">
                     <div className="flex flex-col">
                         <InputText label="first name" type="text" placeholder='First Name' name="firstName" onChange={handleInputChange} />
-                        {errors.firstName && <span className="text-red-500">{errors.firstName}</span>}
+                        {errors.firstName && <span className="text-text-error">{errors.firstName}</span>}
                     </div>
                     <div className="flex flex-col">
                         <InputText label="last name" type="text" placeholder='Last Name' name="lastName" onChange={handleInputChange} />
-                        {errors.lastName && <span className="text-red-500">{errors.lastName}</span>}
+                        {errors.lastName && <span className="text-text-error">{errors.lastName}</span>}
                     </div>
                 </div>
                 <InputText label="e-mail" type="email" placeholder='E-mail' name="email" onChange={handleInputChange} />
-                {errors.email && <span className="text-red-500 text-center">{errors.email}</span>}
+                {errors.email && <span className="text-text-error text-center">{errors.email}</span>}
                 <InputText label="password" type="password" placeholder='Password' name="password" onChange={handleInputChange} />
-                {errors.password && <span className="text-red-500 text-center">{errors.password}</span>}
+                {errors.password && <span className="text-text-error text-center">{errors.password}</span>}
                 <InputText label="repeat password" type="password" placeholder='Password' name="confirmPassword" onChange={handleInputChange} />
-                {errors.confirmPassword && <span className="text-red-500 text-center">{errors.confirmPassword}</span>}
-                <div className="w-full flex flex-col justify-around items-center gap-2 bg-[#131313] mt-5 p-2 rounded-md">
-                    <h4 className="uppercase font-bold text-xl text-white">body check image*</h4>
+                {errors.confirmPassword && <span className="text-text-error text-center">{errors.confirmPassword}</span>}
+                <div className="w-full flex flex-col justify-around items-center gap-2 bg-bg-second mt-5 p-2 rounded-md">
+                    <h4 className="uppercase font-bold text-xl text-text-primary">body check image*</h4>
                     <div className="flex gap-20">
-                        <FaFemale className={`${bodyCheckImageIsMan ? 'text-2xl text-white w-1/3' : 'text-3xl text-pink-400 w-1/3'}`} />
+                        <FaFemale className={`${bodyCheckImageIsMan ? 'text-2xl text-text-primary w-1/3' : 'text-3xl text-female-color w-1/3'}`} />
                         <Switch
                             checked={bodyCheckImageIsMan}
                             onChange={() => {
@@ -120,12 +120,12 @@ export default function SigninForm() {
                             activeColor="bg-blue-400"
                             inactiveColor="bg-pink-400"
                         />
-                        <FaMale className={`${bodyCheckImageIsMan ? 'text-3xl text-blue-400 w-1/3' : 'text-2xl text-white w-1/3'}`} />
+                        <FaMale className={`${bodyCheckImageIsMan ? 'text-3xl text-male-color w-1/3' : 'text-2xl text-white w-1/3'}`} />
                     </div>
                 </div>
 
                 <Link href="/login">
-                    <h4 className="text-[#f8bf58] mt-3 underline underline-offset-2 text-center">Have an account? Login now</h4>
+                    <h4 className="text-primary-color mt-3 underline underline-offset-2 text-center">Have an account? Login now</h4>
                 </Link>
 
                 <PrimaryButton text="Signin" onClick={handleSubmit} disabled={!isFormValid} />

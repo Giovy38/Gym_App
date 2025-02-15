@@ -18,7 +18,7 @@ export default function LoginPage() {
             className={`min-h-[82vh] flex justify-center items-center bg-cover bg-left bg-opacity-50 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
             style={{ backgroundImage: `url(${backgroundImg.src})` }}
         >
-            <div className="bg-black bg-opacity-50 p-5 rounded-lg">
+            <div className="bg-bg-primary bg-opacity-50 p-5 rounded-lg">
                 <LoginForm />
             </div>
         </div>
