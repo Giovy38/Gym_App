@@ -16,6 +16,7 @@ const config: Config = {
         'bg-primary': '#000000',
         'bg-primary-opacity': '#000000e8',
         'bg-secondary': '#ffffff',
+        'bg-secondary-opacity': '#ffffffe8',
         'bg-second': '#131313',
         'bg-third': '#111111',
         'bg-input': '#e2e8f0',

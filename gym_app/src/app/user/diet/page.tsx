@@ -58,7 +58,7 @@ export default function DietPage() {
     };
 
     const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-    const meals = ['breakfast', 'snack', 'lunch', 'snack 2', 'dinner'];
+    const meals = ['breakfast', 'snack', 'lunch', 'snack2', 'dinner'];
 
     return (
         <div className={`min-h-screen w-full flex flex-col justify-start xl:items-center gap-3 p-5 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>

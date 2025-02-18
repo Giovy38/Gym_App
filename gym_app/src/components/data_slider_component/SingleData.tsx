@@ -8,7 +8,7 @@ import DeleteConfirm from "../reusable_components/DeleteConfirm";
 import { TiDelete } from "react-icons/ti";
 
 
-export default function SingleData({ isAdd, dataDate, dataType, onClick, onOpen, onDelete }: SingleDataType) {
+export default function SingleData({ isAdd, dataDate, dataType, onClick, onOpen, onDelete, isSelected }: SingleDataType) {
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     const renderIcon = () => {
@@ -36,10 +36,16 @@ export default function SingleData({ isAdd, dataDate, dataType, onClick, onOpen,
                 </div>
             ) : (
                 <div onClick={onOpen} className="text-text-primary flex flex-col items-center uppercase gap-1">
-                    <div className="text-text-primary text-3xl cursor-pointer bg-primary-data rounded-xl p-2 h-20 w-20 flex justify-center items-center hover:bg-primary-focus transition-all duration-300">
+                    <div className={`text-3xl cursor-pointer rounded-xl p-2 h-20 w-20 flex justify-center items-center transition-all duration-300 
+                        ${isSelected
+                            ? 'bg-bg-secondary-opacity text-primary-color'
+                            : 'bg-primary-data text-text-primary hover:bg-primary-focus'
+                        }`}>
                         {renderIcon()}
                     </div>
-                    <p className="text-sm">{dataDate}</p>
+                    <p className={`text-sm ${isSelected ? 'text-primary-color' : 'text-text-primary'}`}>
+                        {dataDate}
+                    </p>
                     <TiDelete
                         onClick={(e) => {
                             e.stopPropagation();

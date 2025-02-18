@@ -5,4 +5,5 @@ export type SingleDataType = {
     onClick?: () => void,
     onOpen: () => void,
     onDelete: () => void,
+    isSelected: boolean,
 }

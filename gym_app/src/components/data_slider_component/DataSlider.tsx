@@ -29,6 +29,7 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
         { id: 1, isAdd: true, dataDate: '00/00/0000', dataType: 'add' },
     ]);
     const [showForm, setShowForm] = useState(false);
+    const [selectedId, setSelectedId] = useState<number | null>(null);
 
     useEffect(() => {
         const formattedData = dbDate.map(item => ({
@@ -36,8 +37,15 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
             isAdd: false,
             dataDate: item.date,
             dataType: dataPage
-        }))
+        }));
+
         setDataList([{ id: 1, isAdd: true, dataDate: '00/00/0000', dataType: 'add' }, ...formattedData]);
+
+        // Seleziona automaticamente l'ultimo elemento non-add se esiste
+        if (formattedData.length > 0) {
+            const lastItem = formattedData[formattedData.length - 1];
+            setSelectedId(lastItem.id);
+        }
     }, [dataPage, dbDate]);
 
     const addNewData = () => {
@@ -63,6 +71,7 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
     };
 
     const handleOpen = async (id: number) => {
+        setSelectedId(id);
         let selectedData;
         switch (dataPage) {
             case 'body':
@@ -130,6 +139,7 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
                             onClick={addNewData}
                             onOpen={() => handleOpen(data.id)}
                             onDelete={() => handleDelete(data.id)}
+                            isSelected={data.id === selectedId}
                         />
                     </SwiperSlide>
                 ))}

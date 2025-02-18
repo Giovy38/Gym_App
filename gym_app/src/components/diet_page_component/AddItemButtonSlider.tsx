@@ -8,7 +8,7 @@ import PlusButton from "../reusable_components/PlusButton";
 import ReactDOM from 'react-dom';
 import { Meal } from "@/src/type/DietData.type";
 
-export default function AddItemButtonSlider({ latestDiet, dayOfWeek, meal, selectedDiet }: AddItemButtonType) {
+export default function AddItemButtonSlider({ dayOfWeek, meal, selectedDiet }: AddItemButtonType) {
     const [items, setItems] = useState<Meal[]>([]);
     const [showForm, setShowForm] = useState(false);
     const [editIndex, setEditIndex] = useState<number | null>(null);
@@ -74,7 +74,7 @@ export default function AddItemButtonSlider({ latestDiet, dayOfWeek, meal, selec
                         }}
                         initialFood={editIndex !== null ? items[editIndex].name : ''}
                         initialQuantity={editIndex !== null ? items[editIndex].quantity : ''}
-                        latestDiet={latestDiet}
+                        latestDiet={selectedDiet}
                         dayOfWeek={dayOfWeek}
                         meal={meal}
                         itemId={editIndex !== null ? editIndex : undefined}
