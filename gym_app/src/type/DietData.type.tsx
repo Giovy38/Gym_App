@@ -10,9 +10,9 @@ export enum DayOfWeek {
 
 export enum MealType {
     breakfast = 'breakfast',
-    snack = 'snack',
+    morningSnack = 'morningSnack',
     lunch = 'lunch',
-    snack2 = 'snack2',
+    afternoonSnack = 'afternoonSnack',
     dinner = 'dinner'
 }
 

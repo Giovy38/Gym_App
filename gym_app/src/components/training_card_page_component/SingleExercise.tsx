@@ -24,8 +24,8 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
     const [isOpen, setIsOpen] = useState(false);
     const [showTimer, setShowTimer] = useState(false);
     const [maxWeight, setMaxWeight] = useState(0)
-    let time: number | string | undefined = exercise.time
-    let distanceInKm: number | string | undefined = exercise.distanceInKm
+    let time: number | string | undefined = exercise.durationSeconds
+    let distanceInKm: number | string | undefined = exercise.distanceKm
 
     if (time === undefined || time === null) {
         time = 'No'
@@ -74,11 +74,11 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                         {exercise.exerciseType === 'cardio' || exercise.exerciseType === 'stretching' ? (
                             <h5 className="text-sm">{time} min | {distanceInKm} km</h5>
                         ) : (
-                            <h5 className="text-sm">{exercise.sets} x {exercise.reps} rep</h5>
+                            <h5 className="text-sm">{exercise.sets} x {exercise.repetitions} rep</h5>
                         )}
                         {exercise.exerciseType !== 'cardio' && exercise.exerciseType !== 'stretching' && <h5 className="text-sm">{maxWeight} kg</h5>}
-                        {exercise.restTimeInSeconds && (
-                            <h5 className="text-sm">{formatRestTime(exercise.restTimeInSeconds)} </h5>
+                        {exercise.restTimeSeconds && (
+                            <h5 className="text-sm">{formatRestTime(exercise.restTimeSeconds)} </h5>
                         )}
                     </div>
                 </div>
@@ -100,7 +100,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                             <div className="flex gap-3 text-center bg-bg-primary p-2 rounded-full justify-center">
                                 <p>Sets: {exercise.sets}</p>
                                 <p>x</p>
-                                <p>Reps: {exercise.reps}</p>
+                                <p>Reps: {exercise.repetitions}</p>
                             </div>
                         )}
                         {exercise.exerciseType !== 'cardio' && exercise.exerciseType !== 'stretching' && (
@@ -109,11 +109,11 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                                 <p>Total Weight: {maxWeight} kg</p>
                             </div>
                         )}
-                        {exercise.restTimeInSeconds && (
+                        {exercise.restTimeSeconds && (
                             <>
                                 <div className="flex gap-2 items-center justify-center">
                                     <MdOutlineTimer />
-                                    <p>Rest Time: {formatRestTime(exercise.restTimeInSeconds)}</p>
+                                    <p>Rest Time: {formatRestTime(exercise.restTimeSeconds)}</p>
                                 </div>
                                 <div className="flex gap-2 items-center cursor-pointer justify-center text-black font-bold uppercase hover:bg-primary-focus bg-primary-color p-2 rounded-full" onClick={handleStartTimer}>
                                     <MdOutlineTimer />
@@ -125,7 +125,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                             <BarbellInfo
                                 haveBarbell={true}
                                 totalWeight={maxWeight}
-                                barbellWeight={exercise.barbellWeight || 0}
+                                barbellWeight={exercise.barbellWeightKg || 0}
                             />
                         )}
                         <LastTrainingDetails
@@ -141,7 +141,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
             {showTimer && (
                 <Timer
                     onClose={() => setShowTimer(false)}
-                    initialTime={exercise.restTimeInSeconds || 0}
+                    initialTime={exercise.restTimeSeconds || 0}
                 />
             )}
         </div>

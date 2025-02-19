@@ -45,7 +45,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
     const handleTimeChange = (dayIndex: number, exerciseIndex: number, value: number) => {
         const updatedDays = [...workoutDays];
         const exercise = { ...updatedDays[dayIndex].exercises[exerciseIndex] };
-        exercise.time = value;
+        exercise.durationSeconds = value;
         updatedDays[dayIndex].exercises[exerciseIndex] = exercise;
         setWorkoutDays(updatedDays);
     };
@@ -53,7 +53,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
     const handleDistanceChange = (dayIndex: number, exerciseIndex: number, value: number) => {
         const updatedDays = [...workoutDays];
         const exercise = { ...updatedDays[dayIndex].exercises[exerciseIndex] };
-        exercise.distanceInKm = value;
+        exercise.distanceKm = value;
         updatedDays[dayIndex].exercises[exerciseIndex] = exercise;
         setWorkoutDays(updatedDays);
     };
@@ -82,11 +82,11 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                 switch (exercise.exerciseType) {
                     case 'cardio':
                     case 'stretching':
-                        return baseValidation && (exercise.time > 0 || exercise.distanceInKm > 0);
+                        return baseValidation && (exercise.durationSeconds > 0 || exercise.distanceKm > 0);
                     case 'withWeight':
-                        return baseValidation && exercise.sets > 0 && exercise.reps > 0;
+                        return baseValidation && exercise.sets > 0 && exercise.repetitions > 0;
                     case 'withBarbell':
-                        return baseValidation && exercise.sets > 0 && exercise.reps > 0 && exercise.barbellWeight > 0;
+                        return baseValidation && exercise.sets > 0 && exercise.repetitions > 0 && exercise.barbellWeightKg > 0;
                     default:
                         return false;
                 }
@@ -205,7 +205,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 }`}
                                                             onClick={() => handleExerciseChange(dayIndex, 0, 'exerciseType', 'cardio')}
                                                         />
-                                                        <span className="text-xs text-primary-coloruppercase font-bold">Cardio</span>
+                                                        <span className="text-xs text-primary-color uppercase font-bold">Cardio</span>
                                                     </div>
                                                     <div className="flex flex-col items-center gap-2">
                                                         <TbStretching
@@ -266,8 +266,8 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 id={`barbellWeight-${dayIndex}-0`}
                                                                 className={`${inputClass()} w-16 text-sm`}
                                                                 type='text'
-                                                                value={day.exercises[0].barbellWeight}
-                                                                onChange={(e) => handleExerciseChange(dayIndex, 0, 'barbellWeight', parseFloat(e.target.value) || 0)}
+                                                                value={day.exercises[0].barbellWeightKg}
+                                                                onChange={(e) => handleExerciseChange(dayIndex, 0, 'barbellWeightKg', parseFloat(e.target.value) || 0)}
                                                             />
                                                         </div>
                                                     )}
@@ -285,7 +285,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 type="number"
                                                                 min="0"
                                                                 placeholder="Time in minutes"
-                                                                value={day.exercises[0].time || ''}
+                                                                value={day.exercises[0].durationSeconds || ''}
                                                                 onChange={(e) => handleTimeChange(dayIndex, 0, handleNumberInputChange(e.target.value, 0))}
                                                             />
                                                         </div>
@@ -298,7 +298,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 type="number"
                                                                 min="0"
                                                                 placeholder="Distance in km"
-                                                                value={day.exercises[0].distanceInKm || ''}
+                                                                value={day.exercises[0].distanceKm || ''}
                                                                 onChange={(e) => handleDistanceChange(dayIndex, 0, handleNumberInputChange(e.target.value, 0))}
                                                             />
                                                         </div>
@@ -327,8 +327,8 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 type="number"
                                                                 min="0"
                                                                 placeholder="Reps"
-                                                                value={day.exercises[0].reps || ''}
-                                                                onChange={(e) => handleExerciseChange(dayIndex, 0, 'reps', handleNumberInputChange(e.target.value, 0))}
+                                                                value={day.exercises[0].repetitions || ''}
+                                                                onChange={(e) => handleExerciseChange(dayIndex, 0, 'repetitions', handleNumberInputChange(e.target.value, 0))}
                                                             />
                                                         </div>
                                                     </>
@@ -342,10 +342,10 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                         className="rounded-lg p-2 text-center w-1/2"
                                                         type='number'
                                                         placeholder="Rest Time Seconds"
-                                                        value={day.exercises[0].restTimeInSeconds}
+                                                        value={day.exercises[0].restTimeSeconds}
                                                         onChange={(e) => {
                                                             const seconds = handleNumberInputChange(e.target.value, 0);
-                                                            handleExerciseChange(dayIndex, 0, 'restTimeInSeconds', seconds);
+                                                            handleExerciseChange(dayIndex, 0, 'restTimeSeconds', seconds);
                                                         }}
                                                     />
                                                 </div>
@@ -462,8 +462,8 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                             id={`barbellWeight-${dayIndex}-${exerciseIndex}`}
                                                                             className={`${inputClass()} w-16 text-sm`}
                                                                             type='text'
-                                                                            value={exercise.barbellWeight}
-                                                                            onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'barbellWeight', parseFloat(e.target.value) || 0)}
+                                                                            value={exercise.barbellWeightKg}
+                                                                            onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'barbellWeightKg', parseFloat(e.target.value) || 0)}
                                                                         />
                                                                     </div>
                                                                 )}
@@ -482,7 +482,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                             type="number"
                                                                             min="0"
                                                                             placeholder="Time in minutes"
-                                                                            value={exercise.time || ''}
+                                                                            value={exercise.durationSeconds || ''}
                                                                             onChange={(e) => handleTimeChange(dayIndex, exerciseIndex, handleNumberInputChange(e.target.value, 0))}
                                                                         />
                                                                     </div>
@@ -495,7 +495,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                             type="number"
                                                                             min="0"
                                                                             placeholder="Distance in km"
-                                                                            value={exercise.distanceInKm || ''}
+                                                                            value={exercise.distanceKm || ''}
                                                                             onChange={(e) => handleDistanceChange(dayIndex, exerciseIndex, handleNumberInputChange(e.target.value, 0))}
                                                                         />
                                                                     </div>
@@ -524,8 +524,8 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                             type="number"
                                                                             min="0"
                                                                             placeholder="Reps"
-                                                                            value={exercise.reps || ''}
-                                                                            onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'reps', handleNumberInputChange(e.target.value, 0))}
+                                                                            value={exercise.repetitions || ''}
+                                                                            onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'repetitions', handleNumberInputChange(e.target.value, 0))}
                                                                         />
                                                                     </div>
                                                                 </>
@@ -539,10 +539,10 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                     className="rounded-lg p-2 text-center w-1/2"
                                                                     type='number'
                                                                     placeholder="Rest Time Seconds"
-                                                                    value={exercise.restTimeInSeconds}
+                                                                    value={exercise.restTimeSeconds}
                                                                     onChange={(e) => {
                                                                         const seconds = handleNumberInputChange(e.target.value, 0);
-                                                                        handleExerciseChange(dayIndex, exerciseIndex, 'restTimeInSeconds', seconds);
+                                                                        handleExerciseChange(dayIndex, exerciseIndex, 'restTimeSeconds', seconds);
                                                                     }}
                                                                 />
                                                             </div>
@@ -567,12 +567,12 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                     id: 0,
                                     name: '',
                                     sets: 0,
-                                    reps: 0,
-                                    restTimeInSeconds: 0,
-                                    barbellWeight: 0,
+                                    repetitions: 0,
+                                    restTimeSeconds: 0,
+                                    barbellWeightKg: 0,
                                     notes: [],
-                                    time: 0,
-                                    distanceInKm: 0,
+                                    durationSeconds: 0,
+                                    distanceKm: 0,
                                     exerciseType: 'withWeight',
                                     workoutSessions: []
                                 });

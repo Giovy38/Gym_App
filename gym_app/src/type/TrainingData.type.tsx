@@ -13,12 +13,12 @@ export type Exercise = {
     id: number;
     name: string;
     sets: number;
-    reps: number;
-    time: number;
-    distanceInKm: number;
+    repetitions: number;
+    durationSeconds: number;
+    distanceKm: number;
     exerciseType: 'cardio' | 'stretching' | 'withBarbell' | 'withWeight';
-    restTimeInSeconds: number;
-    barbellWeight: number;
+    restTimeSeconds: number;
+    barbellWeightKg: number;
     notes: string[];
     workoutSessions: WorkoutSession[];
 }

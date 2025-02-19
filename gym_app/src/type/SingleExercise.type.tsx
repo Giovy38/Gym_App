@@ -4,12 +4,12 @@ export type SingleExerciseType = {
     exerciseId: number;
     exerciseTitle: string;
     sets?: number;
-    reps?: number;
-    time?: number;
-    distanceInKm?: number;
+    repetitions?: number;
+    durationSeconds?: number;
+    distanceKm?: number;
     exerciseType: 'cardio' | 'stretching' | 'withBarbell' | 'withWeight';
-    restTimeInSeconds?: number;
-    barbellWeight?: number;
+    restTimeSeconds?: number;
+    barbellWeightKg?: number;
     notes: string[];
     latestTraining: TrainingData;
     dayIndex: number;
