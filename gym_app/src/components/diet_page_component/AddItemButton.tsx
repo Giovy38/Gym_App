@@ -26,7 +26,6 @@ export default function AddItemButton({ title, latestDiet, dayOfWeek, meal, diet
         }
     }, [diets, dayOfWeek, meal, selectedDiet]);
 
-    // function to add or edit an item
     const addItem = (name: string, quantity: string) => {
         if (editIndex !== null) {
             // Edit existing item
@@ -35,13 +34,11 @@ export default function AddItemButton({ title, latestDiet, dayOfWeek, meal, diet
             setItems(updatedItems);
             setEditIndex(null);
         } else {
-            // Add new item
             setItems([...items, { name, quantity, id: 0 }]);
         }
         setShowForm(false);
     }
 
-    // function to remove items from the list
     const removeItem = (index: number) => {
         setItems(items.filter((_, i) => i !== index));
     }

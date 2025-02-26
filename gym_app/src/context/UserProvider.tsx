@@ -1,9 +1,7 @@
-// app/user/UserProvider.tsx
 'use client';
 
 import { createContext, useContext } from 'react';
 
-// Definisci un tipo per i dati dell'utente
 interface UserData {
     id: number;
     email: string;

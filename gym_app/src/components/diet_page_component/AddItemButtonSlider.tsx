@@ -29,22 +29,19 @@ export default function AddItemButtonSlider({ dayOfWeek, meal, selectedDiet }: A
         }
     }, [selectedDiet, dayOfWeek, meal]);
 
-    // function to add or edit an item
+
     const addItem = (name: string, quantity: string, id: number = 0) => {
         if (editIndex !== null) {
-            // Edit existing item
             const updatedItems = [...items];
             updatedItems[editIndex] = { name, quantity, id: items[editIndex].id };
             setItems(updatedItems);
             setEditIndex(null);
         } else {
-            // Add new item
             setItems([...items, { name, quantity, id }]);
         }
         setShowForm(false);
     }
 
-    // function to remove items from the list
     const removeItem = (index: number) => {
         setItems(items.filter((_, i) => i !== index));
     }
