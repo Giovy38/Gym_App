@@ -17,7 +17,7 @@ export default async function UserLayout({
     }
 
     try {
-        const response = await fetch('http://localhost:3001/user/about-me', {
+        const response = await fetch('https://super-gym.it/api/user/about-me', {
             headers: {
                 Cookie: `connect.sid=${sessionCookie.value}`,
             },

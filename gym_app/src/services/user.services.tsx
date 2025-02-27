@@ -4,9 +4,9 @@ import FetchFunction from "./FetchFunction";
 class UserService {
 
     // backend url 
-    private USER_BE_URL = 'http://localhost:3001/user';
-    private LOGIN_BE_URL = 'http://localhost:3001/auth/login';
-    private LOGOUT_BE_URL = 'http://localhost:3001/auth/logout';
+    private USER_BE_URL = 'https://super-gym.it/api/user';
+    private LOGIN_BE_URL = 'https://super-gym.it/api/auth/login';
+    private LOGOUT_BE_URL = 'https://super-gym.it/api/auth/logout';
 
     async createNewUser(userData: UserData): Promise<{ createdUser: UserData } | null> {
 
