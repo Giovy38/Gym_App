@@ -84,7 +84,7 @@ export default function BodyCheckPage() {
 
     return (
         <div className={`flex flex-col p-3 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-            <SectionTitle title="body check page" />
+            <SectionTitle title="misurazioni" />
             <DataSlider
                 dataPage='body'
                 onUpdateData={updateChecks}
@@ -98,9 +98,9 @@ export default function BodyCheckPage() {
             />
 
             {bodyChecks.length === 0 || !latestCheck ? (
-                <div className="flex flex-col items-center justify-center gap-5 animate-pulse">
-                    <SectionTitle title="Add a new body check to see your progress" />
-                    <IoBody className="text-5xl text-primary-color animate-bounce" />
+                <div className="flex flex-col items-center justify-center gap-5">
+                    <SectionTitle title="Aggiungi una misurazione per vedere i tuoi progressi" />
+                    <IoBody className="text-5xl text-primary-color" />
                 </div>
             ) : (
                 <div className="flex flex-col lg:flex-row flex-grow items-center justify-around gap-5 lg:gap-20 p-5">

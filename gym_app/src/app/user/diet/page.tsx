@@ -62,7 +62,7 @@ export default function DietPage() {
 
     return (
         <div className={`min-h-screen w-full flex flex-col justify-start xl:items-center gap-3 p-5 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-            <SectionTitle title="Diet page" />
+            <SectionTitle title="diete" />
             <DataSlider
                 dataPage='diet'
                 onUpdateData={updateDiets}
@@ -76,9 +76,9 @@ export default function DietPage() {
             />
 
             {diets.length === 0 ? (
-                <div className="flex flex-col items-center justify-center gap-5 animate-pulse">
-                    <SectionTitle title="Add a new diet to see weekly plan" />
-                    <FaBowlFood className="text-5xl text-primary-color animate-bounce" />
+                <div className="flex flex-col items-center justify-center gap-5">
+                    <SectionTitle title="aggiungi una dieta per vedere il piano settimanale" />
+                    <FaBowlFood className="text-5xl text-primary-color" />
                 </div>
             ) : (
                 <div className="flex flex-col justify-start items-center p-5 gap-3 w-full">

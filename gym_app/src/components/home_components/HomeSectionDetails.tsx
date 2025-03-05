@@ -7,14 +7,14 @@ import Image from 'next/image'
 export default function HomeSectionDetails({ isImgRight, sectionTitle, sectionDescription, img }: HomeSectionDetailsType) {
 
     return (
-        <div className="text-text-primary mt-5">
+        <div className="text-text-primary">
             {isImgRight ? (
                 // img on right for tablet and above
                 <div className="hidden md:flex">
                     {/* description */}
-                    <div className='w-full flex flex-col justify-around pt-5'>
+                    <div className='w-full flex flex-col justify-around items-center pt-5'>
                         <SectionTitle title={sectionTitle} />
-                        <p className='p-3 text-balance text-center text-xl'>
+                        <p className='p-3 text-balance text-left text-xl max-w-[500px]'>
                             {sectionDescription}
                         </p>
                     </div>
@@ -25,15 +25,15 @@ export default function HomeSectionDetails({ isImgRight, sectionTitle, sectionDe
                 </div>
             ) : (
                 // img on left for tablet and above
-                <div className="hidden md:flex">
+                <div className="hidden md:flex bg-gradient-to-r from-bg-data to-black">
                     {/* img */}
                     <div className='w-full'>
                         <Image src={img} alt="training-img" />
                     </div>
                     {/* description */}
-                    <div className='w-full flex flex-col justify-around pt-5'>
+                    <div className='w-full flex flex-col justify-around items-center pt-5'>
                         <SectionTitle title={sectionTitle} />
-                        <p className='p-3 text-balance text-center text-xl'>
+                        <p className='p-3 text-balance text-right text-xl max-w-[500px]'>
                             {sectionDescription}
                         </p>
                     </div>

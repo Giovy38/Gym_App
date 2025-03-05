@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
-import { FaMinus, FaPlus } from "react-icons/fa6";
-import AddRemoveButton from "../reusable_components/AddRemoveButton";
 import { bodyCheckService } from "@/src/services/body-check.services";
+import ModalButton from "../reusable_components/ModalButton";
 
 
 type NewBodyCheckFormProps = {
@@ -69,101 +68,109 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
         }
     };
 
-    const increment = (setter: React.Dispatch<React.SetStateAction<number>>) => setter(prev => prev + 1);
-    const decrement = (setter: React.Dispatch<React.SetStateAction<number>>) => setter(prev => Math.max(0, prev - 1));
-
 
     return (
-        <div className="fixed inset-0 bg-bg-secondary bg-opacity-50 flex items-center justify-center text-text-primary z-50">
-            <div className="p-4 shadow-md rounded-lg w-full max-w-4xl bg-bg-primary overflow-auto max-h-full">
-                <div className="flex justify-end">
+        <div className="fixed inset-0 bg-bg-primary bg-opacity-50 flex items-center justify-center text-text-primary z-50" onClick={onClose}>
+            <div className="p-4 shadow-md rounded-lg w-full max-w-4xl bg-bg-modal overflow-auto max-h-[97vh]" onClick={(e) => e.stopPropagation()}>
+                <div className="flex justify-between items-center px-2 pb-2">
+                    <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-primary-color mb-3">Aggiungi misurazione</h1>
                     <IoMdCloseCircle className="text-btn-exit text-2xl cursor-pointer hover:text-btn-exit-hover" onClick={onClose} />
                 </div>
-                <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-primary-color mb-3">Add New Body Check </h1>
-                <div className="text-text-secondary flex flex-col md:flex-row gap-3">
-                    <div className="flex flex-col gap-3 w-full md:w-1/2">
-                        <div className="flex flex-col justify-center items-center">
-                            <label className="text-primary-color uppercase font-bold text-md select-none" htmlFor="date">Date</label>
+                <div className="text-text-secondary flex flex-col gap-3">
+                    <div className="flex flex-wrap justify-between gap-3 bg-bg-primary p-3 rounded-lg">
+                        <div className="flex flex-col justify-center items-center flex-1 min-w-[200px]">
+                            <label className="text-primary-color uppercase font-bold text-md select-none" htmlFor="date">data</label>
                             <input
-                                className="rounded-lg p-2 text-center"
+                                className="rounded-lg p-2 text-center w-full"
                                 type='date'
                                 id="date"
                                 value={date}
                                 onChange={(e) => setDate(e.target.value)}
                             />
                         </div>
-                        {[{ label: "Height (cm)", value: height, setValue: setHeight },
-                        { label: "Weight (kg)", value: weight, setValue: setWeight },
-                        { label: "Shoulder (cm)", value: shoulder, setValue: setShoulder },
-                        { label: "Chest (cm)", value: chest, setValue: setChest },
-                        { label: "Waist (cm)", value: waist, setValue: setWaist },
-                        { label: "Buttocks (cm)", value: buttocks, setValue: setButtocks },
-                        { label: "Thigh (cm)", value: thigh, setValue: setThigh }]
-                            .map(({ label, value, setValue }) => (
-                                <div key={label} className="flex flex-col justify-center items-center">
-                                    <label className="text-primary-color uppercase font-bold text-md select-none" htmlFor={label.toLowerCase()}>{label}</label>
-                                    <div className="flex justify-center items-center gap-3">
-                                        <FaMinus className="text-text-primary text-2xl cursor-pointer hover:text-btn-minus" onClick={() => decrement(setValue)} />
+                        {[
+                            { label: "altezza (cm)", value: height, setValue: setHeight },
+                            { label: "peso (kg)", value: weight, setValue: setWeight }
+                        ].map(({ label, value, setValue }) => (
+                            <div key={label} className="flex flex-col justify-center items-center flex-1 min-w-[200px]">
+                                <label className="text-primary-color uppercase font-bold text-md select-none" htmlFor={label.toLowerCase()}>{label}</label>
+                                <input
+                                    className="rounded-lg p-2 text-center w-full"
+                                    type='number'
+                                    step="0.1"
+                                    id={label.toLowerCase()}
+                                    value={value}
+                                    onChange={(e) => setValue(parseFloat(e.target.value) || 0)}
+                                />
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 bg-bg-primary p-3 rounded-lg">
+                        {[
+                            { label: "spalle (cm)", value: shoulder, setValue: setShoulder },
+                            { label: "petto (cm)", value: chest, setValue: setChest },
+                            { label: "vita (cm)", value: waist, setValue: setWaist },
+                            { label: "glutei (cm)", value: buttocks, setValue: setButtocks },
+                            { label: "coscia (cm)", value: thigh, setValue: setThigh }
+                        ].map(({ label, value, setValue }) => (
+                            <div key={label} className="flex flex-col justify-center items-center">
+                                <label className="text-primary-color uppercase font-bold text-md select-none" htmlFor={label.toLowerCase()}>{label}</label>
+                                <input
+                                    className="rounded-lg p-2 text-center w-full"
+                                    type='number'
+                                    step="0.1"
+                                    id={label.toLowerCase()}
+                                    value={value}
+                                    onChange={(e) => setValue(parseFloat(e.target.value) || 0)}
+                                />
+                            </div>
+                        ))}
+
+                        {[
+                            { label: "bicipiti", leftValue: bicepsLeft, setLeftValue: setBicepsLeft, rightValue: bicepsRight, setRightValue: setBicepsRight },
+                            { label: "avambracci", leftValue: forearmLeft, setLeftValue: setForearmLeft, rightValue: forearmRight, setRightValue: setForearmRight },
+                            { label: "quadricipiti", leftValue: quadricepsLeft, setLeftValue: setQuadricepsLeft, rightValue: quadricepsRight, setRightValue: setQuadricepsRight },
+                            { label: "polpacci", leftValue: calfLeft, setLeftValue: setCalfLeft, rightValue: calfRight, setRightValue: setCalfRight }
+                        ].map(({ label, leftValue, setLeftValue, rightValue, setRightValue }) => (
+                            <div key={label} className="flex flex-col col-span-full">
+                                <div className="flex justify-between">
+                                    <label className="text-primary-color uppercase font-bold text-md text-center w-1/2 select-none">{label} SX (cm)</label>
+                                    <label className="text-primary-color uppercase font-bold text-md text-center w-1/2 select-none">{label} DX (cm)</label>
+                                </div>
+                                <div className="flex gap-10">
+                                    <div className="flex items-center w-1/2 gap-1">
                                         <input
-                                            className="rounded-lg p-2 text-center"
+                                            className="rounded-lg p-2 text-center w-full"
                                             type='number'
                                             step="0.1"
-                                            id={label.toLowerCase()}
-                                            value={value}
-                                            onChange={(e) => setValue(parseFloat(e.target.value) || 0)}
+                                            id={`${label.toLowerCase()}Left`}
+                                            value={leftValue}
+                                            onChange={(e) => setLeftValue(parseFloat(e.target.value) || 0)}
                                         />
-                                        <FaPlus className="text-text-primary text-2xl cursor-pointer hover:text-btn-plus" onClick={() => increment(setValue)} />
+                                    </div>
+                                    <div className="flex items-center w-1/2 gap-1">
+                                        <input
+                                            className="rounded-lg p-2 text-center w-full"
+                                            type='number'
+                                            step="0.1"
+                                            id={`${label.toLowerCase()}Right`}
+                                            value={rightValue}
+                                            onChange={(e) => setRightValue(parseFloat(e.target.value) || 0)}
+                                        />
                                     </div>
                                 </div>
-                            ))}
+                            </div>
+                        ))}
                     </div>
-                    <div className="flex flex-col gap-3 w-full md:w-1/2">
-                        {[{ label: "Biceps", leftValue: bicepsLeft, setLeftValue: setBicepsLeft, rightValue: bicepsRight, setRightValue: setBicepsRight },
-                        { label: "Forearm", leftValue: forearmLeft, setLeftValue: setForearmLeft, rightValue: forearmRight, setRightValue: setForearmRight },
-                        { label: "Quadriceps", leftValue: quadricepsLeft, setLeftValue: setQuadricepsLeft, rightValue: quadricepsRight, setRightValue: setQuadricepsRight },
-                        { label: "Calf", leftValue: calfLeft, setLeftValue: setCalfLeft, rightValue: calfRight, setRightValue: setCalfRight }]
-                            .map(({ label, leftValue, setLeftValue, rightValue, setRightValue }) => (
-                                <div key={label} className="flex flex-col">
-                                    <div className="flex justify-between">
-                                        <label className="text-primary-color uppercase font-bold text-md text-center w-1/2 select-none">{label} SX (cm)</label>
-                                        <label className="text-primary-color uppercase font-bold text-md text-center w-1/2 select-none">{label} DX (cm)</label>
-                                    </div>
-                                    <div className="flex gap-10">
-                                        <div className="flex items-center w-1/2 gap-1">
-                                            <FaMinus className="text-text-primary text-2xl cursor-pointer hover:text-btn-minus" onClick={() => decrement(setLeftValue)} />
-                                            <input
-                                                className="rounded-lg p-2 text-center w-full"
-                                                type='number'
-                                                step="0.1"
-                                                id={`${label.toLowerCase()}Left`}
-                                                value={leftValue}
-                                                onChange={(e) => setLeftValue(parseFloat(e.target.value) || 0)}
-                                            />
-                                            <FaPlus className="text-text-primary text-2xl cursor-pointer hover:text-btn-plus" onClick={() => increment(setLeftValue)} />
-                                        </div>
-                                        <div className="flex items-center w-1/2 gap-1">
-                                            <FaMinus className="text-text-primary text-2xl cursor-pointer hover:text-btn-minus" onClick={() => decrement(setRightValue)} />
-                                            <input
-                                                className="rounded-lg p-2 text-center w-full"
-                                                type='number'
-                                                step="0.1"
-                                                id={`${label.toLowerCase()}Right`}
-                                                value={rightValue}
-                                                onChange={(e) => setRightValue(parseFloat(e.target.value) || 0)}
-                                            />
-                                            <FaPlus className="text-text-primary text-2xl cursor-pointer hover:text-btn-plus" onClick={() => increment(setRightValue)} />
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                    </div>
-                </div>
-                <div className="flex justify-center items-center gap-3 mt-4">
-                    <div className="w-1/2">
-                        <AddRemoveButton text="Create" onClick={handleSubmit} isAdd />
-                    </div>
-                    <div className="w-1/2">
-                        <AddRemoveButton text="Cancel" onClick={onClose} isAdd={false} />
+
+                    <div className="flex justify-center items-center gap-3 mt-4">
+                        <div className="w-1/2">
+                            <ModalButton text='cancella' onClick={onClose} isAdd={false} />
+                        </div>
+                        <div className="w-1/2">
+                            <ModalButton text='crea' onClick={handleSubmit} isAdd />
+                        </div>
                     </div>
                 </div>
             </div>

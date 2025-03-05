@@ -4,7 +4,7 @@ import FetchFunction from "./FetchFunction";
 class TrainingCardService {
 
     // backend url 
-    private TRAINING_BE_URL = 'https://super-gym.it/api/training';
+    private TRAINING_BE_URL = `http://localhost:3001/training`;
 
     async createNewWorkout(trainingId: number, exerciseId: number, workoutSets: WorkoutSet[]): Promise<TrainingData | null> {
         try {

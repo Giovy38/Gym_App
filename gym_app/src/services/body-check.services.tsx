@@ -4,7 +4,7 @@ import FetchFunction from "./FetchFunction";
 class BodyCheckService {
 
     // backend url 
-    private BODY_CHECK_BE_URL = 'https://super-gym.it/api/body-check';
+    private BODY_CHECK_BE_URL = `http://localhost:3001/body-check`;
 
 
     async createBodyCheck(data: BodyCheckData): Promise<void> {

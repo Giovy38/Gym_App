@@ -52,16 +52,16 @@ export default function Navbar() {
                         <NavbarButton title="home" Icon={FaHome} isActive={activePage === 'home'} />
                     </Link>
                     <Link href='/user/training-card' className="w-full" onClick={() => handleLinkClick('training-card')}>
-                        <NavbarButton title="training card" Icon={CgGym} isActive={activePage === 'training-card'} />
+                        <NavbarButton title="allenamenti" Icon={CgGym} isActive={activePage === 'training-card'} />
                     </Link>
                     <Link href='/user/body-check' className="w-full" onClick={() => handleLinkClick('body-check')}>
-                        <NavbarButton title="body check" Icon={IoBody} isActive={activePage === 'body-check'} />
+                        <NavbarButton title="misurazioni" Icon={IoBody} isActive={activePage === 'body-check'} />
                     </Link>
                     <Link href='/user/diet' className="w-full" onClick={() => handleLinkClick('diet')}>
-                        <NavbarButton title="diet" Icon={FaBowlFood} isActive={activePage === 'diet'} />
+                        <NavbarButton title="diete" Icon={FaBowlFood} isActive={activePage === 'diet'} />
                     </Link>
                     <Link href='/user/profile' className="w-full" onClick={() => handleLinkClick('profile')}>
-                        <NavbarButton title="profile" Icon={FaUserCircle} isActive={activePage === 'profile'} />
+                        <NavbarButton title="profilo" Icon={FaUserCircle} isActive={activePage === 'profile'} />
                     </Link>
                 </div>
             </div>

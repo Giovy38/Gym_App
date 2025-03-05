@@ -72,7 +72,7 @@ export default function TrainingCardPage() {
 
     return (
         <div className={` p-5 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-            <SectionTitle title="training card page" />
+            <SectionTitle title="allenamenti" />
             <div>
                 <MdOutlineTimer onClick={showTimer} className="text-text-secondary text-5xl cursor-pointer bg-primary-color hover:bg-primary-focus hover:text-text-primary p-2 rounded-xl fixed bottom-5 right-5 z-10 shadow-lg shadow-shadow-primary" />
             </div>
@@ -121,9 +121,9 @@ export default function TrainingCardPage() {
                     />
                 ))
             ) : (
-                <div className="flex flex-col items-center justify-center gap-5 animate-pulse">
-                    <SectionTitle title="Add a new training card to see workout plan" />
-                    <GiWeightLiftingUp className="text-5xl text-primary-color animate-bounce" />
+                <div className="flex flex-col items-center justify-center gap-5">
+                    <SectionTitle title="Aggiungi un allenamento per vedere i tuoi progressi" />
+                    <GiWeightLiftingUp className="text-5xl text-primary-color" />
                 </div>
             )}
         </div>

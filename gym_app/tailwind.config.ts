@@ -21,9 +21,10 @@ const config: Config = {
         'bg-third': '#111111',
         'bg-input': '#e2e8f0',
         'bg-data': '#282828',
+        'bg-modal': '#1b1b1b',
         'bg-meal-title': '#cbd5e1',
         // TEXT COLORS
-        'text-primary': '#ffffff',
+        'text-primary': '#e6e6e6',
         'text-secondary': '#000000',
         'text-error': '#e83221',
         'text-error-dark': '#b91c1c',
@@ -46,6 +47,10 @@ const config: Config = {
         'btn-create': '#166534',
         'btn-cancel': '#991b1b',
         'btn-cancel-hover': '#dc2626',
+        'btn-accent': '#f8bf58',
+        'btn-accent-hover': '#e0a740',
+        'btn-neutral' : '#cbd5e1',
+        'btn-neutral-hover': '#858c94',
         // --------------------------------- PRIMARY THEME COLORS ---------------------------------
         'primary-color': '#f8bf58',
         'primary-focus': '#e0a740',
@@ -56,6 +61,7 @@ const config: Config = {
         'shadow-primary': '#000000',
         'shadow-secondary' : '#eac174',
         'shadow-third' : '#ffffff',
+        'shadow-fourth' : '#C5C5C5',
         // --------------------------------- ICONS COLORS ---------------------------------
         'icon-delete': '#fca5a5',
         'icon-active': '#4ade80',
