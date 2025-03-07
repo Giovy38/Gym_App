@@ -18,7 +18,9 @@ export default function Home() {
 
   return (
     <div className={`min-h-[100vh] flex flex-col justify-evenly bg-bg-primary transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-      <Banner img={top_banner} />
+      <div className='mb-1'>
+        <Banner img={top_banner} />
+      </div>
       {/* training section */}
       <HomeSectionDetails
         isImgRight

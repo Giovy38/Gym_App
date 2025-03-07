@@ -9,6 +9,7 @@ import Toast from "@/src/components/reusable_components/Toast"
 import ChangePasswordForm from "@/src/components/ChangePasswordForm"
 import DeleteConfirm from "@/src/components/reusable_components/DeleteConfirm"
 import { useUser } from "@/src/context/UserProvider"
+import ModalButton from "@/src/components/reusable_components/ModalButton"
 
 export default function ProfilePage() {
 
@@ -94,7 +95,7 @@ export default function ProfilePage() {
                 <div className="p-3 md:max-w-64">
                     <PrimaryButton text="Cambia Password" onClick={changePassword} />
                     <AddRemoveButton text="Cancella Account" onClick={deleteAccount} />
-                    <AddRemoveButton text="Logout" onClick={logout} />
+                    <ModalButton text='Logout' onClick={logout} />
                 </div>
             </div>
             {showToast && <Toast message="Logout effettuato con successo" color="red" />}

@@ -144,34 +144,34 @@ export default function LastTrainingDetails({ cardio, latestTraining, exerciseId
                     {showPreviousWorkout ? (
                         <>
                             <SiPastebin className='text-2xl' />
-                            <h1 className='font-bold'>Go to Current Workout</h1>
+                            <h1 className='font-bold'>Allenamento corrente</h1>
                             <IoMdArrowDropright className='text-2xl' />
                         </>
                     ) : (
                         <>
                             <IoMdArrowDropleft className='text-2xl' />
-                            <h1 className='font-bold'>Go to Previous Workout</h1>
+                            <h1 className='font-bold'>Allenamento precedente</h1>
                             <SiPastebin className='text-2xl' />
                         </>
                     )}
                 </div>
                 <h1 className="uppercase font-extrabold">
-                    {showPreviousWorkout ? 'Previous Workout:' : 'Current Workout:'}
+                    {showPreviousWorkout ? 'Allenamento precedente:' : 'Allenamento corrente:'}
                 </h1>
 
                 <table className="w-full text-left ">
                     <thead>
                         <tr>
-                            <th>Set</th>
+                            <th>Serie</th>
                             {cardio ? (
                                 <>
-                                    <th>Time</th>
+                                    <th>Tempo</th>
                                     <th>KM</th>
                                 </>
                             ) : (
                                 <>
-                                    <th>Reps</th>
-                                    <th>Total Weight</th>
+                                    <th>Ripetizioni</th>
+                                    <th>Peso totale</th>
                                 </>
                             )}
                             <th></th>
@@ -190,7 +190,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, exerciseId
                             ) : (
                                 <tr>
                                     <td colSpan={4} className="text-center text-text-error-dark italic font-bold p-3">
-                                        No previous workout found
+                                        Nessun allenamento trovato
                                     </td>
                                 </tr>
                             )
@@ -226,7 +226,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, exerciseId
                 )}
                 {!showPreviousWorkout && (
                     <div onClick={handleSave} className={`w-full flex items-center justify-end gap-2  rounded-lg p-1 cursor-pointer border-t-2 border-border-secondary`}>
-                        <p className='text-text-secondary font-bold'>{!isSaved ? 'Save' : 'Data Saved'}</p>
+                        <p className='text-text-secondary font-bold'>{!isSaved ? 'Salva' : 'Dati salvati'}</p>
                         <HiCloudArrowUp
                             className={`${isSaved ? 'text-saved' : 'text-not-saved'} text-3xl ${isSaved ? 'hover:text-saved-hover' : 'hover:text-not-saved-hover'}`}
                         />

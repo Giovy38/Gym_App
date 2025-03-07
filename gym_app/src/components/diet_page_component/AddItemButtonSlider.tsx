@@ -52,16 +52,10 @@ export default function AddItemButtonSlider({ dayOfWeek, title, meal, selectedDi
     }
 
     return (
-        <div className="flex flex-col gap-3 w-full">
-            <div className="flex flex-col gap-3 bg-bg-third shadow-lg p-3 rounded-lg mb-10 relative w-full">
+        <div className="flex flex-col w-full">
+            <div className="flex flex-col gap-3 bg-bg-primary shadow-lg p-3 relative w-full">
                 <h3 className="text-center text-2xl font-bold uppercase font-logo-font text-primary-color mb-3">{title}</h3>
-                <div
-                    className="bg-bg-primary text-primary-color p-2 rounded-lg flex justify-around items-center gap-2">
-                    <PlusButton text=" " onClick={() => {
-                        setEditIndex(null);
-                        setShowForm(true);
-                    }} />
-                </div>
+
                 {showForm && ReactDOM.createPortal(
                     <AddFoodForm
                         onAdd={addItem}
@@ -97,6 +91,12 @@ export default function AddItemButtonSlider({ dayOfWeek, title, meal, selectedDi
                             meal={meal}
                         />
                     ))}
+                    <div>
+                        <PlusButton text=" " onClick={() => {
+                            setEditIndex(null);
+                            setShowForm(true);
+                        }} />
+                    </div>
                 </div>
             </div>
         </div>

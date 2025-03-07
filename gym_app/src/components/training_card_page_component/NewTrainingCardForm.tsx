@@ -149,7 +149,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                     {workoutDays.map((day, dayIndex) => (
                         <div key={dayIndex} className="flex flex-col gap-3 bg-bg-third shadow-lg shadow-shadow-fourth p-3 rounded-lg mb-10 relative">
                             <div className="grid grid-cols-[1fr_auto] gap-3 items-center">
-                                <label className="bg-bg-primary text-text-primary rounded-lg p-2 text-center uppercase font-extrabold text-lg italic text-md select-none" htmlFor={`workoutName-${dayIndex}`}>gruppo muscolare</label>
+                                <label className="bg-bg-primary text-text-primary rounded-lg p-2 text-center uppercase font-extrabold text-lg italic text-md select-none" htmlFor={`workoutName-${dayIndex}`}>gruppo muscolare / giorno</label>
                                 <MdDeleteForever
                                     className="top-2 right-2 text-icon-delete text-4xl cursor-pointer hover:text-text-primary bg-bg-primary hover:bg-btn-delete rounded-lg p-1"
                                     onClick={() => removeWorkoutDay(dayIndex)}
@@ -160,7 +160,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                 id={`workoutName-${dayIndex}`}
                                 className={inputClass()}
                                 type='text'
-                                placeholder="Gruppo muscolare*"
+                                placeholder="Gruppo muscolare/  Giorno Allenamento*"
                                 value={day.workoutName}
                                 onChange={(e) => {
                                     const updatedDays = [...workoutDays];
@@ -580,7 +580,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                             {!isFormValid() ? <div className="w-full flex justify-center items-center"><p className="text-text-error font-bold text-sm text-center italic">*uno o più campi obbligatori non sono compilati correttamente*</p></div> : null}
                         </div>
                     ))}
-                    <PlusButton text='nuovo gruppo muscolare' onClick={addWorkoutDay} />
+                    <PlusButton text='nuovo giorno allenamento' onClick={addWorkoutDay} />
                 </div>
                 <div className="flex justify-center items-center gap-3 mt-4">
                     <div className="w-1/2">

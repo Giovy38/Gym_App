@@ -34,7 +34,7 @@ export default function InfoCardSxDx({ infoTitle, previousDataSx, previousDataDx
 
 
     return (
-        <div className="bg-bg-data text-text-primary flex flex-col gap-2 p-5 rounded-xl shadow-sm shadow-shadow-fourth lg:w-72 w-full">
+        <div className="bg-bg-data text-text-primary flex flex-col gap-2 p-5 rounded-xl shadow-sm shadow-shadow-fourth w-full">
             <div className="flex gap-2">
                 <h1 className="text-3xl capitalize font-bold">{infoTitle}</h1>
             </div>
@@ -61,7 +61,7 @@ export default function InfoCardSxDx({ infoTitle, previousDataSx, previousDataDx
                 </div>
 
             </div>
-
+            <h3 className="text-sm text-text-neutral">Rispetto all&apos;ultima misurazione</h3>
         </div>
     )
 }

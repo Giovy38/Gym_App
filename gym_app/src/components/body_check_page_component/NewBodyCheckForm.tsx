@@ -79,9 +79,9 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
                 <div className="text-text-secondary flex flex-col gap-3">
                     <div className="flex flex-wrap justify-between gap-3 bg-bg-primary p-3 rounded-lg">
                         <div className="flex flex-col justify-center items-center flex-1 min-w-[200px]">
-                            <label className="text-primary-color uppercase font-bold text-md select-none" htmlFor="date">data</label>
+                            <label className="text-text-primary uppercase font-bold text-md select-none" htmlFor="date">data</label>
                             <input
-                                className="rounded-lg p-2 text-center w-full"
+                                className="rounded-lg p-2 text-center w-full bg-bg-input"
                                 type='date'
                                 id="date"
                                 value={date}
@@ -92,10 +92,10 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
                             { label: "altezza (cm)", value: height, setValue: setHeight },
                             { label: "peso (kg)", value: weight, setValue: setWeight }
                         ].map(({ label, value, setValue }) => (
-                            <div key={label} className="flex flex-col justify-center items-center flex-1 min-w-[200px]">
-                                <label className="text-primary-color uppercase font-bold text-md select-none" htmlFor={label.toLowerCase()}>{label}</label>
+                            <div key={label} className="flex flex-col justify-center items-center flex-1 min-w-[200px] gap-2">
+                                <label className="text-text-primary uppercase font-bold text-md select-none" htmlFor={label.toLowerCase()}>{label}</label>
                                 <input
-                                    className="rounded-lg p-2 text-center w-full"
+                                    className="rounded-lg p-2 text-center w-full bg-bg-input"
                                     type='number'
                                     step="0.1"
                                     id={label.toLowerCase()}
@@ -114,10 +114,10 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
                             { label: "glutei (cm)", value: buttocks, setValue: setButtocks },
                             { label: "coscia (cm)", value: thigh, setValue: setThigh }
                         ].map(({ label, value, setValue }) => (
-                            <div key={label} className="flex flex-col justify-center items-center">
-                                <label className="text-primary-color uppercase font-bold text-md select-none" htmlFor={label.toLowerCase()}>{label}</label>
+                            <div key={label} className="flex flex-col justify-center items-center gap-2">
+                                <label className="text-text-primary uppercase font-bold text-md select-none" htmlFor={label.toLowerCase()}>{label}</label>
                                 <input
-                                    className="rounded-lg p-2 text-center w-full"
+                                    className="rounded-lg p-2 text-center w-full bg-bg-input"
                                     type='number'
                                     step="0.1"
                                     id={label.toLowerCase()}
@@ -133,15 +133,15 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
                             { label: "quadricipiti", leftValue: quadricepsLeft, setLeftValue: setQuadricepsLeft, rightValue: quadricepsRight, setRightValue: setQuadricepsRight },
                             { label: "polpacci", leftValue: calfLeft, setLeftValue: setCalfLeft, rightValue: calfRight, setRightValue: setCalfRight }
                         ].map(({ label, leftValue, setLeftValue, rightValue, setRightValue }) => (
-                            <div key={label} className="flex flex-col col-span-full">
+                            <div key={label} className="flex flex-col col-span-full gap-2">
                                 <div className="flex justify-between">
-                                    <label className="text-primary-color uppercase font-bold text-md text-center w-1/2 select-none">{label} SX (cm)</label>
-                                    <label className="text-primary-color uppercase font-bold text-md text-center w-1/2 select-none">{label} DX (cm)</label>
+                                    <label className="text-text-primary uppercase font-bold text-md text-center w-1/2 select-none">{label} SX (cm)</label>
+                                    <label className="text-text-primary uppercase font-bold text-md text-center w-1/2 select-none">{label} DX (cm)</label>
                                 </div>
                                 <div className="flex gap-10">
                                     <div className="flex items-center w-1/2 gap-1">
                                         <input
-                                            className="rounded-lg p-2 text-center w-full"
+                                            className="rounded-lg p-2 text-center w-full bg-bg-input"
                                             type='number'
                                             step="0.1"
                                             id={`${label.toLowerCase()}Left`}
@@ -151,7 +151,7 @@ export default function NewBodyCheckForm({ onClose, onNewBodyCheck }: NewBodyChe
                                     </div>
                                     <div className="flex items-center w-1/2 gap-1">
                                         <input
-                                            className="rounded-lg p-2 text-center w-full"
+                                            className="rounded-lg p-2 text-center w-full bg-bg-input"
                                             type='number'
                                             step="0.1"
                                             id={`${label.toLowerCase()}Right`}

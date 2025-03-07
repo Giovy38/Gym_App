@@ -48,12 +48,15 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
             dataType: dataPage
         }));
 
-        setDataList([{ id: 1, isAdd: true, dataDate: '00/00/0000', dataType: 'add' }, ...formattedData]);
+        // Invertiamo l'ordine di formattedData per avere gli elementi più recenti prima
+        const reversedData = [...formattedData].reverse();
 
-        // Seleziona automaticamente l'ultimo elemento non-add se esiste
+        setDataList([{ id: 1, isAdd: true, dataDate: '00/00/0000', dataType: 'add' }, ...reversedData]);
+
+        // Seleziona automaticamente il primo elemento non-add se esiste
         if (formattedData.length > 0) {
-            const lastItem = formattedData[formattedData.length - 1];
-            setSelectedId(lastItem.id);
+            const firstItem = reversedData[0];
+            setSelectedId(firstItem.id);
         }
     }, [dataPage, dbDate]);
 

@@ -17,11 +17,13 @@ export default function DietPage() {
     const [selectedDay, setSelectedDay] = useState('monday');
 
     const updateDiets = (selectedData: DietData) => {
+        console.log('Updating diets with:', selectedData);
         setLatestDiet(selectedData);
     };
 
     const handleUpdateSelectedData = (selectedData: DietData | BodyCheckData | TrainingData) => {
         if ('monday' in selectedData) {
+            console.log('Updating selected data with:', selectedData);
             setLatestDiet(selectedData as DietData);
         }
     };
@@ -31,24 +33,34 @@ export default function DietPage() {
         setIsLoaded(true);
     }, []);
 
+    useEffect(() => {
+        console.log('Selected day changed to:', selectedDay);
+        fetchData();
+    }, [selectedDay]);
+
     const fetchData = async () => {
         try {
             const data = await dietService.getDiets();
+            console.log('Fetched diets:', data);
             setDiets(data);
             if (data.length > 0) {
-                setLatestDiet(data[data.length - 1]);
+                const currentDiet = data[data.length - 1];
+                console.log('Setting latest diet:', currentDiet);
+                setLatestDiet(currentDiet);
             }
         } catch (error) {
-            console.log(error);
+            console.log('Error fetching diets:', error);
         }
     };
 
-    const handleNewDiet = () => {
-        fetchData();
+    const handleNewDiet = async () => {
+        console.log('Handling new diet');
+        await fetchData();
     };
 
-    const handleRemoveDiet = () => {
-        fetchData();
+    const handleRemoveDiet = async () => {
+        console.log('Handling remove diet');
+        await fetchData();
     };
 
     const daysOfWeek = ['lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato', 'domenica'];
@@ -72,7 +84,10 @@ export default function DietPage() {
     };
 
     const handleDaySelect = (italianDay: string) => {
-        setSelectedDay(daysMapping[italianDay]);
+        console.log('Day selected:', italianDay);
+        const newDay = daysMapping[italianDay];
+        console.log('Setting selected day to:', newDay);
+        setSelectedDay(newDay);
     };
 
     return (
@@ -95,18 +110,18 @@ export default function DietPage() {
                     <FaBowlFood className="text-5xl text-primary-color" />
                 </div>
             ) : (
-                <div className="flex flex-col w-full max-w-4xl gap-4">
+                <div className="flex flex-col w-full max-w-4xl">
                     {/* Tab Navigation */}
-                    <div className="relative w-full bg-bg-primary p-2 rounded-md md:flex md:justify-center md:items-center">
+                    <div className="relative w-full bg-bg-primary rounded-t-md md:flex md:justify-center md:items-center">
                         <div className="flex overflow-x-auto scrollbar-hide -mx-2 px-2">
                             <div className="flex space-x-2 min-w-full">
                                 {daysOfWeek.map((day) => (
                                     <button
                                         key={day}
                                         onClick={() => handleDaySelect(day)}
-                                        className={`flex-shrink-0 px-3 py-2 text-sm font-bold whitespace-nowrap rounded-md transition-all duration-200 ${daysMapping[day] === selectedDay
+                                        className={`flex-shrink-0 px-3 py-2 text-sm font-bold whitespace-nowrap rounded-b-md transition-all duration-200 ${daysMapping[day] === selectedDay
                                             ? 'bg-primary-color text-text-secondary'
-                                            : 'bg-bg-secondary text-text-secondary md:hover:bg-primary-focus'
+                                            : 'text-text-neutral md:hover:bg-primary-focus md:hover:text-text-secondary'
                                             }`}
                                     >
                                         {day.toUpperCase()}
@@ -118,13 +133,13 @@ export default function DietPage() {
 
                     {/* Meals Content */}
                     <div className="flex flex-col gap-4 rounded-lg w-full">
-                        <div className="flex flex-col gap-3 w-full">
+                        <div className="flex flex-col w-full">
                             {meals.map((meal) => (
                                 <div key={meal} className="w-full rounded-lg">
                                     <AddItemButtonSlider
                                         title={mealsMapping[meal]}
                                         displayTitle={mealsMapping[meal]}
-                                        latestDiet={diets[diets.length - 1]}
+                                        latestDiet={latestDiet}
                                         dayOfWeek={selectedDay}
                                         meal={meal}
                                         diets={diets}

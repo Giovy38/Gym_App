@@ -47,11 +47,11 @@ export default function RemovibleItems({ index, food, quantity, onRemove, onEdit
 
     return (
         <>
-            <div className="bg-bg-secondary text-text-secondary p-2 rounded-lg flex flex-col items-center justify-center gap-2 cursor-pointer mt-2 w-full lg:max-w-40 text-balance overflow-hidden">
-                <h3 className="font-bold text-center bg-bg-meal-title p-1 rounded-lg min-w-14">
+            <div className="bg-bg-secondary text-text-secondary p-2 rounded-lg flex flex-col items-center justify-center gap-2 cursor-pointer mt-2 w-40 h-40 text-balance overflow-hidden">
+                <h3 className="font-bold text-center bg-bg-meal-title p-1 rounded-lg w-full">
                     {truncateText(quantity, 14)}
                 </h3>
-                <div className="text-center font-bold uppercase overflow-auto max-h-20 w-full [&::-webkit-scrollbar]:w-2
+                <div className="text-center font-bold uppercase overflow-auto h-20 w-full [&::-webkit-scrollbar]:w-2
                         [&::-webkit-scrollbar-track]:rounded-full
                         [&::-webkit-scrollbar-track]:bg-slider-color
                         [&::-webkit-scrollbar-thumb]:rounded-full

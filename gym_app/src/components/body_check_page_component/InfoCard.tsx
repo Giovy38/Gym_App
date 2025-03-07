@@ -30,6 +30,7 @@ export default function InfoCard({ infoTitle, previousData, currentData }: InfoC
                 </div>
             </div>
             <h1 className="text-3xl font-bold">{currentData} <span className="text-sm">cm</span></h1>
+            <h3 className="text-sm text-text-neutral">Rispetto all&apos;ultima misurazione</h3>
         </div>
     )
 }

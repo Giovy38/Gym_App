@@ -70,6 +70,15 @@ export default function BodyCheckPage() {
         rightCalf: 0
     }
 
+    const formatDate = (dateString: string) => {
+        if (dateString === "N/A") return dateString;
+        const date = new Date(dateString);
+        return date.toLocaleDateString('it-IT', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+    }
 
     return (
         <div className={`flex flex-col p-3 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
@@ -92,7 +101,10 @@ export default function BodyCheckPage() {
                 </div>
             ) : (
                 <div className="flex flex-col gap-5 justify-center items-center">
-                    <div className="flex flex-col lg:flex-row flex-grow items-center justify-center pt-5 px-5 gap-5 w-full">
+                    <div className="flex justify-start items-start w-full mt-5 p-2">
+                        <h1 className="text-text-primary font-bold text-2xl ">Misurazioni del <span className="text-primary-color text-3xl">{formatDate(latestCheck.date)}</span></h1>
+                    </div>
+                    <div className="flex flex-col lg:flex-row flex-grow items-center justify-center pt-5 px-5 gap-5 w-full md:w-4/5">
                         <BigInfoCard
                             infoTitle="peso"
                             previousData={previousCheck?.weight || defaultData.weight}
@@ -105,21 +117,22 @@ export default function BodyCheckPage() {
                             currentData={latestCheck?.height || defaultData.height}
                             icon={IconType.MEASUREMENT}
                         />
-                        <BigInfoCard
-                            infoTitle="vita"
-                            previousData={previousCheck?.waist || defaultData.waist}
-                            currentData={latestCheck?.waist || defaultData.waist}
-                            icon={IconType.MEASUREMENT}
-                        />
-                        <BigInfoCard
+                    </div>
+                    {/* small info cards */}
+                    <div className="flex justify-start items-start w-full mt-5 p-2 ">
+                        <h1 className="text-text-primary font-bold text-2xl">Altre misurazioni</h1>
+                    </div>
+                    <div className="flex flex-col lg:flex-row flex-grow items-center justify-center px-5 gap-5 w-full md:w-4/5">
+                        <InfoCard
                             infoTitle="petto"
                             previousData={previousCheck?.chest || defaultData.chest}
                             currentData={latestCheck?.chest || defaultData.chest}
-                            icon={IconType.MEASUREMENT}
                         />
-                    </div>
-                    {/* small info cards */}
-                    <div className="flex flex-col lg:flex-row flex-grow items-center justify-center px-5 gap-5 w-full">
+                        <InfoCard
+                            infoTitle="vita"
+                            previousData={previousCheck?.waist || defaultData.waist}
+                            currentData={latestCheck?.waist || defaultData.waist}
+                        />
                         <InfoCard
                             infoTitle="spalle"
                             previousData={previousCheck?.shoulder || defaultData.shoulder}
@@ -137,7 +150,11 @@ export default function BodyCheckPage() {
                         />
 
                     </div>
-                    <div className="flex flex-col lg:flex-row flex-grow items-center justify-center px-5 gap-5 w-full">
+                    {/* info cards sx dx */}
+                    <div className="flex justify-start items-start w-full mt-5 p-2">
+                        <h1 className="text-text-primary font-bold text-2xl">Misurazioni sx dx</h1>
+                    </div>
+                    <div className="flex flex-col lg:flex-row flex-grow items-center justify-center px-5 gap-5 w-full md:w-4/5">
                         <InfoCardSxDx
                             infoTitle="bicipiti"
                             previousDataSx={previousCheck?.leftBicep || defaultData.leftBicep}
