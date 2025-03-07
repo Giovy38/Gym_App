@@ -8,7 +8,6 @@ import { IoBody } from "react-icons/io5";
 import Link from 'next/link';
 import SectionTitle from "./reusable_components/SectionTitle";
 import NavbarButton from "./navbar_component/NavbarButton";
-import LoadingSpinner from "./reusable_components/LoadingSpinner";
 import Logo from '../assets/img/logo.png';
 import Image from 'next/image'
 
@@ -16,7 +15,6 @@ import Image from 'next/image'
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [activePage, setActivePage] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const activePage = localStorage.getItem('activePage');
@@ -30,19 +28,13 @@ export default function Navbar() {
     };
 
     const handleLinkClick = (page: string) => {
-        setIsLoading(true);
         setActivePage(page);
         localStorage.setItem('activePage', page);
         setIsOpen(false);
-
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 1000);
     };
 
     return (
         <div>
-            {isLoading && <LoadingSpinner />}
             {/* Navbar for tablet and larger screens */}
             <div className="hidden md:flex justify-center items-center bg-bg-primary text-text-primary px-5">
                 <Link href='/' onClick={() => handleLinkClick('home')}>
