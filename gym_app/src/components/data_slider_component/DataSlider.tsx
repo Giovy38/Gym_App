@@ -31,11 +31,20 @@ export default function DataSlider({ dataPage, onUpdateData, dbDate, onNewBodyCh
     const [showForm, setShowForm] = useState(false);
     const [selectedId, setSelectedId] = useState<number | null>(null);
 
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('it-IT', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+    };
+
     useEffect(() => {
         const formattedData = dbDate.map(item => ({
             id: item.id,
             isAdd: false,
-            dataDate: item.date,
+            dataDate: formatDate(item.date),
             dataType: dataPage
         }));
 

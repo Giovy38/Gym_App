@@ -25,7 +25,7 @@ export default function HomeSectionDetails({ isImgRight, sectionTitle, sectionDe
                 </div>
             ) : (
                 // img on left for tablet and above
-                <div className="hidden md:flex bg-gradient-to-r from-bg-data to-black">
+                <div className="hidden md:flex bg-gradient-to-r from-bg-data to-bg-primary">
                     {/* img */}
                     <div className='w-full'>
                         <Image src={img} alt="training-img" />

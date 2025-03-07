@@ -72,7 +72,6 @@ export default function TrainingCardPage() {
 
     return (
         <div className={` p-5 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-            <SectionTitle title="allenamenti" />
             <div>
                 <MdOutlineTimer onClick={showTimer} className="text-text-secondary text-5xl cursor-pointer bg-primary-color hover:bg-primary-focus hover:text-text-primary p-2 rounded-xl fixed bottom-5 right-5 z-10 shadow-lg shadow-shadow-primary" />
             </div>

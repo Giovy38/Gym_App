@@ -62,7 +62,6 @@ export default function DietPage() {
 
     return (
         <div className={`min-h-screen w-full flex flex-col justify-start xl:items-center gap-3 p-5 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-            <SectionTitle title="diete" />
             <DataSlider
                 dataPage='diet'
                 onUpdateData={updateDiets}

@@ -63,13 +63,7 @@ export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initial
                     <h3 className="text-center text-2xl font-bold uppercase mb-2 text-primary-color" >Aggiungi nuovo alimento</h3>
 
                 }
-                <input
-                    type="text"
-                    placeholder="Quantità (es. 120g/ 1.5 kg)"
-                    value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
-                    className="border p-2 mb-2 w-full rounded-lg"
-                />
+                <label htmlFor="food" className="text-primary-color font-bold">Nome Alimento</label>
                 <input
                     type="text"
                     placeholder="Nome Alimento"
@@ -77,12 +71,20 @@ export default function AddFoodForm({ onAdd, onCancel, initialFood = '', initial
                     onChange={(e) => setFood(e.target.value)}
                     className="border p-2 mb-2 w-full rounded-lg"
                 />
+                <label htmlFor="quantity" className="text-primary-color font-bold">Quantità</label>
+                <input
+                    type="text"
+                    placeholder="Quantità (es. 120g/ 1.5 kg)"
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
+                    className="border p-2 mb-2 w-full rounded-lg"
+                />
                 <div className="flex justify-center gap-2">
                     <ModalButton text='cancella' onClick={onCancel} isAdd={false} />
 
                     {(initialFood || initialQuantity) ?
                         // <BlueButton text="Edit" onClick={handleEdit} disabled={!food || !quantity} />
-                        <ModalButton text='modifica' onClick={handleEdit} isAdd={true} disabled={!food || !quantity} />
+                        <ModalButton text='salva' onClick={handleEdit} isAdd={true} disabled={!food || !quantity} />
 
                         :
                         // <AddRemoveButton text="Add" onClick={handleAdd} isAdd={true} disabled={!food || !quantity} />

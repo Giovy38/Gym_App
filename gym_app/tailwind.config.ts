@@ -30,6 +30,7 @@ const config: Config = {
         'text-error-dark': '#b91c1c',
         'text-more': '#86efac',
         'text-less': '#93c5fd',
+        'text-neutral': '#cbd5e1',
         // --------------------------------- BUTTONS COLORS ---------------------------------
         'btn-primary': '#1d4ed8',
         'btn-primary-hover': '#2563eb',

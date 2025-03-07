@@ -9,6 +9,9 @@ import Link from 'next/link';
 import SectionTitle from "./reusable_components/SectionTitle";
 import NavbarButton from "./navbar_component/NavbarButton";
 import LoadingSpinner from "./reusable_components/LoadingSpinner";
+import Logo from '../assets/img/logo.png';
+import Image from 'next/image'
+
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -41,16 +44,14 @@ export default function Navbar() {
         <div>
             {isLoading && <LoadingSpinner />}
             {/* Navbar for tablet and larger screens */}
-            <div className="hidden md:block bg-black text-white">
-                <div className='overflow-hidden text-center p-3'>
-                    <Link href='/' onClick={() => handleLinkClick('home')}>
+            <div className="hidden md:flex justify-center items-center bg-bg-primary text-text-primary px-5">
+                <Link href='/' onClick={() => handleLinkClick('home')}>
+                    <div className='w-64 h-50 flex gap-5 items-center justify-center'>
+                        <Image src={Logo} alt="logo" width={50} height={50} />
                         <SectionTitle title="super gym" />
-                    </Link>
-                </div>
-                <div className='flex justify-around p-1'>
-                    <Link href='/' className="w-full" onClick={() => handleLinkClick('home')}>
-                        <NavbarButton title="home" Icon={FaHome} isActive={activePage === 'home'} />
-                    </Link>
+                    </div>
+                </Link>
+                <div className='flex justify-around p-1 w-full'>
                     <Link href='/user/training-card' className="w-full" onClick={() => handleLinkClick('training-card')}>
                         <NavbarButton title="allenamenti" Icon={CgGym} isActive={activePage === 'training-card'} />
                     </Link>
@@ -67,40 +68,43 @@ export default function Navbar() {
             </div>
 
             {/* Hamburger menu for mobile screens */}
-            <div className="md:hidden bg-black text-white p-3 z-40">
+            <div className="md:hidden bg-bg-primary text-text-primary p-3 z-40">
                 <div className="flex justify-between items-center">
                     <Link href='/' onClick={() => handleLinkClick('home')}>
-                        <SectionTitle title="super gym" />
+                        <div className='w-50 h-50 flex gap-5 items-center justify-center'>
+                            <Image src={Logo} alt="logo" width={50} height={50} />
+                            <SectionTitle title="super gym" />
+                        </div>
                     </Link>
-                    <button onClick={toggleMenu} className="text-white z-50">
-                        {isOpen ? <FaTimes size={24} className='z-50 text-black' /> : <FaBars size={24} />}
+                    <button onClick={toggleMenu} className="text-text-primary z-50">
+                        {isOpen ? <FaTimes size={24} className='z-50 text-text-secondary' /> : <FaBars size={24} />}
                     </button>
                 </div>
                 <div
-                    className={`fixed top-0 left-0 w-full h-full bg-[#f8c058] text-black p-5 flex flex-col items-center justify-center transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'} z-40`}
+                    className={`fixed top-0 left-0 w-full h-full bg-gradient-to-t from-bg-data to-primary-color text-text-secondary p-5 flex flex-col items-center justify-center transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'} z-40`}
                 >
                     <Link href='/' onClick={() => handleLinkClick('home')} className="w-full mb-4">
-                        <div className="border-2 border-[#d79418] w-full text-center py-2 rounded-2xl ">
+                        <div className="border-2 border-border-secondary w-full text-center py-2 rounded-2xl ">
                             <NavbarButton title="home" Icon={FaHome} isActive={activePage === 'home'} />
                         </div>
                     </Link>
                     <Link href='/user/training-card' onClick={() => handleLinkClick('training-card')} className="w-full mb-4">
-                        <div className="border-2 border-[#d79418] w-full text-center py-2 rounded-2xl ">
+                        <div className="border-2 border-border-secondary w-full text-center py-2 rounded-2xl ">
                             <NavbarButton title="training card" Icon={CgGym} isActive={activePage === 'training-card'} />
                         </div>
                     </Link>
                     <Link href='/user/body-check' onClick={() => handleLinkClick('body-check')} className="w-full mb-4">
-                        <div className="border-2 border-[#d79418] w-full text-center py-2 rounded-2xl ">
+                        <div className="border-2 border-border-secondary w-full text-center py-2 rounded-2xl ">
                             <NavbarButton title="body check" Icon={IoBody} isActive={activePage === 'body-check'} />
                         </div>
                     </Link>
                     <Link href='/user/diet' onClick={() => handleLinkClick('diet')} className="w-full mb-4">
-                        <div className="border-2 border-[#d79418] w-full text-center py-2 rounded-2xl ">
+                        <div className="border-2 border-border-secondary w-full text-center py-2 rounded-2xl ">
                             <NavbarButton title="diet" Icon={FaBowlFood} isActive={activePage === 'diet'} />
                         </div>
                     </Link>
                     <Link href='/user/profile' onClick={() => handleLinkClick('profile')} className="w-full mb-4">
-                        <div className="border-2 border-[#d79418] w-full text-center py-2 rounded-2xl ">
+                        <div className="border-2 border-border-secondary w-full text-center py-2 rounded-2xl ">
                             <NavbarButton title="profile" Icon={FaUserCircle} isActive={activePage === 'profile'} />
                         </div>
                     </Link>
