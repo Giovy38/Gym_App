@@ -1,8 +1,6 @@
 'use client'
 
 import DataSlider from "@/src/components/data_slider_component/DataSlider"
-import Accordion from "@/src/components/diet_page_component/Accordion"
-// import AddItemButton from "@/src/components/diet_page_component/AddItemButton"
 import SectionTitle from "@/src/components/reusable_components/SectionTitle"
 import { dietService } from "@/src/services/diet.services"
 import { DietData } from "@/src/type/DietData.type"
@@ -12,18 +10,14 @@ import { BodyCheckData } from "@/src/type/BodyCheckData.type"
 import { TrainingData } from "@/src/type/TrainingData.type"
 import AddItemButtonSlider from "@/src/components/diet_page_component/AddItemButtonSlider"
 
-
 export default function DietPage() {
-
     const [latestDiet, setLatestDiet] = useState<DietData | null>(null);
     const [diets, setDiets] = useState<DietData[]>([]);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [selectedDay, setSelectedDay] = useState('monday');
 
     const updateDiets = (selectedData: DietData) => {
         setLatestDiet(selectedData);
-        console.log('latestDiet', latestDiet);
-        console.log('diets', diets);
-        console.log('selectedData', selectedData);
     };
 
     const handleUpdateSelectedData = (selectedData: DietData | BodyCheckData | TrainingData) => {
@@ -57,8 +51,29 @@ export default function DietPage() {
         fetchData();
     };
 
-    const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    const daysOfWeek = ['lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato', 'domenica'];
+    const daysMapping: { [key: string]: string } = {
+        'lunedì': 'monday',
+        'martedì': 'tuesday',
+        'mercoledì': 'wednesday',
+        'giovedì': 'thursday',
+        'venerdì': 'friday',
+        'sabato': 'saturday',
+        'domenica': 'sunday'
+    };
+
     const meals = ['breakfast', 'snack', 'lunch', 'snack2', 'dinner'];
+    const mealsMapping: { [key: string]: string } = {
+        'breakfast': 'Colazione',
+        'snack': 'Spuntino',
+        'lunch': 'Pranzo',
+        'snack2': 'Merenda',
+        'dinner': 'Cena'
+    };
+
+    const handleDaySelect = (italianDay: string) => {
+        setSelectedDay(daysMapping[italianDay]);
+    };
 
     return (
         <div className={`min-h-screen w-full flex flex-col justify-start xl:items-center gap-3 p-5 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
@@ -80,24 +95,45 @@ export default function DietPage() {
                     <FaBowlFood className="text-5xl text-primary-color" />
                 </div>
             ) : (
-                <div className="flex flex-col justify-start items-center p-5 gap-3 w-full">
-                    {daysOfWeek.map((day) => (
-                        <Accordion
-                            key={day}
-                            accordionTitle={day.charAt(0).toUpperCase() + day.slice(1)}
-                            buttons={meals.map((meal) => (
-                                <AddItemButtonSlider
-                                    key={meal}
-                                    title={meal}
-                                    latestDiet={diets[diets.length - 1]}
-                                    dayOfWeek={day}
-                                    meal={meal}
-                                    diets={diets}
-                                    selectedDiet={latestDiet}
-                                />
+                <div className="flex flex-col w-full max-w-4xl gap-4">
+                    {/* Tab Navigation */}
+                    <div className="relative w-full bg-bg-primary p-2 rounded-md md:flex md:justify-center md:items-center">
+                        <div className="flex overflow-x-auto scrollbar-hide -mx-2 px-2">
+                            <div className="flex space-x-2 min-w-full">
+                                {daysOfWeek.map((day) => (
+                                    <button
+                                        key={day}
+                                        onClick={() => handleDaySelect(day)}
+                                        className={`flex-shrink-0 px-3 py-2 text-sm font-bold whitespace-nowrap rounded-md transition-all duration-200 ${daysMapping[day] === selectedDay
+                                            ? 'bg-primary-color text-text-secondary'
+                                            : 'bg-bg-secondary text-text-secondary md:hover:bg-primary-focus'
+                                            }`}
+                                    >
+                                        {day.toUpperCase()}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Meals Content */}
+                    <div className="flex flex-col gap-4 rounded-lg w-full">
+                        <div className="flex flex-col gap-3 w-full">
+                            {meals.map((meal) => (
+                                <div key={meal} className="w-full rounded-lg">
+                                    <AddItemButtonSlider
+                                        title={mealsMapping[meal]}
+                                        displayTitle={mealsMapping[meal]}
+                                        latestDiet={diets[diets.length - 1]}
+                                        dayOfWeek={selectedDay}
+                                        meal={meal}
+                                        diets={diets}
+                                        selectedDiet={latestDiet}
+                                    />
+                                </div>
                             ))}
-                        />
-                    ))}
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

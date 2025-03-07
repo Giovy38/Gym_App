@@ -37,11 +37,11 @@ export default function SigninForm() {
 
     useEffect(() => {
         const newErrors = {
-            firstName: userData.firstName.trim().length < 2 ? 'Must be at least 2 characters' : '',
-            lastName: userData.lastName.trim().length < 2 ? 'Must be at least 2 characters' : '',
-            email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.email) ? '' : 'Invalid email format',
-            password: userData.password.trim().length < 8 ? 'Password must be at least 8 characters' : '',
-            confirmPassword: userData.password !== userData.confirmPassword ? 'Passwords do not match' : ''
+            firstName: userData.firstName.trim().length < 2 ? 'Almeno 2 caratteri' : '',
+            lastName: userData.lastName.trim().length < 2 ? 'Almeno 2 caratteri' : '',
+            email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.email) ? '' : 'Formato email non valido',
+            password: userData.password.trim().length < 8 ? 'Almeno 8 caratteri' : '',
+            confirmPassword: userData.password !== userData.confirmPassword ? 'Le password non corrispondono' : ''
         };
         setErrors(newErrors);
         setIsFormValid(Object.values(newErrors).every(error => error === ''));
@@ -89,16 +89,16 @@ export default function SigninForm() {
     return (
         <div className="bg-bg-primary flex flex-col p-5 rounded-lg">
             {showToast && <Toast message={toastMessage} color={toastColor} />}
-            <SectionTitle title="signin" />
+            <SectionTitle title="registrati" />
             <div className="flex flex-col">
                 <div className="flex flex-col md:flex-row gap-3">
                     <div className="flex flex-col">
-                        <InputText label="first name" type="text" placeholder='First Name' name="firstName" onChange={handleInputChange} />
-                        {errors.firstName && <span className="text-text-error">{errors.firstName}</span>}
+                        <InputText label="nome" type="text" placeholder='Nome' name="firstName" onChange={handleInputChange} />
+                        {errors.firstName && <span className="text-text-error text-center">{errors.firstName}</span>}
                     </div>
                     <div className="flex flex-col">
-                        <InputText label="last name" type="text" placeholder='Last Name' name="lastName" onChange={handleInputChange} />
-                        {errors.lastName && <span className="text-text-error">{errors.lastName}</span>}
+                        <InputText label="cognome" type="text" placeholder='Cognome' name="lastName" onChange={handleInputChange} />
+                        {errors.lastName && <span className="text-text-error text-center">{errors.lastName}</span>}
                     </div>
                 </div>
                 <InputText label="e-mail" type="email" placeholder='E-mail' name="email" onChange={handleInputChange} />
@@ -108,7 +108,7 @@ export default function SigninForm() {
                 <InputText label="repeat password" type="password" placeholder='Password' name="confirmPassword" onChange={handleInputChange} />
                 {errors.confirmPassword && <span className="text-text-error text-center">{errors.confirmPassword}</span>}
                 <div className="w-full flex flex-col justify-around items-center gap-2 bg-bg-second mt-5 p-2 rounded-md">
-                    <h4 className="uppercase font-bold text-xl text-text-primary">body check image*</h4>
+                    <h4 className="uppercase font-bold text-xl text-text-primary">sesso</h4>
                     <div className="flex gap-20">
                         <FaFemale className={`${bodyCheckImageIsMan ? 'text-2xl text-text-primary w-1/3' : 'text-3xl text-female-color w-1/3'}`} />
                         <Switch
@@ -125,10 +125,10 @@ export default function SigninForm() {
                 </div>
 
                 <Link href="/login">
-                    <h4 className="text-primary-color mt-3 underline underline-offset-2 text-center">Have an account? Login now</h4>
+                    <h4 className="text-primary-color mt-3 underline underline-offset-2 text-center">Hai già un account? Accedi ora</h4>
                 </Link>
 
-                <PrimaryButton text="Signin" onClick={handleSubmit} disabled={!isFormValid} />
+                <PrimaryButton text="Registrati" onClick={handleSubmit} disabled={!isFormValid} />
             </div>
         </div>
     )

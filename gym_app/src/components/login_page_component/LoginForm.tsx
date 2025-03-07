@@ -21,18 +21,18 @@ export default function LoginForm() {
         try {
             const result = await userService.userLogin(email, password);
             if (result) {
-                setToastMessage('Login successful!');
+                setToastMessage('Login effettuato con successo!');
                 setToastColor('green');
                 window.location.href = '/';
                 localStorage.setItem('activePage', 'home');
             } else {
-                setToastMessage('email or password incorrect');
+                setToastMessage('email o password errati');
                 setToastColor('red');
             }
         } catch (error) {
-            setToastMessage('Error during login');
+            setToastMessage('Errore durante il login');
             setToastColor('red');
-            console.error('Error during login:', error);
+            console.error('Errore durante il login:', error);
         }
     }
 
@@ -52,7 +52,7 @@ export default function LoginForm() {
                 <InputText label="e-mail" type="email" placeholder='E-mail' value={email} onChange={(e) => setEmail(e.target.value)} />
                 <InputText label="password" type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
                 <Link href="/signin">
-                    <h4 className="text-primary-color mt-3 underline underline-offset-2">Dont have an account? Register now</h4>
+                    <h4 className="text-primary-color mt-3 underline underline-offset-2">Non hai un account? Registrati ora</h4>
                 </Link>
                 <PrimaryButton text="Login" onClick={handleLogin} disabled={!email || !password} />
             </div>
