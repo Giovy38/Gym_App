@@ -5,7 +5,7 @@ import TrainingAccordion from "@/src/components/training_card_page_component/Tra
 import SingleExercise from "@/src/components/training_card_page_component/SingleExercise";
 import DataSlider from "@/src/components/data_slider_component/DataSlider";
 import Timer from "@/src/components/training_card_page_component/Timer";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { MdOutlineTimer } from "react-icons/md";
 import { TrainingData } from "@/src/type/TrainingData.type";
 import { GiWeightLiftingUp } from "react-icons/gi";
@@ -19,37 +19,56 @@ export default function TrainingCardPage() {
     const [trainings, setTrainings] = useState<TrainingData[]>([]);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    const updateTrainings = (selectedData: TrainingData) => {
-        setLatestTraining(trainings[trainings.length - 1]);
-        console.log('latestTraining', latestTraining);
-        console.log('trainings', trainings);
-        console.log('selectedData', selectedData);
+    const sortExercisesByOrder = (training: TrainingData): TrainingData => {
+        const sortedTraining = { ...training };
+
+        sortedTraining.workoutDays = training.workoutDays.map(day => ({
+            ...day,
+            exercises: [...day.exercises].sort((a, b) => a.id - b.id)
+        }));
+
+        return sortedTraining;
     };
 
-    const handleUpdateSelectedData = (selectedData: TrainingData | BodyCheckData | DietData) => {
-        if ('workoutDays' in selectedData) {
-            setLatestTraining(selectedData as TrainingData);
-        } else {
-            setLatestTraining(null);
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-        setIsLoaded(true);
-    }, []);
-
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
             const data: TrainingData[] = await trainingCardService.getTrainings();
-            setTrainings(data);
-            if (data.length > 0) {
-                setLatestTraining(data[data.length - 1]);
+            const sortedData = data.map(training => sortExercisesByOrder(training));
+            setTrainings(sortedData);
+            if (sortedData.length > 0) {
+                setLatestTraining(sortedData[sortedData.length - 1]);
             }
         } catch (error) {
             console.log(error);
         }
-    }
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+        setIsLoaded(true);
+    }, [fetchData]);
+
+    const updateTrainings = (selectedData: TrainingData) => {
+        const sortedData = sortExercisesByOrder(selectedData);
+        setLatestTraining(sortedData);
+        setTrainings(prevTrainings => {
+            return prevTrainings.map(training => {
+                if (training.id === selectedData.id) {
+                    return sortedData;
+                }
+                return training;
+            });
+        });
+    };
+
+    const handleUpdateSelectedData = (selectedData: TrainingData | BodyCheckData | DietData) => {
+        if ('workoutDays' in selectedData) {
+            const sortedData = sortExercisesByOrder(selectedData as TrainingData);
+            setLatestTraining(sortedData);
+        } else {
+            setLatestTraining(null);
+        }
+    };
 
     const handleNewTraining = () => {
         fetchData();
