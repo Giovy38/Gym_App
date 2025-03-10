@@ -64,7 +64,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
     return (
         <div className="flex flex-col text-text-primary">
             <div
-                className="p-2 flex justify-around items-center gap-2 rounded-lg font-bold bg-bg-primary cursor-pointer w-full mt-5 md:min-w-80 min-w-[90vw]"
+                className={`p-2 flex justify-around items-center gap-2 rounded-lg font-bold bg-bg-primary cursor-pointer w-full mt-5 md:min-w-80 min-w-[90vw] ${isOpen ? '' : 'shadow-md shadow-shadow-fourth md:shadow-none'}`}
                 onClick={accordionOpenClose}
             >
                 <div className="flex flex-col items-center justify-center">
