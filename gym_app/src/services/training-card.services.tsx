@@ -4,7 +4,7 @@ import FetchFunction from "./FetchFunction";
 class TrainingCardService {
 
     // backend url 
-    private TRAINING_BE_URL = `http://localhost:3001/training`;
+    private TRAINING_BE_URL = `${process.env.NEXT_PUBLIC_TRAINING_URL}`;
 
     async createNewWorkout(trainingId: number, exerciseId: number, workoutSets: WorkoutSet[]): Promise<TrainingData | null> {
         try {

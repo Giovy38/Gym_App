@@ -4,7 +4,7 @@ import FetchFunction from "./FetchFunction";
 class BodyCheckService {
 
     // backend url 
-    private BODY_CHECK_BE_URL = `http://localhost:3001/body-check`;
+    private BODY_CHECK_BE_URL = `${process.env.NEXT_PUBLIC_BODY_CHECK_URL}`;
 
 
     async createBodyCheck(data: BodyCheckData): Promise<void> {

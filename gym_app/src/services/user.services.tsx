@@ -4,9 +4,9 @@ import FetchFunction from "./FetchFunction";
 class UserService {
 
     // backend url 
-    private USER_BE_URL = `http://localhost:3001/user`;
-    private LOGIN_BE_URL = `http://localhost:3001/auth/login`;
-    private LOGOUT_BE_URL = `http://localhost:3001/auth/logout`;
+    private USER_BE_URL = `${process.env.NEXT_PUBLIC_USER_BE_URL}`;
+    private LOGIN_BE_URL = `${process.env.NEXT_PUBLIC_LOGIN_BE_URL}`;
+    private LOGOUT_BE_URL = `${process.env.NEXT_PUBLIC_LOGOUT_BE_URL}`;
 
     async createNewUser(userData: UserData): Promise<{ createdUser: UserData } | null> {
 
