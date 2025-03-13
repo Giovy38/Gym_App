@@ -32,7 +32,7 @@ export default function SingleData({ isAdd, dataDate, dataType, onClick, onOpen,
                     <div className="text-text-primary text-3xl border-2 border-border-primary border-dotted rounded-xl p-2 h-20 w-20 flex justify-center items-center cursor-pointer hover:bg-bg-secondary hover:text-text-secondary transition-all duration-300">
                         <GoPlus />
                     </div>
-                    <p>add new</p>
+                    <p>aggiungi</p>
                 </div>
             ) : (
                 <div onClick={onOpen} className="text-text-primary flex flex-col items-center uppercase gap-1">

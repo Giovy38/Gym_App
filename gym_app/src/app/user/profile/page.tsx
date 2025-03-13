@@ -9,6 +9,7 @@ import Toast from "@/src/components/reusable_components/Toast"
 import ChangePasswordForm from "@/src/components/ChangePasswordForm"
 import DeleteConfirm from "@/src/components/reusable_components/DeleteConfirm"
 import { useUser } from "@/src/context/UserProvider"
+import ModalButton from "@/src/components/reusable_components/ModalButton"
 
 export default function ProfilePage() {
 
@@ -59,6 +60,7 @@ export default function ProfilePage() {
 
     const showEmail = () => {
         setIsEmailShowed(!isEmailShowed)
+        console.log(userData)
     }
 
     const changePassword = async () => {
@@ -69,11 +71,21 @@ export default function ProfilePage() {
         setShowChangePasswordForm(false)
     }
 
+    const welcomeMessage = () => {
+        if (userData?.gender === 'male') {
+            return 'Benvenuto'
+        } else if (userData?.gender === 'female') {
+            return 'Benvenuta'
+        } else {
+            return 'Benvenuto'
+        }
+    }
+
 
     return (
         <div className={`flex flex-col justify-center items-center gap-3 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-            <h1 className="text-text-primary uppercase text-xl p-3 font-bold">Welcome <label className="text-primary-color text-2xl">{userData?.firstName}</label></h1>
-            <h3 className="text-text-primary">Your email: </h3>
+            <h1 className="text-text-primary uppercase text-xl p-3 font-bold">{welcomeMessage()} <label className="text-primary-color text-2xl">{userData?.firstName}</label></h1>
+            <h3 className="text-text-primary">La tua email: </h3>
             <div className="bg-bg-primary p-3 rounded-lg flex justify-around items-center gap-3 text-text-primary w-56">
                 {isEmailShowed ? userData?.email : '•••••••••••••••••'}
                 {isEmailShowed ? <FaEyeSlash onClick={showEmail} className="cursor-pointer" /> : <FaRegEye onClick={showEmail} className="cursor-pointer" />}
@@ -81,13 +93,13 @@ export default function ProfilePage() {
 
             <div className="flex justify-end">
                 <div className="p-3 md:max-w-64">
-                    <PrimaryButton text="Change Password" onClick={changePassword} />
-                    <AddRemoveButton text="Delete Account" onClick={deleteAccount} />
-                    <AddRemoveButton text="Logout" onClick={logout} />
+                    <PrimaryButton text="Cambia Password" onClick={changePassword} />
+                    <AddRemoveButton text="Cancella Account" onClick={deleteAccount} />
+                    <ModalButton text='Logout' onClick={logout} />
                 </div>
             </div>
-            {showToast && <Toast message="Successful Logout" color="red" />}
-            {showDeleteToast && <Toast message="Account successfully deleted" color="red" />}
+            {showToast && <Toast message="Logout effettuato con successo" color="red" />}
+            {showDeleteToast && <Toast message="Account cancellato con successo" color="red" />}
             {showChangePasswordForm && userData && <ChangePasswordForm userData={userData} onClose={closeChangePasswordForm} />}
             {showDeleteConfirm && (
                 <DeleteConfirm

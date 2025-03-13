@@ -8,7 +8,7 @@ import PlusButton from "../reusable_components/PlusButton";
 import ReactDOM from 'react-dom';
 import { Meal } from "@/src/type/DietData.type";
 
-export default function AddItemButtonSlider({ dayOfWeek, meal, selectedDiet }: AddItemButtonType) {
+export default function AddItemButtonSlider({ dayOfWeek, title, meal, selectedDiet }: AddItemButtonType) {
     const [items, setItems] = useState<Meal[]>([]);
     const [showForm, setShowForm] = useState(false);
     const [editIndex, setEditIndex] = useState<number | null>(null);
@@ -52,16 +52,10 @@ export default function AddItemButtonSlider({ dayOfWeek, meal, selectedDiet }: A
     }
 
     return (
-        <div className="flex flex-col gap-3 mt-4 w-full">
-            <div className="flex flex-col gap-3 bg-bg-third shadow-lg p-3 rounded-lg mb-10 relative w-full">
-                <h3 className="text-center text-2xl font-bold uppercase font-logo-font text-primary-color mb-3">{meal}</h3>
-                <div
-                    className="bg-bg-primary text-primary-color p-2 rounded-lg flex justify-around items-center gap-2">
-                    <PlusButton text=" " onClick={() => {
-                        setEditIndex(null);
-                        setShowForm(true);
-                    }} />
-                </div>
+        <div className="flex flex-col w-full">
+            <div className="flex flex-col gap-3 bg-bg-primary shadow-lg p-3 relative w-full">
+                <h3 className="text-center text-2xl font-bold uppercase font-logo-font text-primary-color mb-3">{title}</h3>
+
                 {showForm && ReactDOM.createPortal(
                     <AddFoodForm
                         onAdd={addItem}
@@ -97,6 +91,12 @@ export default function AddItemButtonSlider({ dayOfWeek, meal, selectedDiet }: A
                             meal={meal}
                         />
                     ))}
+                    <div>
+                        <PlusButton text=" " onClick={() => {
+                            setEditIndex(null);
+                            setShowForm(true);
+                        }} />
+                    </div>
                 </div>
             </div>
         </div>

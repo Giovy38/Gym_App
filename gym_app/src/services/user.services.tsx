@@ -4,9 +4,9 @@ import FetchFunction from "./FetchFunction";
 class UserService {
 
     // backend url 
-    private USER_BE_URL = 'https://super-gym.it/api/user';
-    private LOGIN_BE_URL = 'https://super-gym.it/api/auth/login';
-    private LOGOUT_BE_URL = 'https://super-gym.it/api/auth/logout';
+    private USER_BE_URL = `${process.env.NEXT_PUBLIC_USER_BE_URL}`;
+    private LOGIN_BE_URL = `${process.env.NEXT_PUBLIC_LOGIN_BE_URL}`;
+    private LOGOUT_BE_URL = `${process.env.NEXT_PUBLIC_LOGOUT_BE_URL}`;
 
     async createNewUser(userData: UserData): Promise<{ createdUser: UserData } | null> {
 
@@ -18,9 +18,12 @@ class UserService {
             gender: userData.gender
         }
         try {
+            console.log('URL della richiesta:', this.USER_BE_URL);
+            console.log('Dati inviati:', data);
             const res = await FetchFunction(this.USER_BE_URL, 'POST', data);
 
             if (!res.ok) {
+                console.log('Risposta non ok:', res.error);
                 if (res.error.status === 400) {
                     return null;
                 }
@@ -167,6 +170,7 @@ class UserService {
 
     async userLogout(): Promise<{ message: string } | null> {
         try {
+            localStorage.removeItem('activePage');
             const res = await FetchFunction(`${this.LOGOUT_BE_URL}`, 'POST', {});
             if (res.ok) {
                 const data: { message: string } = await res.value.json();

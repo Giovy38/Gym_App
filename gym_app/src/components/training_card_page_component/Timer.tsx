@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react';
-import AddBlueButton from '../reusable_components/AddBlueButton';
-import AddRemoveButton from '../reusable_components/AddRemoveButton';
 import { IoMdCloseCircle } from "react-icons/io";
+import ModalButton from '../reusable_components/ModalButton';
+
 
 
 type TimerProps = {
@@ -20,45 +20,61 @@ export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
     const [isRunning, setIsRunning] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
     const [isCompleted, setIsCompleted] = useState(true);
+    const [inputValue, setInputValue] = useState('');
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
-    const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        let parsedValue = parseInt(value);
+    const handleNumberClick = (num: number) => {
+        if (isRunning) return;
 
-        if (isNaN(parsedValue)) {
-            parsedValue = 0;
+        // Se è un valore preimpostato, azzera prima il timer
+        if (num >= 30) {
+            setInputValue('');
+            const minutes = Math.floor(num / 60);
+            const seconds = num % 60;
+            setTime({ hours: 0, minutes, seconds });
+            return;
         }
 
-        setTime(prevTime => {
-            let { hours, minutes, seconds } = prevTime;
+        setInputValue(prev => {
+            const newValue = (prev + num).slice(-6); // Mantiene solo gli ultimi 6 numeri
 
-            if (name === "seconds") {
-                seconds = parsedValue;
+            // Gestione del tempo in base alla lunghezza dell'input
+            if (newValue.length <= 2) {
+                // Se 1-2 numeri: interpreta come secondi
+                const seconds = parseInt(newValue);
                 if (seconds >= 60) {
-                    minutes += Math.floor(seconds / 60);
-                    seconds = seconds % 60;
+                    const minutes = Math.floor(seconds / 60);
+                    const remainingSeconds = seconds % 60;
+                    setTime({ hours: 0, minutes, seconds: remainingSeconds });
+                } else {
+                    setTime({ hours: 0, minutes: 0, seconds });
                 }
+            } else if (newValue.length <= 4) {
+                // Se 3-4 numeri: interpreta come minuti e secondi
+                const totalSeconds = parseInt(newValue);
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                setTime({ hours: 0, minutes, seconds });
+            } else {
+                // Se 5-6 numeri: interpreta come ore, minuti e secondi
+                const hours = parseInt(newValue.slice(0, 2));
+                const minutes = parseInt(newValue.slice(2, 4));
+                const seconds = parseInt(newValue.slice(4, 6));
+                setTime({ hours, minutes, seconds });
             }
 
-            if (name === "minutes") {
-                minutes = parsedValue;
-                if (minutes >= 60) {
-                    hours += Math.floor(minutes / 60);
-                    minutes = minutes % 60;
-                }
-            }
-
-            if (name === "hours") {
-                hours = Math.max(0, parsedValue); // Assicura che le ore non siano negative
-            }
-
-            return { hours, minutes, seconds };
+            return newValue;
         });
     };
 
+    const clearInput = () => {
+        setInputValue('');
+        setTime({ hours: 0, minutes: 0, seconds: 0 });
+    };
+
     const startTimer = () => {
+        if (time.hours === 0 && time.minutes === 0 && time.seconds === 0) return;
         setIsRunning(true);
         setIsCompleted(false);
     };
@@ -71,53 +87,12 @@ export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
         setIsRunning(false);
         setTime({ hours: 0, minutes: 0, seconds: 0 });
         setIsCompleted(true);
+        setInputValue('');
     };
 
     const closeComponent = () => {
         setIsVisible(false);
         onClose();
-    };
-
-    const adjustTime = (field: string, amount: number) => {
-        setTime(prevTime => {
-            let { hours, minutes, seconds } = prevTime;
-
-            if (field === "seconds") {
-                seconds += amount;
-                if (seconds >= 60) {
-                    minutes += Math.floor(seconds / 60);
-                    seconds = seconds % 60;
-                } else if (seconds < 0) {
-                    if (minutes > 0) {
-                        minutes -= 1;
-                        seconds = 59;
-                    } else {
-                        seconds = 0; // Assicura che i secondi non siano negativi
-                    }
-                }
-            }
-
-            if (field === "minutes") {
-                minutes += amount;
-                if (minutes >= 60) {
-                    hours += Math.floor(minutes / 60);
-                    minutes = minutes % 60;
-                } else if (minutes < 0) {
-                    if (hours > 0) {
-                        hours -= 1;
-                        minutes = 59;
-                    } else {
-                        minutes = 0; // Assicura che i minuti non siano negativi
-                    }
-                }
-            }
-
-            if (field === "hours") {
-                hours = Math.max(0, hours + amount); // Assicura che le ore non siano negative
-            }
-
-            return { hours, minutes, seconds };
-        });
     };
 
     useEffect(() => {
@@ -156,73 +131,101 @@ export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
         };
     }, [isRunning]);
 
+    // Funzione per formattare il tempo da mostrare
+    const formatDisplayTime = () => {
+        if (isRunning || !isCompleted) {
+            return `${time.hours.toString().padStart(2, '0')}:${time.minutes.toString().padStart(2, '0')}:${time.seconds.toString().padStart(2, '0')}`;
+        }
+
+        if (inputValue === '') {
+            return `${time.hours.toString().padStart(2, '0')}:${time.minutes.toString().padStart(2, '0')}:${time.seconds.toString().padStart(2, '0')}`;
+        }
+
+        return inputValue.padStart(6, '0').replace(/(\d{2})(\d{2})(\d{2})/, '$1:$2:$3');
+    };
+
     if (!isVisible) return null;
 
     return (
-        <div className="fixed inset-0 bg-bg-primary-opacity z-10 flex justify-center items-center">
-            <div className="bg-bg-secondary rounded-lg p-8 relative">
+        <div className="fixed inset-0 bg-bg-primary-opacity z-10 flex justify-center items-center p-4" onClick={closeComponent}>
+            <div className="bg-bg-modal rounded-lg p-8 relative max-w-md w-full" onClick={(e) => e.stopPropagation()}>
                 <IoMdCloseCircle className='absolute top-2 right-2 text-btn-exit hover:text-btn-exit-hover text-2xl cursor-pointer' onClick={closeComponent} />
-                <div className="flex flex-col md:flex-row justify-center items-center gap-4">
-                    <div className='flex flex-col gap-2 text-text-secondary'>
-                        <label className='bg-bg-primary text-center rounded-lg text-text-primary' htmlFor="hours">Hours:</label>
-                        <div className='flex items-center'>
-                            <button onClick={() => adjustTime('hours', -1)} disabled={isRunning || !isCompleted}>-</button>
-                            <input
-                                className='bg-bg-input text-center rounded-md mx-2'
-                                name="hours"
-                                onChange={handleTimeChange}
-                                value={time.hours}
-                                disabled={isRunning || !isCompleted}
-                            />
-                            <button onClick={() => adjustTime('hours', 1)} disabled={isRunning || !isCompleted}>+</button>
-                        </div>
+                <div className="flex flex-col items-center gap-4">
+                    <div className="w-40 h-40 flex justify-center items-center border-4 border-btn-accent bg-bg-primary rounded-full">
+                        <h1 className='text-xl font-bold text-text-primary'>
+                            {formatDisplayTime()}
+                        </h1>
                     </div>
-                    <div className='flex flex-col justify-center gap-2 text-text-secondary'>
-                        <label className='bg-bg-primary text-center rounded-lg text-text-primary' htmlFor="minutes">Minutes:</label>
-                        <div className='flex items-center'>
-                            <button onClick={() => adjustTime('minutes', -1)} disabled={isRunning || !isCompleted}>-</button>
-                            <input
-                                className='bg-bg-input text-center rounded-md mx-2'
-                                name="minutes"
-                                onChange={handleTimeChange}
-                                value={time.minutes}
-                                max="59"
+
+                    <div className='bg-black rounded-md p-2 flex flex-wrap justify-center gap-2 w-full'>
+                        {[
+                            { display: '30s', value: 30 },
+                            { display: '1m', value: 60 },
+                            { display: '1m20s', value: 80 },
+                            { display: '2m', value: 120 },
+                            { display: '5m', value: 300 },
+                        ].map((item) => (
+                            <button
+                                key={item.value}
+                                onClick={() => handleNumberClick(item.value)}
                                 disabled={isRunning || !isCompleted}
-                            />
-                            <button onClick={() => adjustTime('minutes', 1)} disabled={isRunning || !isCompleted}>+</button>
-                        </div>
+                                className="border-2 border-border-primary hover:bg-bg-secondary w-16 h-10 flex justify-center items-center hover:text-text-secondary text-text-primary p-2 rounded-md hover:bg-bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {item.display}
+                            </button>
+                        ))}
                     </div>
-                    <div className='flex flex-col justify-center gap-2 text-text-secondary'>
-                        <label className='bg-bg-primary text-center rounded-lg text-text-primary' htmlFor="seconds">Seconds:</label>
-                        <div className='flex items-center'>
-                            <button onClick={() => adjustTime('seconds', -1)} disabled={isRunning || !isCompleted}>-</button>
-                            <input
-                                className='bg-bg-input text-center rounded-md mx-2'
-                                name="seconds"
-                                onChange={handleTimeChange}
-                                value={time.seconds}
-                                max="59"
+
+                    <div className="grid grid-cols-3 gap-2 w-48">
+                        {[7, 8, 9, 4, 5, 6, 1, 2, 3].map((num) => (
+                            <button
+                                key={num}
+                                onClick={() => handleNumberClick(num)}
                                 disabled={isRunning || !isCompleted}
-                            />
-                            <button onClick={() => adjustTime('seconds', 1)} disabled={isRunning || !isCompleted}>+</button>
-                        </div>
+                                className="bg-bg-primary hover:bg-bg-secondary hover:text-text-secondary text-text-primary p-4 rounded-lg hover:bg-bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {num}
+                            </button>
+                        ))}
+                        <button
+                            onClick={clearInput}
+                            disabled={isRunning || !isCompleted}
+                            className="bg-btn-accent hover:bg-btn-accent-hover text-text-secondary p-4 rounded-lg hover:bg-bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            C
+                        </button>
+                        <button
+                            onClick={() => handleNumberClick(0)}
+                            disabled={isRunning || !isCompleted}
+                            className="bg-bg-primary hover:bg-bg-secondary hover:text-text-secondary text-text-primary p-4 rounded-lg hover:bg-bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            0
+                        </button>
+                        <button
+                            onClick={() => setInputValue(prev => prev.slice(0, -1))}
+                            disabled={isRunning || !isCompleted}
+                            className="bg-btn-accent hover:bg-btn-accent-hover text-text-secondary p-4 rounded-lg hover:bg-bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            ←
+                        </button>
                     </div>
+
+                    {(!isRunning && (isCompleted || (time.hours === 0 && time.minutes === 0 && time.seconds === 0))) ? (
+                        <div className='w-full flex justify-center items-center'>
+                            <ModalButton text='Start' onClick={startTimer} isAdd />
+                        </div>
+                    ) : (
+                        <div className="flex gap-2">
+                            <ModalButton text='Stop' onClick={cancelTimer} isAdd={false} />
+                            {isRunning ?
+                                <ModalButton text='Pausa' onClick={pauseTimer} isAdd />
+                                :
+                                <ModalButton text='Riprendi' onClick={pauseTimer} isAdd />
+                            }
+
+                        </div>
+                    )}
                 </div>
-                <div className="flex justify-center items-center my-4">
-                    <div className="w-40 h-40 flex justify-center items-center border-4 border-border-secondary rounded-full">
-                        <h1 className='text-xl font-bold text-text-secondary'>{`${time.hours.toString().padStart(2, '0')}:${time.minutes.toString().padStart(2, '0')}:${time.seconds.toString().padStart(2, '0')}`}</h1>
-                    </div>
-                </div>
-                {(isCompleted) || (!isRunning && time.hours === 0 && time.minutes === 0 && time.seconds === 0) ? (
-                    <div className='w-full flex justify-center items-center'>
-                        <AddBlueButton text="Start" onClick={startTimer} />
-                    </div>
-                ) : (
-                    <div>
-                        <AddRemoveButton text='Play/Pause' onClick={pauseTimer} isAdd />
-                        <AddRemoveButton text='Cancel' onClick={cancelTimer} isAdd={false} />
-                    </div>
-                )}
                 <audio ref={audioRef} src="/sounds/alert.mp3" />
             </div>
         </div>

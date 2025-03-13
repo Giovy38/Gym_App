@@ -4,7 +4,7 @@ import FetchFunction from "./FetchFunction";
 class DietService {
 
     // backend url 
-    private DIET_BE_URL = 'https://super-gym.it/api/diet';
+    private DIET_BE_URL = `${process.env.NEXT_PUBLIC_DIET_URL}`;
 
     async createNewDiet(data: DietData): Promise<void> {
         const dietDataWithUser = { ...data };

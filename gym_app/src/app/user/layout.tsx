@@ -17,7 +17,7 @@ export default async function UserLayout({
     }
 
     try {
-        const response = await fetch('https://super-gym.it/api/user/about-me', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_ABOUT_ME_USER_URL}`, {
             headers: {
                 Cookie: `connect.sid=${sessionCookie.value}`,
             },

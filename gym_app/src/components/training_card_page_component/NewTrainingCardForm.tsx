@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
-import AddRemoveButton from "../reusable_components/AddRemoveButton";
 import { TrainingData, days, Exercise } from "@/src/type/TrainingData.type";
 import { IoBarbellOutline } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
@@ -14,8 +13,8 @@ import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import { Scrollbar, Navigation } from "swiper/modules";
 import PlusButton from "../reusable_components/PlusButton";
-import BlueButton from "../reusable_components/BlueButton";
 import { TbStretching } from "react-icons/tb";
+import ModalButton from "../reusable_components/ModalButton";
 
 
 type NewTrainingCardFormProps = {
@@ -130,14 +129,14 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
     };
 
     return (
-        <div className="fixed inset-0 bg-bg-secondary bg-opacity-50 flex items-center justify-center text-text-primary z-50">
-            <div className="p-4 shadow-md rounded-lg w-full max-w-4xl bg-bg-primary overflow-auto max-h-full">
-                <div className="flex justify-end">
+        <div className="fixed inset-0 bg-bg-primary bg-opacity-50 flex items-center justify-center text-text-primary z-50" onClick={onClose}>
+            <div className="p-4 shadow-md rounded-lg w-full max-w-4xl bg-bg-modal overflow-auto max-h-[97vh]" onClick={(e) => e.stopPropagation()}>
+                <div className="flex justify-between items-center px-2 pb-2">
+                    <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-primary-color mb-3">aggiungi allenamento</h1>
                     <IoMdCloseCircle className="text-btn-exit text-2xl cursor-pointer hover:text-btn-exit-hover" onClick={onClose} />
                 </div>
-                <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-primary-color mb-3">Add New Training Card</h1>
                 <div className="text-text-secondary flex flex-col justify-center items-center">
-                    <label className="text-primary-color uppercase font-bold text-md select-none" htmlFor="date">Date</label>
+                    <label className="text-primary-color uppercase font-bold text-md select-none" htmlFor="date">data</label>
                     <input
                         className="rounded-lg p-2 text-center"
                         type='date'
@@ -148,9 +147,9 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                 </div>
                 <div className="flex flex-col gap-3 mt-4">
                     {workoutDays.map((day, dayIndex) => (
-                        <div key={dayIndex} className="flex flex-col gap-3 bg-bg-third shadow-lg shadow-shadow-secondary p-3 rounded-lg mb-10 relative">
+                        <div key={dayIndex} className="flex flex-col gap-3 bg-bg-third shadow-lg shadow-shadow-fourth p-3 rounded-lg mb-10 relative">
                             <div className="grid grid-cols-[1fr_auto] gap-3 items-center">
-                                <label className="bg-primary-color text-text-secondary rounded-lg p-2 text-center uppercase font-extrabold text-lg italic text-md select-none" htmlFor={`workoutName-${dayIndex}`}>Muscle Group</label>
+                                <label className="bg-bg-primary text-text-primary rounded-lg p-2 text-center uppercase font-extrabold text-lg italic text-md select-none" htmlFor={`workoutName-${dayIndex}`}>gruppo muscolare / giorno</label>
                                 <MdDeleteForever
                                     className="top-2 right-2 text-icon-delete text-4xl cursor-pointer hover:text-text-primary bg-bg-primary hover:bg-btn-delete rounded-lg p-1"
                                     onClick={() => removeWorkoutDay(dayIndex)}
@@ -161,7 +160,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                 id={`workoutName-${dayIndex}`}
                                 className={inputClass()}
                                 type='text'
-                                placeholder="Muscle Group Name*"
+                                placeholder="Gruppo muscolare/  Giorno Allenamento*"
                                 value={day.workoutName}
                                 onChange={(e) => {
                                     const updatedDays = [...workoutDays];
@@ -182,12 +181,12 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                     setWorkoutDays(updatedDays);
                                                 }}
                                             />
-                                            <label className="text-primary-color uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-0`}>Exercise*</label>
+                                            <label className="text-primary-color uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-0`}>Esercizio</label>
                                             <input
                                                 id={`exerciseName-${dayIndex}-0`}
                                                 className={inputClass()}
                                                 type='text'
-                                                placeholder="Exercise Name*"
+                                                placeholder="Nome Esercizio*"
                                                 value={day.exercises[0].name}
                                                 onChange={(e) => handleExerciseChange(dayIndex, 0, 'name', e.target.value)}
                                             />
@@ -237,7 +236,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 handleExerciseChange(dayIndex, 0, 'exerciseType', 'withWeight');
                                                             }}
                                                         />
-                                                        <span className="text-xs text-primary-color uppercase font-bold">Weight</span>
+                                                        <span className="text-xs text-primary-color uppercase font-bold">Peso</span>
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-center items-center gap-4">
@@ -257,11 +256,11 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 handleExerciseChange(dayIndex, 0, 'exerciseType', 'withBarbell');
                                                             }}
                                                         />
-                                                        <span className="text-xs text-primary-color uppercase font-bold">Barbell</span>
+                                                        <span className="text-xs text-primary-color uppercase font-bold">Bilanciere</span>
                                                     </div>
                                                     {day.exercises[0].exerciseType === 'withBarbell' && (
                                                         <div className="flex flex-col items-center gap-2">
-                                                            <span className="text-xs text-primary-color uppercase font-bold">Barbell Weight</span>
+                                                            <span className="text-xs text-primary-color uppercase font-bold">Peso Bilanciere</span>
                                                             <input
                                                                 id={`barbellWeight-${dayIndex}-0`}
                                                                 className={`${inputClass()} w-16 text-sm`}
@@ -278,26 +277,26 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                     <>
                                                         <div className="flex flex-col w-1/2 justify-center items-center">
                                                             <label className="text-primary-color uppercase font-bold text-md select-none">
-                                                                Time (min)*
+                                                                tempo (min)*
                                                             </label>
                                                             <input
                                                                 className={`${inputClass()} w-1/2`}
                                                                 type="number"
                                                                 min="0"
-                                                                placeholder="Time in minutes"
+                                                                placeholder="Tempo in minuti"
                                                                 value={day.exercises[0].durationSeconds || ''}
                                                                 onChange={(e) => handleTimeChange(dayIndex, 0, handleNumberInputChange(e.target.value, 0))}
                                                             />
                                                         </div>
                                                         <div className="flex flex-col w-1/2 justify-center items-center">
                                                             <label className="text-primary-color uppercase font-bold text-md select-none">
-                                                                Distance (km)*
+                                                                distanza (km)*
                                                             </label>
                                                             <input
                                                                 className={`${inputClass()} w-1/2`}
                                                                 type="number"
                                                                 min="0"
-                                                                placeholder="Distance in km"
+                                                                placeholder="Distanza in km"
                                                                 value={day.exercises[0].distanceKm || ''}
                                                                 onChange={(e) => handleDistanceChange(dayIndex, 0, handleNumberInputChange(e.target.value, 0))}
                                                             />
@@ -307,26 +306,26 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                     <>
                                                         <div className="flex flex-col w-1/2 justify-center items-center">
                                                             <label className="text-primary-color uppercase font-bold text-md select-none">
-                                                                Sets*
+                                                                serie*
                                                             </label>
                                                             <input
                                                                 className={`${inputClass()} w-1/2`}
                                                                 type="number"
                                                                 min="0"
-                                                                placeholder="Sets"
+                                                                placeholder="Serie"
                                                                 value={day.exercises[0].sets || ''}
                                                                 onChange={(e) => handleExerciseChange(dayIndex, 0, 'sets', handleNumberInputChange(e.target.value, 0))}
                                                             />
                                                         </div>
                                                         <div className="flex flex-col w-1/2 justify-center items-center">
                                                             <label className="text-primary-color uppercase font-bold text-md select-none">
-                                                                Reps*
+                                                                ripetizioni*
                                                             </label>
                                                             <input
                                                                 className={`${inputClass()} w-1/2`}
                                                                 type="number"
                                                                 min="0"
-                                                                placeholder="Reps"
+                                                                placeholder="Ripetizioni"
                                                                 value={day.exercises[0].repetitions || ''}
                                                                 onChange={(e) => handleExerciseChange(dayIndex, 0, 'repetitions', handleNumberInputChange(e.target.value, 0))}
                                                             />
@@ -336,12 +335,12 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                             </div>
                                             <div className="flex gap-2">
                                                 <div className="flex flex-col w-full justify-center items-center">
-                                                    <label className="text-primary-color uppercase text-center font-bold text-md select-none" htmlFor={`restTimeSeconds-${dayIndex}-0`}>Rest Time (Seconds)</label>
+                                                    <label className="text-primary-color uppercase text-center font-bold text-md select-none" htmlFor={`restTimeSeconds-${dayIndex}-0`}>tempo di recupero (sec)</label>
                                                     <input
                                                         id={`restTimeSeconds-${dayIndex}-0`}
                                                         className="rounded-lg p-2 text-center w-1/2"
                                                         type='number'
-                                                        placeholder="Rest Time Seconds"
+                                                        placeholder="Tempo di recupero in secondi"
                                                         value={day.exercises[0].restTimeSeconds}
                                                         onChange={(e) => {
                                                             const seconds = handleNumberInputChange(e.target.value, 0);
@@ -378,12 +377,12 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 setWorkoutDays(updatedDays);
                                                             }}
                                                         />
-                                                        <label className="text-primary-color uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-${exerciseIndex}`}>Exercise</label>
+                                                        <label className="text-primary-color uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-${exerciseIndex}`}>Esercizio</label>
                                                         <input
                                                             id={`exerciseName-${dayIndex}-${exerciseIndex}`}
                                                             className={inputClass()}
                                                             type='text'
-                                                            placeholder="Exercise Name*"
+                                                            placeholder="Nome Esercizio*"
                                                             value={exercise.name}
                                                             onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'name', e.target.value)}
                                                         />
@@ -433,7 +432,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                             handleExerciseChange(dayIndex, exerciseIndex, 'exerciseType', 'withWeight');
                                                                         }}
                                                                     />
-                                                                    <span className="text-xs text-primary-color uppercase font-bold">Weight</span>
+                                                                    <span className="text-xs text-primary-color uppercase font-bold">Peso</span>
                                                                 </div>
                                                             </div>
                                                             <div className="flex justify-center items-center gap-4">
@@ -453,11 +452,11 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                             handleExerciseChange(dayIndex, exerciseIndex, 'exerciseType', 'withBarbell');
                                                                         }}
                                                                     />
-                                                                    <span className="text-xs text-primary-color uppercase font-bold">Barbell</span>
+                                                                    <span className="text-xs text-primary-color uppercase font-bold">Bilanciere</span>
                                                                 </div>
                                                                 {exercise.exerciseType === 'withBarbell' && (
                                                                     <div className="flex flex-col items-center gap-2">
-                                                                        <span className="text-xs text-primary-color uppercase   font-bold">Barbell Weight</span>
+                                                                        <span className="text-xs text-primary-color uppercase   font-bold">Peso Bilanciere</span>
                                                                         <input
                                                                             id={`barbellWeight-${dayIndex}-${exerciseIndex}`}
                                                                             className={`${inputClass()} w-16 text-sm`}
@@ -475,26 +474,26 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 <>
                                                                     <div className="flex flex-col w-1/2 justify-center items-center">
                                                                         <label className="text-primary-color uppercase font-bold text-md select-none">
-                                                                            Time (min)*
+                                                                            tempo (min)*
                                                                         </label>
                                                                         <input
                                                                             className={`${inputClass()} w-1/2`}
                                                                             type="number"
                                                                             min="0"
-                                                                            placeholder="Time in minutes"
+                                                                            placeholder="Tempo in minuti"
                                                                             value={exercise.durationSeconds || ''}
                                                                             onChange={(e) => handleTimeChange(dayIndex, exerciseIndex, handleNumberInputChange(e.target.value, 0))}
                                                                         />
                                                                     </div>
                                                                     <div className="flex flex-col w-1/2 justify-center items-center">
                                                                         <label className="text-primary-color uppercase font-bold text-md select-none">
-                                                                            Distance (km)*
+                                                                            distanza (km)*
                                                                         </label>
                                                                         <input
                                                                             className={`${inputClass()} w-1/2`}
                                                                             type="number"
                                                                             min="0"
-                                                                            placeholder="Distance in km"
+                                                                            placeholder="Distanza in km"
                                                                             value={exercise.distanceKm || ''}
                                                                             onChange={(e) => handleDistanceChange(dayIndex, exerciseIndex, handleNumberInputChange(e.target.value, 0))}
                                                                         />
@@ -504,26 +503,26 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                                 <>
                                                                     <div className="flex flex-col w-1/2 justify-center items-center">
                                                                         <label className="text-primary-color uppercase font-bold text-md select-none">
-                                                                            Sets*
+                                                                            serie*
                                                                         </label>
                                                                         <input
                                                                             className={`${inputClass()} w-1/2`}
                                                                             type="number"
                                                                             min="0"
-                                                                            placeholder="Sets"
+                                                                            placeholder="Serie"
                                                                             value={exercise.sets || ''}
                                                                             onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'sets', handleNumberInputChange(e.target.value, 0))}
                                                                         />
                                                                     </div>
                                                                     <div className="flex flex-col w-1/2 justify-center items-center">
                                                                         <label className="text-primary-color uppercase font-bold text-md select-none">
-                                                                            Reps*
+                                                                            ripetizioni*
                                                                         </label>
                                                                         <input
                                                                             className={`${inputClass()} w-1/2`}
                                                                             type="number"
                                                                             min="0"
-                                                                            placeholder="Reps"
+                                                                            placeholder="Ripetizioni"
                                                                             value={exercise.repetitions || ''}
                                                                             onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'repetitions', handleNumberInputChange(e.target.value, 0))}
                                                                         />
@@ -533,7 +532,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                                         </div>
                                                         <div className="flex gap-2">
                                                             <div className="flex flex-col w-full justify-center items-center">
-                                                                <label className="text-primary-color uppercase text-center font-bold text-md select-none" htmlFor={`restTimeSeconds-${dayIndex}-${exerciseIndex}`}>Rest Time (Seconds)</label>
+                                                                <label className="text-primary-color uppercase text-center font-bold text-md select-none" htmlFor={`restTimeSeconds-${dayIndex}-${exerciseIndex}`}>tempo di recupero (sec)</label>
                                                                 <input
                                                                     id={`restTimeSeconds-${dayIndex}-${exerciseIndex}`}
                                                                     className="rounded-lg p-2 text-center w-1/2"
@@ -561,7 +560,7 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                     )}
                                 </div>
                             )}
-                            <PlusButton text="add new exercise" onClick={() => {
+                            <PlusButton text="nuovo esercizio" onClick={() => {
                                 const updatedDays = [...workoutDays];
                                 updatedDays[dayIndex].exercises.push({
                                     id: 0,
@@ -578,17 +577,17 @@ export default function NewTrainingCardForm({ onClose, onNewTraining }: NewTrain
                                 });
                                 setWorkoutDays(updatedDays);
                             }} />
-                            {!isFormValid() ? <div className="w-full flex justify-center items-center"><p className="text-text-error font-bold text-sm text-center italic">*one or more necessary fields are not compiled correctly*</p></div> : null}
+                            {!isFormValid() ? <div className="w-full flex justify-center items-center"><p className="text-text-error font-bold text-sm text-center italic">*uno o più campi obbligatori non sono compilati correttamente*</p></div> : null}
                         </div>
                     ))}
-                    <PlusButton text='add new muscle group' onClick={addWorkoutDay} />
+                    <PlusButton text='nuovo giorno allenamento' onClick={addWorkoutDay} />
                 </div>
                 <div className="flex justify-center items-center gap-3 mt-4">
                     <div className="w-1/2">
-                        <BlueButton text="Create" onClick={handleSubmit} disabled={!isFormValid()} />
+                        <ModalButton text='Cancella' onClick={onClose} isAdd={false} />
                     </div>
                     <div className="w-1/2">
-                        <AddRemoveButton text="Cancel" onClick={onClose} isAdd={false} />
+                        <ModalButton text='Crea' onClick={handleSubmit} disabled={!isFormValid()} isAdd={true} />
                     </div>
                 </div>
             </div>

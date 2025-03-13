@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AddRemoveButton from '../reusable_components/AddRemoveButton';
+import ModalButton from '../reusable_components/ModalButton';
 
 interface Workout {
     setNumber: number;
@@ -36,8 +36,8 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
         } else if (cardio && newWorkout.distanceInKm) {
             return newWorkout.distanceInKm > 0;
         }
-        else if (!cardio && newWorkout.reps && newWorkout.weight) {
-            return newWorkout.reps > 0 && newWorkout.weight > 0;
+        else if (!cardio && newWorkout.reps) {
+            return newWorkout.reps > 0 && newWorkout.weight >= 0;
         }
         return false;
     };
@@ -65,7 +65,7 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
         <div className="absolute top-0 left-0 right-0 bg-bg-secondary rounded-lg w-full text-text-secondary p-4 flex flex-col gap-2 items-center shadow-lg z-10">
             {cardio ? (
                 <>
-                    <label className='uppercase font-bold' htmlFor="time">time (min)</label>
+                    <label className='uppercase font-bold' htmlFor="time">tempo (min)</label>
                     <input
                         type="text"
                         name="time"
@@ -88,7 +88,7 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
                 </>
             ) : (
                 <>
-                    <label className='uppercase font-bold' htmlFor="reps">reps*</label>
+                    <label className='uppercase font-bold' htmlFor="reps">Ripetizioni*</label>
                     <input
                         type="number"
                         name="reps"
@@ -99,8 +99,8 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
                         step="1"
                     />
                     <div className='flex flex-col'>
-                        <label className='uppercase font-bold' htmlFor="weight">Total weight*</label>
-                        {haveBarbell ? <label className='italic text-sm' htmlFor="weight">(Including barbell weight)</label> : null}
+                        <label className='uppercase font-bold' htmlFor="weight">Peso totale*</label>
+                        {haveBarbell ? <label className='italic text-sm' htmlFor="weight">(Incluso peso del Bilanciere)</label> : null}
                     </div>
                     <input
                         type="text"
@@ -114,8 +114,8 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
                 </>
             )}
             <div className="flex gap-2 w-full">
-                <AddRemoveButton text='add' isAdd onClick={handleSubmit} disabled={!isFormValid()} />
-                <AddRemoveButton text='cancel' onClick={onCancel} />
+                <ModalButton text='cancella' onClick={onCancel} />
+                <ModalButton text='aggiungi' onClick={handleSubmit} isAdd disabled={!isFormValid()} />
             </div>
         </div>
     );

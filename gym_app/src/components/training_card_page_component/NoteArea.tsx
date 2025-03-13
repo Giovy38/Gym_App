@@ -1,11 +1,11 @@
 import { FaCheckSquare } from "react-icons/fa";
 import { MdEditSquare } from "react-icons/md";
 import { RiDeleteBin5Fill } from "react-icons/ri";
-import AddBlueButton from "../reusable_components/AddBlueButton";
 import { useState } from "react";
 import { SingleExerciseType } from "../../type/SingleExercise.type";
 import { TrainingData } from "@/src/type/TrainingData.type";
 import { trainingCardService } from "@/src/services/training-card.services";
+import ModalButton from "../reusable_components/ModalButton";
 
 
 export default function NoteArea({ exercise, latestTraining }: { exercise: SingleExerciseType, latestTraining: TrainingData }) {
@@ -119,7 +119,7 @@ export default function NoteArea({ exercise, latestTraining }: { exercise: Singl
                 />
 
             </div>
-            <AddBlueButton text="+ New Note" onClick={addNote} />
+            <ModalButton text='+ Nuova nota' onClick={addNote} isAdd />
         </div>
     )
 }

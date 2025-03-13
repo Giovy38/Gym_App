@@ -47,7 +47,6 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
     useEffect(() => {
         const fetchLastWorkout = async () => {
             const res = await trainingCardService.getLastWorkout(exercise.latestTraining.id, exercise.exerciseId);
-            console.log('workout to take weight from', res)
             if (res.lastWorkout.length > 0) {
                 res.lastWorkout.map(workout => {
                     if (workout.weight > maxWeight) {
@@ -65,7 +64,7 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
     return (
         <div className="flex flex-col text-text-primary">
             <div
-                className="p-2 flex justify-around items-center gap-2 rounded-lg font-bold bg-bg-primary cursor-pointer w-full mt-5 md:min-w-80 min-w-[90vw]"
+                className={`p-2 flex justify-around items-center gap-2 rounded-lg font-bold bg-bg-primary cursor-pointer w-full mt-5 md:min-w-80 min-w-[90vw] ${isOpen ? '' : 'shadow-md shadow-shadow-fourth md:shadow-none'}`}
                 onClick={accordionOpenClose}
             >
                 <div className="flex flex-col items-center justify-center">
@@ -92,28 +91,28 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                     <div className="text-center flex flex-col gap-2">
                         {exercise.exerciseType === 'cardio' || exercise.exerciseType === 'stretching' ? (
                             <div className="flex gap-3 text-center bg-bg-primary p-2 rounded-full justify-center">
-                                <p>Time: {time} min</p>
+                                <p>Tempo: {time} min</p>
                                 <p>|</p>
-                                <p>Distance: {distanceInKm} km</p>
+                                <p>Distanza: {distanceInKm} km</p>
                             </div>
                         ) : (
                             <div className="flex gap-3 text-center bg-bg-primary p-2 rounded-full justify-center">
-                                <p>Sets: {exercise.sets}</p>
+                                <p>Serie: {exercise.sets}</p>
                                 <p>x</p>
-                                <p>Reps: {exercise.repetitions}</p>
+                                <p>Ripetizioni: {exercise.repetitions}</p>
                             </div>
                         )}
                         {exercise.exerciseType !== 'cardio' && exercise.exerciseType !== 'stretching' && (
                             <div className="flex gap-2 items-center justify-center">
                                 <CgGym />
-                                <p>Total Weight: {maxWeight} kg</p>
+                                <p>Peso totale: {maxWeight} kg</p>
                             </div>
                         )}
                         {exercise.restTimeSeconds && (
                             <>
                                 <div className="flex gap-2 items-center justify-center">
                                     <MdOutlineTimer />
-                                    <p>Rest Time: {formatRestTime(exercise.restTimeSeconds)}</p>
+                                    <p>Tempo di recupero: {formatRestTime(exercise.restTimeSeconds)}</p>
                                 </div>
                                 <div className="flex gap-2 items-center cursor-pointer justify-center text-black font-bold uppercase hover:bg-primary-focus bg-primary-color p-2 rounded-full" onClick={handleStartTimer}>
                                     <MdOutlineTimer />
