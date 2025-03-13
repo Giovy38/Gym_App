@@ -61,7 +61,7 @@ export default function LastTrainingDetails({ cardio, latestTraining, exerciseId
         const workoutWithSet: Workout = {
             setNumber: newSetNumber,
             reps: cardio ? 0 : newWorkout.reps,
-            weight: cardio ? 0 : newWorkout.weight,
+            weight: cardio ? 0 : Number(newWorkout.weight),
             time: cardio ? newWorkout.time : undefined,
             distanceInKm: cardio ? newWorkout.distanceInKm : undefined,
             exerciseType: newWorkout.exerciseType

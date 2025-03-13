@@ -170,6 +170,7 @@ class UserService {
 
     async userLogout(): Promise<{ message: string } | null> {
         try {
+            localStorage.removeItem('activePage');
             const res = await FetchFunction(`${this.LOGOUT_BE_URL}`, 'POST', {});
             if (res.ok) {
                 const data: { message: string } = await res.value.json();

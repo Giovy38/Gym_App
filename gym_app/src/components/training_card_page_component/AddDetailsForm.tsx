@@ -36,8 +36,8 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
         } else if (cardio && newWorkout.distanceInKm) {
             return newWorkout.distanceInKm > 0;
         }
-        else if (!cardio && newWorkout.reps && newWorkout.weight) {
-            return newWorkout.reps > 0 && newWorkout.weight > 0;
+        else if (!cardio && newWorkout.reps) {
+            return newWorkout.reps > 0 && newWorkout.weight >= 0;
         }
         return false;
     };
