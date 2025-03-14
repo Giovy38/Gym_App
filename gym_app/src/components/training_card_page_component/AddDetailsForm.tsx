@@ -72,7 +72,7 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
                         value={newWorkout.time}
                         onFocus={handleFocus}
                         onChange={handleChange}
-                        placeholder="Time in minutes"
+                        placeholder="Tempo in minuti"
                         className='border p-1 rounded-lg'
                     />
                     <label className='uppercase font-bold' htmlFor="km">km</label>
@@ -82,7 +82,7 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
                         value={newWorkout.distanceInKm}
                         onFocus={handleFocus}
                         onChange={handleChange}
-                        placeholder="Kilometers"
+                        placeholder="Kilometri"
                         className="border p-1 rounded-lg"
                     />
                 </>
@@ -93,8 +93,9 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
                         type="number"
                         name="reps"
                         value={newWorkout.reps}
+                        onFocus={handleFocus}
                         onChange={handleChange}
-                        placeholder="Reps"
+                        placeholder="Ripetizioni"
                         className='border p-1 rounded-lg'
                         step="1"
                     />
@@ -103,12 +104,12 @@ export default function AddDetailsForm({ onAddWorkout, onCancel, cardio, haveBar
                         {haveBarbell ? <label className='italic text-sm' htmlFor="weight">(Incluso peso del Bilanciere)</label> : null}
                     </div>
                     <input
-                        type="text"
+                        type="number"
                         name="weight"
                         value={newWorkout.weight}
                         onFocus={handleFocus}
                         onChange={handleChange}
-                        placeholder="Weight*"
+                        placeholder="Peso in kg*"
                         className='border p-1 rounded-lg'
                     />
                 </>
