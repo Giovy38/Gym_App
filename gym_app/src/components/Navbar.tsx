@@ -82,22 +82,22 @@ export default function Navbar() {
                     </Link>
                     <Link href='/user/training-card' onClick={() => handleLinkClick('training-card')} className="w-full mb-4">
                         <div className="border-2 border-border-secondary w-full text-center py-2 rounded-2xl ">
-                            <NavbarButton title="training card" Icon={CgGym} isActive={activePage === 'training-card'} />
+                            <NavbarButton title="allenamenti" Icon={CgGym} isActive={activePage === 'training-card'} />
                         </div>
                     </Link>
                     <Link href='/user/body-check' onClick={() => handleLinkClick('body-check')} className="w-full mb-4">
                         <div className="border-2 border-border-secondary w-full text-center py-2 rounded-2xl ">
-                            <NavbarButton title="body check" Icon={IoBody} isActive={activePage === 'body-check'} />
+                            <NavbarButton title="misurazioni" Icon={IoBody} isActive={activePage === 'body-check'} />
                         </div>
                     </Link>
                     <Link href='/user/diet' onClick={() => handleLinkClick('diet')} className="w-full mb-4">
                         <div className="border-2 border-border-secondary w-full text-center py-2 rounded-2xl ">
-                            <NavbarButton title="diet" Icon={FaBowlFood} isActive={activePage === 'diet'} />
+                            <NavbarButton title="diete" Icon={FaBowlFood} isActive={activePage === 'diet'} />
                         </div>
                     </Link>
                     <Link href='/user/profile' onClick={() => handleLinkClick('profile')} className="w-full mb-4">
                         <div className="border-2 border-border-secondary w-full text-center py-2 rounded-2xl ">
-                            <NavbarButton title="profile" Icon={FaUserCircle} isActive={activePage === 'profile'} />
+                            <NavbarButton title="profilo" Icon={FaUserCircle} isActive={activePage === 'profile'} />
                         </div>
                     </Link>
                 </div>
