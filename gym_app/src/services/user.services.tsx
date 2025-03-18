@@ -149,6 +149,7 @@ class UserService {
             if (res.ok) {
                 console.log('login ok ', res);
                 const data: { message: string, userId: number } = await res.value.json();
+                localStorage.setItem('userType', 'user');
                 window.location.reload();
                 return data;
             }

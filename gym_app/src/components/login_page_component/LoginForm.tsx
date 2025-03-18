@@ -7,6 +7,8 @@ import PrimaryButton from "../reusable_components/PrimaryButton";
 import Link from "next/link";
 import { userService } from "@/src/services/user.services";
 import Toast from "../reusable_components/Toast";
+import PtButton from "../reusable_components/PtButton";
+import { ptService } from "@/src/services/pt.services";
 
 export default function LoginForm() {
 
@@ -20,6 +22,25 @@ export default function LoginForm() {
     const handleLogin = async () => {
         try {
             const result = await userService.userLogin(email, password);
+            if (result) {
+                setToastMessage('Login effettuato con successo!');
+                setToastColor('green');
+                window.location.href = '/';
+                localStorage.setItem('activePage', 'home');
+            } else {
+                setToastMessage('email o password errati');
+                setToastColor('red');
+            }
+        } catch (error) {
+            setToastMessage('Errore durante il login');
+            setToastColor('red');
+            console.error('Errore durante il login:', error);
+        }
+    }
+
+    const handlePtLogin = async () => {
+        try {
+            const result = await ptService.ptLogin(email, password);
             if (result) {
                 setToastMessage('Login effettuato con successo!');
                 setToastColor('green');
@@ -55,6 +76,7 @@ export default function LoginForm() {
                     <h4 className="text-primary-color mt-3 underline underline-offset-2">Non hai un account? Registrati ora</h4>
                 </Link>
                 <PrimaryButton text="Login" onClick={handleLogin} disabled={!email || !password} />
+                <PtButton text="login Personal Trainer" onClick={handlePtLogin} disabled={!email || !password} />
             </div>
             {toastMessage && <Toast message={toastMessage} color={toastColor} />}
         </div>

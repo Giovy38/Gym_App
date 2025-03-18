@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import InputText from './reusable_components/InputText';
-import { UserData } from '../type/UserData.type';
+import { PersonalTrainerData } from '../type/PersonalTrainer.type';
 import Toast from './reusable_components/Toast';
-import { userService } from '../services/user.services';
-import { useUser } from '../context/UserProvider';
+import { ptService } from '../services/pt.services';
+import { usePT } from '../context/PtProvider';
 import ModalButton from './reusable_components/ModalButton';
 
-export default function ChangePasswordForm({ onClose }: { onClose: () => void, userData: UserData }) {
+export default function ChangePasswordForm({ onClose }: { onClose: () => void, ptData: PersonalTrainerData }) {
 
 
     const [currentPassword, setCurrentPassword] = useState('');
@@ -21,7 +21,7 @@ export default function ChangePasswordForm({ onClose }: { onClose: () => void, u
     const [isFormValid, setIsFormValid] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [toastColor, setToastColor] = useState<'green' | 'red'>('green');
-    const user = useUser();
+    const pt = usePT();
 
     useEffect(() => {
         const newErrors = {
@@ -45,9 +45,9 @@ export default function ChangePasswordForm({ onClose }: { onClose: () => void, u
     const handleChangePassword = async () => {
         if (!isFormValid) return;
 
-        if (user) {
+        if (pt) {
             try {
-                const updatedUser = await userService.editUserPassword(user.id, currentPassword, newPassword);
+                const updatedUser = await ptService.editPTPassword(pt.id, currentPassword, newPassword);
                 if (updatedUser) {
                     setToastMessage('Password cambiata');
                     setToastColor('green');

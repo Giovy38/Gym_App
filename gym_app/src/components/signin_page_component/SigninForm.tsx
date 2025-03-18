@@ -8,7 +8,9 @@ import Switch from "../reusable_components/Switch";
 import { useState, useEffect } from "react";
 import { FaMale, FaFemale } from "react-icons/fa";
 import { userService } from "../../services/user.services";
+import { ptService } from "../../services/pt.services";
 import Toast from "../reusable_components/Toast";
+import PtButton from "../reusable_components/PtButton";
 
 export default function SigninForm() {
 
@@ -86,6 +88,40 @@ export default function SigninForm() {
         }
     };
 
+    const handlePtSubmit = async () => {
+        if (!isFormValid) return;
+
+        try {
+            const result = await ptService.createNewPT(userData);
+            if (result) {
+                console.log('User created successfully:', result.createdPT);
+                setToastMessage('Successfully registered');
+                setToastColor('green');
+
+                const loginResult = await ptService.ptLogin(userData.email, userData.password);
+                if (loginResult) {
+                    console.log('User logged in successfully:', loginResult);
+                    window.location.href = '/';
+                    localStorage.setItem('activePage', 'home');
+                } else {
+                    setToastMessage('Login failed');
+                    setToastColor('red');
+                }
+            } else {
+                setToastMessage('Email already exists');
+                setToastColor('red');
+            }
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 3000);
+        } catch (error) {
+            console.error('Error during personal trainer creation:', error);
+            setToastMessage('Error during personal trainer creation');
+            setToastColor('red');
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 3000);
+        }
+    };
+
     return (
         <div className="bg-bg-primary flex flex-col p-5 rounded-lg">
             {showToast && <Toast message={toastMessage} color={toastColor} />}
@@ -129,6 +165,7 @@ export default function SigninForm() {
                 </Link>
 
                 <PrimaryButton text="Registrati" onClick={handleSubmit} disabled={!isFormValid} />
+                <PtButton text="Registrati come PT" onClick={handlePtSubmit} disabled={!isFormValid} />
             </div>
         </div>
     )
