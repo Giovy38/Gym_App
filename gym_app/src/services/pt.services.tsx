@@ -93,15 +93,54 @@ class PTService {
     async createWorkoutTemplate(
         ptId: number,
         templateName: string,
+        templateType: string,
         workoutDays: WorkoutDay[]
     ): Promise<WorkoutTemplate | null> {
         try {
-            const res = await FetchFunction(`${this.PT_BE_URL}/${ptId}/templates`, 'POST', { templateName, workoutDays });
-            if (!res.ok) throw new Error('Errore durante la creazione del template');
-            return await res.value.json();
+            const requestData = {
+                templateName: templateName.trim(),
+                type: templateType.trim(),
+                creationDate: new Date().toISOString(),
+                trainerId: ptId,
+                workoutDays: workoutDays.map(day => ({
+                    workoutName: day.dayName?.trim() || 'Giorno di allenamento',
+                    exercises: day.exercises.map(ex => ({
+                        name: ex.name.trim(),
+                        sets: ex.sets ? Math.max(1, Number(ex.sets)) : null,
+                        repetitions: ex.reps ? Math.max(1, Number(ex.reps)) : null,
+                        restTimeSeconds: ex.rest ? Math.max(0, Number(ex.rest)) : null,
+                        notes: ex.notes ? [ex.notes.trim()] : [],
+                        exerciseType: ex.exerciseType || 'withWeight',
+                        barbellWeightKg: ex.exerciseType === 'withBarbell' && ex.barbellWeightKg ?
+                            Number(ex.barbellWeightKg) : null,
+                        durationSeconds: ['cardio', 'stretching'].includes(ex.exerciseType || '') && ex.durationSeconds ?
+                            Math.max(0, Number(ex.durationSeconds)) : null,
+                        distanceKm: ['cardio', 'stretching'].includes(ex.exerciseType || '') && ex.distanceKm ?
+                            Math.max(0, Number(ex.distanceKm)) : null
+                    }))
+                }))
+            };
+
+            console.log('Dati template da inviare:', JSON.stringify(requestData, null, 2));
+
+            const res = await FetchFunction(`${this.PT_BE_URL}/${ptId}/templates`, 'POST', requestData);
+
+            if (!res.ok) {
+                const errorData = await res.error.json().catch(() => ({ message: 'Errore sconosciuto' }));
+                console.error('Errore dettagliato dal server:', errorData);
+                throw new Error(errorData?.message || 'Errore durante la creazione del template');
+            }
+
+            const data = await res.value.json();
+            if (!data) {
+                throw new Error('Dati template non validi');
+            }
+
+            console.log('Template creato con successo:', data);
+            return data;
         } catch (error) {
-            console.error('Errore durante la creazione del template:', error);
-            return null;
+            console.error('Errore dettagliato durante la creazione del template:', error);
+            throw error;
         }
     }
 
@@ -150,12 +189,25 @@ class PTService {
         }
     }
 
+    async getAllTemplates(ptId: number): Promise<WorkoutTemplate[]> {
+        try {
+            const res = await FetchFunction(`${this.PT_BE_URL}/${ptId}/templates`, 'GET', {});
+            if (!res.ok) throw new Error('Errore durante il recupero dei template');
+            const data = await res.value.json();
+            return data.templates || [];
+        } catch (error) {
+            console.error('Errore durante il recupero dei template:', error);
+            return [];
+        }
+    }
+
     async createTrainingCard(ptId: number, trainingData: TrainingCardData): Promise<TrainingCard | null> {
         try {
             const res = await FetchFunction(`${this.PT_BE_URL}/${ptId}/training-cards`, 'POST', trainingData);
             if (!res.ok) {
                 console.error('Risposta del server:', res.error);
-                throw new Error(`Errore durante la creazione della scheda di allenamento: ${res.error?.message || 'Errore sconosciuto'}`);
+                const errorData = await res.error.json();
+                throw new Error(`Errore durante la creazione della scheda di allenamento: ${errorData?.message || 'Errore sconosciuto'}`);
             }
             return await res.value.json();
         } catch (error) {

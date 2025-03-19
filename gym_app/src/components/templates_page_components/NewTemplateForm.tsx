@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
-import { days, Exercise } from "@/src/type/TrainingData.type";
+import { days, Exercise as TrainingExercise } from "@/src/type/TrainingData.type";
+import { WorkoutDay } from "@/src/type/WorkoutTemplate.type";
 import { IoBarbellOutline } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
 import { CgGym } from "react-icons/cg";
@@ -17,28 +18,18 @@ import { TbStretching } from "react-icons/tb";
 import ModalButton from "../reusable_components/ModalButton";
 import Toast from "../reusable_components/Toast";
 
-type NewPtTrainingCardFormProps = {
+type NewTemplateFormProps = {
     onClose: () => void;
-    onNewTraining: () => void;
+    onNewTemplate: () => void;
     ptId: number;
-    clientId: number;
-    isTemplate?: boolean;
 }
 
-export default function NewPtTrainingCardForm({ onClose, onNewTraining, ptId, clientId, isTemplate = false }: NewPtTrainingCardFormProps) {
+export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTemplateFormProps) {
     const [showSuccessToast, setShowSuccessToast] = useState(false);
     const [showErrorToast, setShowErrorToast] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-
-    const getCurrentDate = () => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    };
-
-    const [date, setDate] = useState<string>(getCurrentDate());
+    const [templateName, setTemplateName] = useState('');
+    const [templateType, setTemplateType] = useState('');
     const [workoutDays, setWorkoutDays] = useState<days[]>([]);
 
     const addWorkoutDay = () => {
@@ -61,11 +52,11 @@ export default function NewPtTrainingCardForm({ onClose, onNewTraining, ptId, cl
         setWorkoutDays(updatedDays);
     };
 
-    const handleExerciseChange = <K extends keyof Exercise>(
+    const handleExerciseChange = <K extends keyof TrainingExercise>(
         dayIndex: number,
         exerciseIndex: number,
         field: K,
-        value: Exercise[K]
+        value: TrainingExercise[K]
     ) => {
         const updatedDays = [...workoutDays];
         const exercise = { ...updatedDays[dayIndex].exercises[exerciseIndex] };
@@ -75,76 +66,124 @@ export default function NewPtTrainingCardForm({ onClose, onNewTraining, ptId, cl
     };
 
     const isFormValid = () => {
-        return workoutDays.length > 0 && workoutDays.every(day =>
-            day.workoutName.trim() !== '' &&
-            day.exercises.length > 0 &&
-            day.exercises.every(exercise => {
-                const baseValidation = exercise.name.trim() !== '';
+        return templateName.trim() !== '' &&
+            templateType.trim() !== '' &&
+            workoutDays.length > 0 &&
+            workoutDays.every(day =>
+                day.workoutName.trim() !== '' &&
+                day.exercises.length > 0 &&
+                day.exercises.every(exercise => {
+                    const baseValidation = exercise.name.trim() !== '';
 
-                switch (exercise.exerciseType) {
-                    case 'cardio':
-                    case 'stretching':
-                        return baseValidation && (exercise.durationSeconds > 0 || exercise.distanceKm > 0);
-                    case 'withWeight':
-                        return baseValidation && exercise.sets > 0 && exercise.repetitions > 0;
-                    case 'withBarbell':
-                        return baseValidation && exercise.sets > 0 && exercise.repetitions > 0 && exercise.barbellWeightKg > 0;
-                    default:
-                        return false;
-                }
-            })
-        );
+                    switch (exercise.exerciseType) {
+                        case 'cardio':
+                        case 'stretching':
+                            return baseValidation && (exercise.durationSeconds > 0 || exercise.distanceKm > 0);
+                        case 'withWeight':
+                            return baseValidation && exercise.sets > 0 && exercise.repetitions > 0;
+                        case 'withBarbell':
+                            return baseValidation && exercise.sets > 0 && exercise.repetitions > 0 && exercise.barbellWeightKg > 0;
+                        default:
+                            return false;
+                    }
+                })
+            );
     };
 
     const handleSubmit = async () => {
         try {
-            let result;
-            if (isTemplate) {
-                const templateWorkoutDays = workoutDays.map(day => ({
-                    dayName: day.workoutName,
-                    exercises: day.exercises.map(exercise => ({
-                        name: exercise.name,
-                        sets: exercise.sets || 0,
-                        reps: exercise.repetitions || 0,
-                        rest: exercise.restTimeSeconds || 0,
-                        notes: exercise.notes ? exercise.notes.join(', ') : undefined
-                    }))
-                }));
-                result = await ptService.createWorkoutTemplate(ptId, workoutDays[0].workoutName, templateWorkoutDays);
-            } else {
-                const trainingData = {
-                    clientId: clientId,
-                    personalTrainerId: ptId,
-                    date: new Date(date).toISOString(),
-                    useTemplate: false,
-                    workoutDays: workoutDays.map(day => ({
-                        workoutName: day.workoutName,
-                        exercises: day.exercises.map(exercise => ({
-                            name: exercise.name,
-                            sets: exercise.sets || 0,
-                            repetitions: exercise.repetitions || 0,
-                            durationSeconds: exercise.durationSeconds || 0,
-                            distanceKm: exercise.distanceKm || 0,
-                            exerciseType: exercise.exerciseType,
-                            restTimeSeconds: exercise.restTimeSeconds || 0,
-                            barbellWeightKg: exercise.barbellWeightKg || 0,
-                            notes: exercise.notes || []
-                        }))
-                    }))
-                };
-                result = await ptService.createTrainingCard(ptId, trainingData);
+            if (!templateName.trim()) {
+                throw new Error('Nome template richiesto');
             }
+
+            if (!templateType.trim()) {
+                throw new Error('Tipo template richiesto');
+            }
+
+            if (workoutDays.length === 0) {
+                throw new Error('Aggiungi almeno un giorno di allenamento');
+            }
+
+            const templateWorkoutDays: WorkoutDay[] = workoutDays.map(day => {
+                if (!day.workoutName.trim()) {
+                    throw new Error('Nome del giorno di allenamento richiesto');
+                }
+
+                if (day.exercises.length === 0) {
+                    throw new Error(`Aggiungi almeno un esercizio per ${day.workoutName}`);
+                }
+
+                return {
+                    dayName: day.workoutName.trim(),
+                    exercises: day.exercises.map(exercise => {
+                        if (!exercise.name.trim()) {
+                            throw new Error('Nome esercizio richiesto');
+                        }
+
+                        let notes = '';
+
+                        switch (exercise.exerciseType) {
+                            case 'cardio':
+                            case 'stretching':
+                                if (!exercise.durationSeconds && !exercise.distanceKm) {
+                                    throw new Error(`Specifica tempo o distanza per l'esercizio ${exercise.name}`);
+                                }
+                                notes = `Tipo: ${exercise.exerciseType}, ` +
+                                    `Durata: ${exercise.durationSeconds || 0} min, ` +
+                                    `Distanza: ${exercise.distanceKm || 0} km`;
+                                break;
+
+                            case 'withWeight':
+                            case 'withBarbell':
+                                if (!exercise.sets || !exercise.repetitions) {
+                                    throw new Error(`Serie e ripetizioni richieste per l'esercizio ${exercise.name}`);
+                                }
+                                notes = exercise.exerciseType === 'withBarbell' ?
+                                    `Tipo: ${exercise.exerciseType}, Peso: ${exercise.barbellWeightKg || 0} kg` :
+                                    `Tipo: ${exercise.exerciseType}`;
+                                break;
+
+                            default:
+                                throw new Error(`Tipo di esercizio non valido per ${exercise.name}`);
+                        }
+
+                        return {
+                            name: exercise.name.trim(),
+                            sets: Math.max(1, Number(exercise.sets) || 1),
+                            reps: Math.max(1, Number(exercise.repetitions) || 1),
+                            rest: Math.max(0, Number(exercise.restTimeSeconds) || 0),
+                            notes
+                        };
+                    })
+                };
+            });
+
+            console.log('Invio dati template:', {
+                ptId,
+                templateName: templateName.trim(),
+                templateType: templateType.trim(),
+                workoutDays: templateWorkoutDays
+            });
+
+            const result = await ptService.createWorkoutTemplate(
+                ptId,
+                templateName.trim(),
+                templateType.trim(),
+                templateWorkoutDays
+            );
 
             if (result) {
                 setShowSuccessToast(true);
                 setTimeout(() => {
                     setShowSuccessToast(false);
-                    onNewTraining();
+                    onNewTemplate();
                     onClose();
                 }, 2000);
+            } else {
+                throw new Error('Errore durante la creazione del template');
             }
         } catch (error) {
-            console.error('Errore dettagliato durante la creazione:', error);
+            console.error('Errore durante la creazione del template:', error);
             setErrorMessage(error instanceof Error ? error.message : 'Errore sconosciuto durante la creazione');
             setShowErrorToast(true);
             setTimeout(() => {
@@ -165,8 +204,8 @@ export default function NewPtTrainingCardForm({ onClose, onNewTraining, ptId, cl
         return numValue;
     };
 
-    const inputClass = () => {
-        return isFormValid() ? 'rounded-lg p-2 text-center text-text-secondary bg-slate-200 font-bold italic' : 'rounded-lg text-text-secondary p-2 text-center border-2 bg-red-200 border-red-500';
+    const inputClass = (isValid: boolean = true) => {
+        return isValid ? 'rounded-lg p-2 text-center text-text-secondary bg-slate-200 font-bold italic' : 'rounded-lg text-text-secondary p-2 text-center border-2 bg-red-200 border-red-500';
     };
 
     return (
@@ -175,20 +214,38 @@ export default function NewPtTrainingCardForm({ onClose, onNewTraining, ptId, cl
                 <div className="p-4 shadow-md rounded-lg w-full max-w-4xl bg-bg-modal overflow-auto max-h-[97vh]" onClick={(e) => e.stopPropagation()}>
                     <div className="flex justify-between items-center px-2 pb-2">
                         <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-primary-color mb-3">
-                            {isTemplate ? 'aggiungi template' : 'aggiungi allenamento'}
+                            Nuovo Template
                         </h1>
                         <IoMdCloseCircle className="text-btn-exit text-2xl cursor-pointer hover:text-btn-exit-hover" onClick={onClose} />
                     </div>
-                    <div className="text-text-secondary flex flex-col justify-center items-center">
-                        <label className="text-primary-color uppercase font-bold text-md select-none" htmlFor="date">data</label>
-                        <input
-                            className="rounded-lg p-2 text-center"
-                            type='date'
-                            id="date"
-                            value={date}
-                            onChange={(e) => setDate(e.target.value)}
-                        />
+
+                    <div className="flex flex-col gap-4 mb-6">
+                        <div className="flex flex-col gap-2">
+                            <label className="text-primary-color uppercase font-bold text-md select-none">
+                                Nome Template*
+                            </label>
+                            <input
+                                className={inputClass(templateName.trim() !== '')}
+                                type="text"
+                                placeholder="Nome del template"
+                                value={templateName}
+                                onChange={(e) => setTemplateName(e.target.value)}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <label className="text-primary-color uppercase font-bold text-md select-none">
+                                Tipo Template*
+                            </label>
+                            <input
+                                className={inputClass(templateType.trim() !== '')}
+                                type="text"
+                                placeholder="Tipo di template"
+                                value={templateType}
+                                onChange={(e) => setTemplateType(e.target.value)}
+                            />
+                        </div>
                     </div>
+
                     <div className="flex flex-col gap-3 mt-4">
                         {workoutDays.map((day, dayIndex) => (
                             <div key={dayIndex} className="flex flex-col gap-3 bg-bg-third shadow-lg shadow-shadow-fourth p-3 rounded-lg mb-10 relative">
@@ -202,7 +259,7 @@ export default function NewPtTrainingCardForm({ onClose, onNewTraining, ptId, cl
 
                                 <input
                                     id={`workoutName-${dayIndex}`}
-                                    className={inputClass()}
+                                    className={inputClass(day.workoutName.trim() !== '')}
                                     type='text'
                                     placeholder="Gruppo muscolare/  Giorno Allenamento*"
                                     value={day.workoutName}
@@ -626,6 +683,7 @@ export default function NewPtTrainingCardForm({ onClose, onNewTraining, ptId, cl
                         ))}
                         <PlusButton text='nuovo giorno allenamento' onClick={addWorkoutDay} />
                     </div>
+
                     <div className="flex justify-center items-center gap-3 mt-4">
                         <div className="w-1/2">
                             <ModalButton text='Cancella' onClick={onClose} isAdd={false} />
@@ -638,7 +696,7 @@ export default function NewPtTrainingCardForm({ onClose, onNewTraining, ptId, cl
             </div>
             {showSuccessToast && (
                 <Toast
-                    message={isTemplate ? "Template creato con successo!" : "Scheda di allenamento creata con successo!"}
+                    message="Template creato con successo!"
                     color="green"
                 />
             )}

@@ -4,6 +4,10 @@ export interface Exercise {
     reps: number;
     rest: number;
     notes?: string;
+    exerciseType?: 'cardio' | 'stretching' | 'withBarbell' | 'withWeight';
+    barbellWeightKg?: number;
+    durationSeconds?: number;
+    distanceKm?: number;
 }
 
 export interface WorkoutDay {
@@ -13,7 +17,8 @@ export interface WorkoutDay {
 
 export interface WorkoutTemplate {
     id: number;
-    templateName: string;
+    name: string;
+    type: string;
     workoutDays: WorkoutDay[];
-    personalTrainerId: number;
+    trainerId: number;
 } 
