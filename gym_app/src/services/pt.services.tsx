@@ -153,11 +153,14 @@ class PTService {
     async createTrainingCard(ptId: number, trainingData: TrainingCardData): Promise<TrainingCard | null> {
         try {
             const res = await FetchFunction(`${this.PT_BE_URL}/${ptId}/training-cards`, 'POST', trainingData);
-            if (!res.ok) throw new Error('Errore durante la creazione della scheda di allenamento');
+            if (!res.ok) {
+                console.error('Risposta del server:', res.error);
+                throw new Error(`Errore durante la creazione della scheda di allenamento: ${res.error?.message || 'Errore sconosciuto'}`);
+            }
             return await res.value.json();
         } catch (error) {
-            console.error('Errore durante la creazione della scheda di allenamento:', error);
-            return null;
+            console.error('Errore dettagliato durante la creazione della scheda:', error);
+            throw error;
         }
     }
 

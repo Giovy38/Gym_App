@@ -35,7 +35,7 @@ export default function TrainingCardPage() {
             const data: TrainingData[] = await trainingCardService.getTrainings();
             const sortedData = data.map(training => sortExercisesByOrder(training));
             setTrainings(sortedData);
-            if (sortedData.length > 0) {
+            if (sortedData.length > 0 && !latestTraining) {
                 setLatestTraining(sortedData[sortedData.length - 1]);
             }
         } catch (error) {
