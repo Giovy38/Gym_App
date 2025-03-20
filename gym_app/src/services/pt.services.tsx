@@ -254,15 +254,13 @@ class PTService {
                     dayName: day.workoutName,
                     exercises: day.exercises.map(ex => ({
                         name: ex.name,
-                        sets: ex.sets,
-                        reps: ex.repetitions,
-                        rest: ex.restTimeSeconds,
+                        sets: ex.sets || 1,
+                        reps: ex.repetitions || 1,
+                        rest: ex.restTimeSeconds || 0,
                         notes: ex.notes?.join(', ') || '',
-                        exerciseType: (ex.exerciseType === 'cardio' ||
-                            ex.exerciseType === 'stretching' ||
-                            ex.exerciseType === 'withBarbell' ||
-                            ex.exerciseType === 'withWeight')
-                            ? ex.exerciseType
+                        exerciseType: (ex.exerciseType === 'cardio' || ex.exerciseType === 'stretching' ||
+                            ex.exerciseType === 'withBarbell' || ex.exerciseType === 'withWeight')
+                            ? ex.exerciseType as 'cardio' | 'stretching' | 'withBarbell' | 'withWeight'
                             : 'withWeight',
                         barbellWeightKg: ex.barbellWeightKg || undefined,
                         durationSeconds: ex.durationSeconds || undefined,

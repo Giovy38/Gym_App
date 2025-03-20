@@ -128,9 +128,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                 if (!exercise.durationSeconds && !exercise.distanceKm) {
                                     throw new Error(`Specifica tempo o distanza per l'esercizio ${exercise.name}`);
                                 }
-                                notes = `Tipo: ${exercise.exerciseType}, ` +
-                                    `Durata: ${exercise.durationSeconds || 0} min, ` +
-                                    `Distanza: ${exercise.distanceKm || 0} km`;
+                                notes = '';
                                 break;
 
                             case 'withWeight':
@@ -138,9 +136,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                 if (!exercise.sets || !exercise.repetitions) {
                                     throw new Error(`Serie e ripetizioni richieste per l'esercizio ${exercise.name}`);
                                 }
-                                notes = exercise.exerciseType === 'withBarbell' ?
-                                    `Tipo: ${exercise.exerciseType}, Peso: ${exercise.barbellWeightKg || 0} kg` :
-                                    `Tipo: ${exercise.exerciseType}`;
+                                notes = '';
                                 break;
 
                             default:
@@ -152,7 +148,11 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                             sets: Math.max(1, Number(exercise.sets) || 1),
                             reps: Math.max(1, Number(exercise.repetitions) || 1),
                             rest: Math.max(0, Number(exercise.restTimeSeconds) || 0),
-                            notes
+                            notes,
+                            exerciseType: exercise.exerciseType,
+                            durationSeconds: exercise.durationSeconds,
+                            distanceKm: exercise.distanceKm,
+                            barbellWeightKg: exercise.barbellWeightKg
                         };
                     })
                 };
@@ -204,9 +204,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
         return numValue;
     };
 
-    const inputClass = (isValid: boolean = true, fieldName?: string, value?: string | number) => {
-        if (!isValid) return 'rounded-lg text-text-secondary p-2 text-center border-2 bg-red-200 border-red-500';
-
+    const inputClass = (fieldName?: string, value?: string | number, exerciseType?: string, currentExercise?: TrainingExercise) => {
         // Validazione specifica per tipo di campo
         if (fieldName) {
             switch (fieldName) {
@@ -234,6 +232,13 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
 
                 case 'durationSeconds':
                 case 'distanceKm':
+                    // Per gli esercizi cardio e stretching, il campo è valido se almeno uno dei due campi ha un valore
+                    if (exerciseType === 'cardio' || exerciseType === 'stretching') {
+                        if (currentExercise && (currentExercise.durationSeconds > 0 || currentExercise.distanceKm > 0)) {
+                            return 'rounded-lg p-2 text-center text-text-secondary bg-slate-200 font-bold italic';
+                        }
+                        return 'rounded-lg text-text-secondary p-2 text-center border-2 bg-red-200 border-red-500';
+                    }
                     return (!value && value !== 0)
                         ? 'rounded-lg text-text-secondary p-2 text-center border-2 bg-red-200 border-red-500'
                         : 'rounded-lg p-2 text-center text-text-secondary bg-slate-200 font-bold italic';
@@ -263,7 +268,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                 nome scheda allenamento*
                             </label>
                             <input
-                                className={inputClass(templateName.trim() !== '', 'templateName', templateName)}
+                                className={inputClass('templateName', templateName)}
                                 type="text"
                                 placeholder="Nome della scheda"
                                 value={templateName}
@@ -275,7 +280,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                 Tipologia allenamento*
                             </label>
                             <input
-                                className={inputClass(templateType.trim() !== '', 'templateType', templateType)}
+                                className={inputClass('templateType', templateType)}
                                 type="text"
                                 placeholder="(es. forza, massa, resistenza, etc.)"
                                 value={templateType}
@@ -297,7 +302,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
 
                                 <input
                                     id={`workoutName-${dayIndex}`}
-                                    className={inputClass(day.workoutName.trim() !== '', 'workoutName', day.workoutName)}
+                                    className={inputClass('workoutName', day.workoutName)}
                                     type='text'
                                     placeholder="Gruppo muscolare/  Giorno Allenamento*"
                                     value={day.workoutName}
@@ -323,7 +328,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                                 <label className="text-primary-color uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-0`}>Esercizio</label>
                                                 <input
                                                     id={`exerciseName-${dayIndex}-0`}
-                                                    className={inputClass(day.exercises[0].name.trim() !== '', 'exerciseName', day.exercises[0].name)}
+                                                    className={inputClass('exerciseName', day.exercises[0].name)}
                                                     type='text'
                                                     placeholder="Nome Esercizio*"
                                                     value={day.exercises[0].name}
@@ -419,7 +424,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                                                     tempo (min)*
                                                                 </label>
                                                                 <input
-                                                                    className={`${inputClass(day.exercises[0].durationSeconds > 0, 'durationSeconds', day.exercises[0].durationSeconds)} w-1/2`}
+                                                                    className={`${inputClass('durationSeconds', day.exercises[0].durationSeconds, day.exercises[0].exerciseType, day.exercises[0])} w-1/2`}
                                                                     type="number"
                                                                     min="0"
                                                                     placeholder="Tempo in minuti"
@@ -432,7 +437,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                                                     distanza (km)*
                                                                 </label>
                                                                 <input
-                                                                    className={`${inputClass(day.exercises[0].distanceKm > 0, 'distanceKm', day.exercises[0].distanceKm)} w-1/2`}
+                                                                    className={`${inputClass('distanceKm', day.exercises[0].distanceKm, day.exercises[0].exerciseType, day.exercises[0])} w-1/2`}
                                                                     type="number"
                                                                     min="0"
                                                                     placeholder="Distanza in km"
@@ -448,7 +453,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                                                     serie*
                                                                 </label>
                                                                 <input
-                                                                    className={`${inputClass(day.exercises[0].sets > 0, 'sets', day.exercises[0].sets)} w-1/2`}
+                                                                    className={`${inputClass('sets', day.exercises[0].sets)} w-1/2`}
                                                                     type="number"
                                                                     min="0"
                                                                     placeholder="Serie"
@@ -461,7 +466,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                                                     ripetizioni*
                                                                 </label>
                                                                 <input
-                                                                    className={`${inputClass(day.exercises[0].repetitions > 0, 'repetitions', day.exercises[0].repetitions)} w-1/2`}
+                                                                    className={`${inputClass('repetitions', day.exercises[0].repetitions)} w-1/2`}
                                                                     type="number"
                                                                     min="0"
                                                                     placeholder="Ripetizioni"
@@ -519,7 +524,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                                             <label className="text-primary-color uppercase font-bold text-center text-md select-none" htmlFor={`exerciseName-${dayIndex}-${exerciseIndex}`}>Esercizio</label>
                                                             <input
                                                                 id={`exerciseName-${dayIndex}-${exerciseIndex}`}
-                                                                className={inputClass(exercise.name.trim() !== '', 'exerciseName', exercise.name)}
+                                                                className={inputClass('exerciseName', exercise.name)}
                                                                 type='text'
                                                                 placeholder="Nome Esercizio*"
                                                                 value={exercise.name}
@@ -616,7 +621,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                                                                 tempo (min)*
                                                                             </label>
                                                                             <input
-                                                                                className={`${inputClass(exercise.durationSeconds > 0, 'durationSeconds', exercise.durationSeconds)} w-1/2`}
+                                                                                className={`${inputClass('durationSeconds', exercise.durationSeconds, exercise.exerciseType, exercise)} w-1/2`}
                                                                                 type="number"
                                                                                 min="0"
                                                                                 placeholder="Tempo in minuti"
@@ -629,7 +634,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                                                                 distanza (km)*
                                                                             </label>
                                                                             <input
-                                                                                className={`${inputClass(exercise.distanceKm > 0, 'distanceKm', exercise.distanceKm)} w-1/2`}
+                                                                                className={`${inputClass('distanceKm', exercise.distanceKm, exercise.exerciseType, exercise)} w-1/2`}
                                                                                 type="number"
                                                                                 min="0"
                                                                                 placeholder="Distanza in km"
@@ -645,7 +650,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                                                                 serie*
                                                                             </label>
                                                                             <input
-                                                                                className={`${inputClass(exercise.sets > 0, 'sets', exercise.sets)} w-1/2`}
+                                                                                className={`${inputClass('sets', exercise.sets)} w-1/2`}
                                                                                 type="number"
                                                                                 min="0"
                                                                                 placeholder="Serie"
@@ -658,7 +663,7 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                                                                 ripetizioni*
                                                                             </label>
                                                                             <input
-                                                                                className={`${inputClass(exercise.repetitions > 0, 'repetitions', exercise.repetitions)} w-1/2`}
+                                                                                className={`${inputClass('repetitions', exercise.repetitions)} w-1/2`}
                                                                                 type="number"
                                                                                 min="0"
                                                                                 placeholder="Ripetizioni"

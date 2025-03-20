@@ -8,6 +8,7 @@ import {
     FaChevronUp,
 } from "react-icons/fa"
 import { GiWeightLiftingUp } from "react-icons/gi"
+import { MdTimer } from "react-icons/md"
 import { WorkoutDay } from "@/src/type/WorkoutTemplate.type";
 
 type WorkoutTemplateProps = {
@@ -90,10 +91,40 @@ export default function WorkoutTemplateCard({
                                                             <span className="font-bold capitalize">{exercise.name}</span>
                                                         </div>
                                                         <div className="flex items-center space-x-4">
-                                                            {exercise.sets && exercise.reps && (
+                                                            {exercise.exerciseType === 'cardio' && (
+                                                                <>
+                                                                    {exercise.durationSeconds && (
+                                                                        <span className="text-md font-bold text-text-secondary">
+                                                                            {Math.floor(exercise.durationSeconds)} min
+                                                                        </span>
+                                                                    )}
+                                                                    {exercise.distanceKm && (
+                                                                        <span className="text-md font-bold text-text-secondary">
+                                                                            {exercise.distanceKm} km
+                                                                        </span>
+                                                                    )}
+                                                                </>
+                                                            )}
+                                                            {exercise.exerciseType === 'stretching' && exercise.durationSeconds && (
+                                                                <span className="text-md font-bold text-text-secondary">
+                                                                    {Math.floor(exercise.durationSeconds)} min
+                                                                </span>
+                                                            )}
+                                                            {exercise.distanceKm && (
+                                                                <span className="text-md font-bold text-text-secondary">
+                                                                    {exercise.distanceKm} km
+                                                                </span>
+                                                            )}
+                                                            {exercise.exerciseType !== 'cardio' && exercise.exerciseType !== 'stretching' && (
                                                                 <span className="text-md font-bold text-text-secondary">
                                                                     {exercise.sets} × {exercise.reps}
                                                                 </span>
+                                                            )}
+                                                            {exercise.rest > 0 && (
+                                                                <div className="flex items-center text-text-secondary">
+                                                                    <MdTimer className="mr-1 h-4 w-4" />
+                                                                    <span className="text-sm">{exercise.rest}s</span>
+                                                                </div>
                                                             )}
                                                         </div>
                                                     </div>
