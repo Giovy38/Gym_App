@@ -3,6 +3,7 @@ import { MdCreate, MdSend, MdDeleteForever } from "react-icons/md";
 import { ptService } from "@/src/services/pt.services";
 import { useState } from 'react';
 import NewPtTrainingCardForm from './NewPtTrainingCardForm';
+import TemplateListToSend from '../templates_page_components/TemplateListToSend';
 
 interface ClientCardProps {
     id: number;
@@ -14,6 +15,7 @@ interface ClientCardProps {
 
 export default function ClientCard({ id, name, email, ptId, onClientDeleted }: ClientCardProps) {
     const [showTrainingForm, setShowTrainingForm] = useState(false);
+    const [showTemplateList, setShowTemplateList] = useState(false);
 
     const handleDelete = async () => {
         try {
@@ -63,6 +65,7 @@ export default function ClientCard({ id, name, email, ptId, onClientDeleted }: C
                         </button>
 
                         <button
+                            onClick={() => setShowTemplateList(true)}
                             className="flex flex-1 items-center font-bold justify-center uppercase rounded-md bg-btn-accent px-3 py-2 text-sm  text-text-secondary hover:bg-btn-accent-hover"
                         >
                             <MdSend className="mr-1 h-4 w-4" />
@@ -76,6 +79,14 @@ export default function ClientCard({ id, name, email, ptId, onClientDeleted }: C
                 <NewPtTrainingCardForm
                     onClose={() => setShowTrainingForm(false)}
                     onNewTraining={() => setShowTrainingForm(false)}
+                    ptId={ptId}
+                    clientId={id}
+                />
+            )}
+
+            {showTemplateList && (
+                <TemplateListToSend
+                    onClose={() => setShowTemplateList(false)}
                     ptId={ptId}
                     clientId={id}
                 />
