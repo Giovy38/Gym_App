@@ -13,6 +13,35 @@ type Client = {
     gender: 'male' | 'female';
 }
 
+interface ServerExercise {
+    name: string;
+    sets: number;
+    repetitions: number;
+    restTimeSeconds: number;
+    notes: string[];
+    exerciseType: string;
+    barbellWeightKg: number | null;
+    durationSeconds: number | null;
+    distanceKm: number | null;
+}
+
+interface ServerWorkoutDay {
+    workoutName: string;
+    exercises: ServerExercise[];
+}
+
+interface ServerTemplate {
+    id: number;
+    name: string;
+    type: string;
+    trainerId: number;
+    workoutDays: ServerWorkoutDay[];
+}
+
+interface ServerResponse {
+    template: ServerTemplate;
+}
+
 class PTService {
     private PT_BE_URL = `${process.env.NEXT_PUBLIC_PT_BE_URL}`;
     private PT_AUTH_URL = `${process.env.NEXT_PUBLIC_PT_AUTH_BE_URL}`;
@@ -198,6 +227,54 @@ class PTService {
         } catch (error) {
             console.error('Errore durante il recupero dei template:', error);
             return [];
+        }
+    }
+
+    async getSingleTemplate(ptId: number, templateId: number): Promise<WorkoutTemplate | null> {
+        try {
+            const res = await FetchFunction(`${this.PT_BE_URL}/${ptId}/templates/${templateId}`, 'GET', {});
+            if (!res.ok) {
+                console.error('Errore durante il recupero del template:', res.error);
+                return null;
+            }
+            const data = await res.value.json() as ServerResponse;
+            console.log('Risposta grezza dal server:', data);
+
+            if (!data || !data.template) {
+                console.error('Dati template non validi:', data);
+                return null;
+            }
+
+            const template: WorkoutTemplate = {
+                id: data.template.id,
+                name: data.template.name,
+                type: data.template.type,
+                trainerId: data.template.trainerId,
+                workoutDays: data.template.workoutDays.map(day => ({
+                    dayName: day.workoutName,
+                    exercises: day.exercises.map(ex => ({
+                        name: ex.name,
+                        sets: ex.sets,
+                        reps: ex.repetitions,
+                        rest: ex.restTimeSeconds,
+                        notes: ex.notes?.join(', ') || '',
+                        exerciseType: (ex.exerciseType === 'cardio' ||
+                            ex.exerciseType === 'stretching' ||
+                            ex.exerciseType === 'withBarbell' ||
+                            ex.exerciseType === 'withWeight')
+                            ? ex.exerciseType
+                            : 'withWeight',
+                        barbellWeightKg: ex.barbellWeightKg || undefined,
+                        durationSeconds: ex.durationSeconds || undefined,
+                        distanceKm: ex.distanceKm || undefined
+                    }))
+                }))
+            };
+
+            return template;
+        } catch (error) {
+            console.error('Errore durante il recupero del template:', error);
+            return null;
         }
     }
 

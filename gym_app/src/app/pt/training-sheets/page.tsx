@@ -8,6 +8,8 @@ import SearchBar from "@/src/components/reusable_components/SearchBar";
 import PlusButton from "@/src/components/reusable_components/PlusButton";
 import TemplateCard from "@/src/components/templates_page_components/TemplateCard";
 import NewTemplateForm from "@/src/components/templates_page_components/NewTemplateForm";
+import SingleTemplate from "@/src/components/templates_page_components/SingleTemplate";
+import { IoMdCloseCircle } from "react-icons/io";
 
 export default function TrainingSheetsPage() {
     const pt = usePT();
@@ -16,6 +18,8 @@ export default function TrainingSheetsPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [showNewTemplateForm, setShowNewTemplateForm] = useState(false);
+    const [selectedTemplate, setSelectedTemplate] = useState<WorkoutTemplate | null>(null);
+    const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
 
     const fetchTemplates = useCallback(async () => {
         setIsLoading(true);
@@ -43,6 +47,40 @@ export default function TrainingSheetsPage() {
     const handleTemplateAdded = () => {
         fetchTemplates();
         setShowNewTemplateForm(false);
+    };
+
+    const handleTemplateClick = async (templateId: number) => {
+        if (!pt?.id) return;
+
+        try {
+            const template = await ptService.getSingleTemplate(pt.id, templateId);
+            console.log('Template grezzo ricevuto dal servizio:', template);
+
+            if (template) {
+                console.log('Template selezionato:', {
+                    id: template.id,
+                    nome: template.name,
+                    tipo: template.type,
+                    giorni: template.workoutDays?.map(day => ({
+                        nomeGiorno: day.dayName,
+                        esercizi: day.exercises?.map(ex => ({
+                            nome: ex.name,
+                            serie: ex.sets,
+                            ripetizioni: ex.reps,
+                            tipo: ex.exerciseType,
+                            peso: ex.barbellWeightKg,
+                            durata: ex.durationSeconds,
+                            distanza: ex.distanceKm,
+                            note: ex.notes
+                        })) || []
+                    })) || []
+                });
+                setSelectedTemplate(template);
+                setIsTemplateModalOpen(true);
+            }
+        } catch (error) {
+            console.error('Errore nel recupero del template:', error);
+        }
     };
 
     if (isLoading) {
@@ -83,7 +121,7 @@ export default function TrainingSheetsPage() {
                             name={template.name}
                             type={template.type}
                             creationDate={new Date().toLocaleDateString()}
-                            onClick={() => { }}
+                            onClick={() => handleTemplateClick(template.id)}
                             onDeleted={fetchTemplates}
                         />
                     ))}
@@ -95,6 +133,23 @@ export default function TrainingSheetsPage() {
                     onNewTemplate={handleTemplateAdded}
                     ptId={pt?.id || 0}
                 />
+            )}
+            {isTemplateModalOpen && selectedTemplate && (
+                <div className="fixed inset-0 bg-bg-primary bg-opacity-50 flex items-center justify-center z-50 px-2" onClick={() => setIsTemplateModalOpen(false)}>
+                    <div className="bg-bg-modal rounded-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex justify-end mb-4">
+                            <IoMdCloseCircle
+                                className="text-btn-exit text-2xl cursor-pointer hover:text-btn-exit-hover"
+                                onClick={() => setIsTemplateModalOpen(false)}
+                            />
+                        </div>
+                        <SingleTemplate
+                            name={selectedTemplate.name}
+                            type={selectedTemplate.type}
+                            days={selectedTemplate.workoutDays}
+                        />
+                    </div>
+                </div>
             )}
         </div>
     );

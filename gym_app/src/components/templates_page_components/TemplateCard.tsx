@@ -10,7 +10,7 @@ import { GiWeightLiftingUp } from "react-icons/gi";
 
 // Define the props for our WorkoutCard component
 type WorkoutCardProps = {
-    id?: number;
+    id: number;
     name: string;
     type: string;
     creationDate: string;
@@ -56,7 +56,7 @@ export default function WorkoutCard({
     return (
         <>
             <div
-                className={`relative w-full max-w-xs rounded-lg bg-bg-primary p-6 shadow-md transition-all duration-300 hover:shadow-md hover:shadow-shadow-fourth`}
+                className={`relative w-full max-w-xs rounded-lg bg-bg-primary p-6 shadow-md transition-all duration-300 hover:shadow-md hover:shadow-shadow-fourth cursor-pointer`}
                 onClick={onClick}
             >
                 <div className="flex justify-end">
