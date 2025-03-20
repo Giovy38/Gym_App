@@ -3,6 +3,7 @@ import { ptService } from '@/src/services/pt.services';
 import { WorkoutTemplate } from '@/src/type/WorkoutTemplate.type';
 import SingleTemplateToSend from './SingleTemplateToSend';
 import { IoMdCloseCircle } from "react-icons/io";
+import SectionTitle from '../reusable_components/SectionTitle';
 
 
 interface TemplateListToSendProps {
@@ -34,7 +35,7 @@ export default function TemplateListToSend({ onClose, ptId, clientId }: Template
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-bg-primary bg-opacity-50" onClick={onClose}>
             <div className="w-full max-w-2xl rounded-lg bg-bg-modal p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
                 <div className="mb-4 flex items-center justify-between">
-                    <h2 className="text-2xl font-bold text-text-primary">Seleziona un Template</h2>
+                    <SectionTitle title="Seleziona una scheda" />
                     <IoMdCloseCircle
                         onClick={onClose}
                         className="text-btn-exit text-2xl cursor-pointer hover:text-btn-exit-hover"

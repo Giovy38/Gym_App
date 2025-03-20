@@ -681,11 +681,11 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                                                         id={`restTimeSeconds-${dayIndex}-${exerciseIndex}`}
                                                                         className="rounded-lg p-2 text-center w-1/2"
                                                                         type='number'
-                                                                        placeholder="Rest Time Seconds"
-                                                                        value={exercise.restTimeSeconds}
+                                                                        placeholder="Tempo di recupero in secondi"
+                                                                        value={exercise.restTimeSeconds || ''}
                                                                         onChange={(e) => {
-                                                                            const seconds = handleNumberInputChange(e.target.value, 0);
-                                                                            handleExerciseChange(dayIndex, exerciseIndex, 'restTimeSeconds', seconds);
+                                                                            const value = e.target.value === '' ? 0 : parseInt(e.target.value);
+                                                                            handleExerciseChange(dayIndex, exerciseIndex, 'restTimeSeconds', value);
                                                                         }}
                                                                     />
                                                                 </div>
