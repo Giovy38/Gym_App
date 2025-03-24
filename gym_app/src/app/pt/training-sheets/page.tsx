@@ -18,15 +18,13 @@ export default function TrainingSheetsPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [showNewTemplateForm, setShowNewTemplateForm] = useState(false);
-    const [selectedTemplate, setSelectedTemplate] = useState<WorkoutTemplate | null>(null);
     const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
+    const [selectedTemplate, setSelectedTemplate] = useState<WorkoutTemplate | null>(null);
 
     const fetchTemplates = useCallback(async () => {
         setIsLoading(true);
-        console.log("PT ID:", pt?.id);
         if (pt?.id) {
             const templatesList = await ptService.getAllTemplates(pt.id);
-            console.log("Templates ricevuti:", templatesList);
             setTemplates(templatesList);
             setFilteredTemplates(templatesList);
         }
@@ -39,10 +37,21 @@ export default function TrainingSheetsPage() {
 
     useEffect(() => {
         const filtered = templates.filter(template => {
-            return template.name?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false;
+            return template.name.toLowerCase().includes(searchQuery.toLowerCase());
         });
         setFilteredTemplates(filtered);
     }, [searchQuery, templates]);
+
+    if (!pt?.isEnabled) {
+        return (
+            <div className="p-5 text-center">
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                    <p>Il tuo account non è abilitato.</p>
+                    <p>Contatta <span className="font-bold">l&apos;amministratore</span> per maggiori informazioni.</p>
+                </div>
+            </div>
+        );
+    }
 
     const handleTemplateAdded = () => {
         fetchTemplates();

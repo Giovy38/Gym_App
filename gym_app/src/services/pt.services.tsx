@@ -45,14 +45,36 @@ interface ServerResponse {
 class PTService {
     private PT_BE_URL = `${process.env.NEXT_PUBLIC_PT_BE_URL}`;
     private PT_AUTH_URL = `${process.env.NEXT_PUBLIC_PT_AUTH_BE_URL}`;
+    private MASTER_PT_URL = `${process.env.NEXT_PUBLIC_MASTER_PT_BE_URL}`;
 
     async getPTInfo(): Promise<PersonalTrainerData | null> {
         try {
+            console.log('Inizio chiamata about-me');
+            console.log('URL:', `${this.PT_BE_URL}/about-me`);
+            console.log('Cookie presenti:', document.cookie);
+
             const res = await FetchFunction(`${this.PT_BE_URL}/about-me`, 'GET', {});
             if (!res.ok) {
+                console.error('Risposta non ok:', res.error);
+                console.error('Status:', res.error.status);
+                console.error('Status Text:', res.error.statusText);
+                console.error('Headers:', [...res.error.headers.entries()]);
                 return null;
             }
-            return await res.value.json();
+
+            const data = await res.value.json();
+            console.log('Headers della risposta:', [...res.value.headers.entries()]);
+            console.log('Status della risposta:', res.value.status);
+            console.log('Dati PT ricevuti:', JSON.stringify(data, null, 2));
+            console.log('isEnabled presente:', 'isEnabled' in data);
+            console.log('isMaster presente:', 'isMaster' in data);
+            console.log('Tutti i campi presenti:', Object.keys(data));
+
+            // Verifica se i campi sono undefined o null
+            console.log('isEnabled valore:', data.isEnabled);
+            console.log('isMaster valore:', data.isMaster);
+
+            return data;
         } catch (error) {
             console.error('Errore durante il recupero dei dati del PT:', error);
             return null;
@@ -333,6 +355,45 @@ class PTService {
         } catch (error) {
             console.error('Errore durante il logout del PT:', error);
             return null;
+        }
+    }
+
+    async getAllTrainers(): Promise<PersonalTrainerData[]> {
+        try {
+            const res = await FetchFunction(`${this.MASTER_PT_URL}/trainers`, 'GET', {});
+            if (!res.ok) {
+                throw new Error('Errore durante il recupero dei personal trainer');
+            }
+            return await res.value.json();
+        } catch (error) {
+            console.error('Errore durante il recupero dei personal trainer:', error);
+            throw error;
+        }
+    }
+
+    async enableTrainer(ptId: number): Promise<{ success: boolean; message: string }> {
+        try {
+            const res = await FetchFunction(`${this.MASTER_PT_URL}/enable/${ptId}`, 'POST', {});
+            if (!res.ok) {
+                throw new Error('Errore durante l\'abilitazione del personal trainer');
+            }
+            return await res.value.json();
+        } catch (error) {
+            console.error('Errore durante l\'abilitazione del personal trainer:', error);
+            throw error;
+        }
+    }
+
+    async disableTrainer(ptId: number): Promise<{ success: boolean; message: string }> {
+        try {
+            const res = await FetchFunction(`${this.MASTER_PT_URL}/disable/${ptId}`, 'POST', {});
+            if (!res.ok) {
+                throw new Error('Errore durante la disabilitazione del personal trainer');
+            }
+            return await res.value.json();
+        } catch (error) {
+            console.error('Errore durante la disabilitazione del personal trainer:', error);
+            throw error;
         }
     }
 }

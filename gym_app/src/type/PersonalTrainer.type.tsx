@@ -4,4 +4,6 @@ export type PersonalTrainerData = {
     email: string;
     password: string;
     gender: "male" | "female";
+    isEnabled: boolean;
+    isMaster: boolean;
 }

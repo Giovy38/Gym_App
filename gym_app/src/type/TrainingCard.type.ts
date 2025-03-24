@@ -19,6 +19,13 @@ export interface TrainingCardData {
     }[];
 }
 
+export enum ExerciseType {
+    cardio = 'cardio',
+    stretching = 'stretching',
+    withBarbell = 'withBarbell',
+    withWeight = 'withWeight'
+}
+
 export interface TrainingCard extends TrainingCardData {
     id: number;
     createdAt: Date;
