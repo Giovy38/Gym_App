@@ -10,6 +10,7 @@ import DeleteConfirm from "@/src/components/reusable_components/DeleteConfirm"
 import { usePT } from "@/src/context/PtProvider"
 import ModalButton from "@/src/components/reusable_components/ModalButton"
 import { ptService } from "@/src/services/pt.services"
+import Link from "next/link"
 
 export default function ProfilePage() {
 
@@ -103,6 +104,9 @@ export default function ProfilePage() {
 
             <div className="flex justify-end">
                 <div className="p-3 md:max-w-64">
+                    {ptData?.isMaster && <Link href="/pt/master" className="bg-btn-neutral p-3 rounded-lg flex justify-around items-center gap-3 text-text-secondary font-bold uppercase text-center min-w-56 hover:bg-btn-neutral-hover">
+                        <h3>Gestisci Personal Trainer</h3>
+                    </Link>}
                     <PrimaryButton text="Cambia Password" onClick={changePassword} />
                     <AddRemoveButton text="Cancella Account" onClick={deleteAccount} />
                     <ModalButton text='Logout' onClick={logout} />
