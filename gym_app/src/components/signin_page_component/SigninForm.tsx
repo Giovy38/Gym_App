@@ -61,7 +61,7 @@ export default function SigninForm() {
             const result = await userService.createNewUser(userData);
             if (result) {
                 console.log('User created successfully:', result.createdUser);
-                setToastMessage('Successfully registered');
+                setToastMessage('Registrato con successo');
                 setToastColor('green');
 
                 const loginResult = await userService.userLogin(userData.email, userData.password);
@@ -70,18 +70,18 @@ export default function SigninForm() {
                     window.location.href = '/';
                     localStorage.setItem('activePage', 'home');
                 } else {
-                    setToastMessage('Login failed');
+                    setToastMessage('Login fallito');
                     setToastColor('red');
                 }
             } else {
-                setToastMessage('Email already exists');
+                setToastMessage('Email già esistente');
                 setToastColor('red');
             }
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000);
         } catch (error) {
             console.error('Error during user creation:', error);
-            setToastMessage('Error during user creation');
+            setToastMessage('Errore durante la creazione dell\'utente');
             setToastColor('red');
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000);
@@ -95,7 +95,7 @@ export default function SigninForm() {
             const result = await ptService.createNewPT(userData);
             if (result) {
                 console.log('User created successfully:', result.createdPT);
-                setToastMessage('Successfully registered');
+                setToastMessage('Registrato con successo');
                 setToastColor('green');
 
                 const loginResult = await ptService.ptLogin(userData.email, userData.password);
@@ -104,18 +104,18 @@ export default function SigninForm() {
                     window.location.href = '/';
                     localStorage.setItem('activePage', 'home');
                 } else {
-                    setToastMessage('Login failed');
+                    setToastMessage('Login fallito');
                     setToastColor('red');
                 }
             } else {
-                setToastMessage('Email already exists');
+                setToastMessage('Email già esistente');
                 setToastColor('red');
             }
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000);
         } catch (error) {
             console.error('Error during personal trainer creation:', error);
-            setToastMessage('Error during personal trainer creation');
+            setToastMessage('Errore durante la creazione del personal trainer');
             setToastColor('red');
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000);
