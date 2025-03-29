@@ -1,10 +1,12 @@
 import FetchFunction from "./FetchFunction";
 
-interface PT {
+export interface PT {
     id: number;
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     isEnabled: boolean;
+    gender: string;
 }
 
 interface Admin {

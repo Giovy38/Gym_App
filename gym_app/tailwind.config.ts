@@ -23,6 +23,8 @@ const config: Config = {
         'bg-data': '#282828',
         'bg-modal': '#1b1b1b',
         'bg-meal-title': '#cbd5e1',
+        'bg-enabled': '#dcfce7',
+        'bg-disabled': '#fee2e2',
         // TEXT COLORS
         'text-primary': '#e6e6e6',
         'text-secondary': '#000000',
@@ -31,6 +33,8 @@ const config: Config = {
         'text-more': '#86efac',
         'text-less': '#93c5fd',
         'text-neutral': '#cbd5e1',
+        'text-enabled': '#166534',
+        'text-disabled': '#b31b1b',
         // --------------------------------- BUTTONS COLORS ---------------------------------
         'btn-primary': '#1d4ed8',
         'btn-primary-hover': '#2563eb',
