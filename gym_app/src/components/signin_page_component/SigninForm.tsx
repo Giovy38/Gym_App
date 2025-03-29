@@ -164,7 +164,7 @@ export default function SigninForm() {
                     <h4 className="text-primary-color mt-3 underline underline-offset-2 text-center">Hai già un account? Accedi ora</h4>
                 </Link>
 
-                <PrimaryButton text="Registrati" onClick={handleSubmit} disabled={!isFormValid} />
+                <PrimaryButton text="Registrati come utente" onClick={handleSubmit} disabled={!isFormValid} />
                 <PtButton text="Registrati come PT" onClick={handlePtSubmit} disabled={!isFormValid} />
             </div>
         </div>

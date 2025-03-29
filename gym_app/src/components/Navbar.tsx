@@ -13,12 +13,14 @@ import NavbarButton from "./navbar_component/NavbarButton";
 import Logo from '../assets/img/logo.png';
 import Image from 'next/image'
 import React from 'react';
+import { GiMuscleUp } from "react-icons/gi";
+
 
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [activePage, setActivePage] = useState('');
-    const [userType, setUserType] = useState<'user' | 'pt'>('user');
+    const [userType, setUserType] = useState<'user' | 'pt' | 'admin'>('user');
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
@@ -30,7 +32,7 @@ export default function Navbar() {
             setActivePage(activePage);
         }
         if (userType) {
-            setUserType(userType as 'user' | 'pt');
+            setUserType(userType as 'user' | 'pt' | 'admin');
         }
     }, []);
 
@@ -55,6 +57,19 @@ export default function Navbar() {
                         <NavbarButton title="clienti" Icon={IoPeople} isActive={activePage === 'clients'} />
                     </Link>
                     <Link href='/pt/profile' className="w-full" onClick={() => handleLinkClick('profile')}>
+                        <NavbarButton title="profilo" Icon={FaUserCircle} isActive={activePage === 'profile'} />
+                    </Link>
+                </>
+            );
+        }
+
+        if (userType === 'admin') {
+            return (
+                <>
+                    <Link href='/admin/pt-management' className="w-full" onClick={() => handleLinkClick('pt-management')}>
+                        <NavbarButton title="gestione pt" Icon={GiMuscleUp} isActive={activePage === 'pt-management'} />
+                    </Link>
+                    <Link href='/admin/profile' className="w-full" onClick={() => handleLinkClick('profile')}>
                         <NavbarButton title="profilo" Icon={FaUserCircle} isActive={activePage === 'profile'} />
                     </Link>
                 </>

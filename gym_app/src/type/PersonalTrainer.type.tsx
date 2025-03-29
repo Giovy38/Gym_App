@@ -3,5 +3,6 @@ export type PersonalTrainerData = {
     lastName: string;
     email: string;
     password: string;
+    isEnabled?: boolean;
     gender: "male" | "female";
 }

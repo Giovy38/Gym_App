@@ -3,6 +3,7 @@ import { WorkoutTemplate, WorkoutDay } from "../type/WorkoutTemplate.type";
 import { TrainingCard, TrainingCardData } from "../type/TrainingCard.type";
 import FetchFunction from "./FetchFunction";
 import { UserData } from "../type/UserData.type";
+import { adminService } from "./admin.services";
 
 type Client = {
     id: number;
@@ -60,15 +61,28 @@ class PTService {
     }
 
     async createNewPT(ptData: PersonalTrainerData): Promise<{ createdPT: PersonalTrainerData } | null> {
-        const data = {
-            firstName: ptData.firstName,
-            lastName: ptData.lastName,
-            email: ptData.email,
-            password: ptData.password,
-            gender: ptData.gender
-        }
-
         try {
+            // Prima otteniamo tutti gli admin
+            const admins = await adminService.getAllAdmins();
+
+            if (admins.length === 0) {
+                console.error('Nessun admin trovato nel sistema');
+                return null;
+            }
+
+            // Prendiamo l'ID del primo admin
+            const adminId = admins[0].id;
+
+            const data = {
+                firstName: ptData.firstName,
+                lastName: ptData.lastName,
+                email: ptData.email,
+                password: ptData.password,
+                gender: ptData.gender,
+                isEnabled: false, // Il PT viene creato disabilitato di default
+                adminId: adminId // Aggiungiamo l'ID dell'admin
+            }
+
             const res = await FetchFunction(this.PT_BE_URL, 'POST', data);
             if (!res.ok) {
                 if (res.error.status === 400) return null;
