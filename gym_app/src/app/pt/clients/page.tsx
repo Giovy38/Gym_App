@@ -53,6 +53,16 @@ export default function ClientsPage() {
         return <div className="p-5 text-text-primary">Caricamento clienti...</div>;
     }
 
+    if (!pt?.isEnabled) {
+        return (
+            <div className="p-5 flex flex-col items-center justify-center">
+                <div className="text-center p-4 bg-bg-disabled rounded-lg">
+                    <p className="text-text-disabled"> Il tuo account non è abilitato, contatta l&apos;amministratore per abilitarlo.</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="p-5 flex flex-col items-center">
             <div className="flex w-full items-center justify-center gap-5">

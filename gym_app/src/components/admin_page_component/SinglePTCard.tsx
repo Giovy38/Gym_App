@@ -38,7 +38,7 @@ export default function PersonalTrainerCard({
 
     return (
         <div className="w-full max-w-md rounded-lg bg-bg-primary p-6 shadow-md">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                 <div>
                     <h2 className="text-xl font-bold text-primary-color uppercase">
                         {firstName} {lastName}
@@ -47,8 +47,25 @@ export default function PersonalTrainerCard({
                         <FiMail className="mr-2" />
                         <span>{email}</span>
                     </div>
+                    <div className="mt-2 md:hidden">
+                        <div
+                            className={`flex items-center justify-center rounded-full px-3 py-1 text-sm ${switchStatus ? "bg-bg-enabled text-text-enabled" : "bg-bg-disabled text-text-disabled"}`}
+                        >
+                            {switchStatus ? (
+                                <>
+                                    <FiCheck className="mr-1" />
+                                    <span>Abilitato</span>
+                                </>
+                            ) : (
+                                <>
+                                    <FiX className="mr-1" />
+                                    <span>Disabilitato</span>
+                                </>
+                            )}
+                        </div>
+                    </div>
                 </div>
-                <div className="flex flex-col items-end">
+                <div className="hidden md:flex md:flex-col md:items-end">
                     <div
                         className={`flex items-center rounded-full px-3 py-1 text-sm ${switchStatus ? "bg-bg-enabled text-text-enabled" : "bg-bg-disabled text-text-disabled"}`}
                     >

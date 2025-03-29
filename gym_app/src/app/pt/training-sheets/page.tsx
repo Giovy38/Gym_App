@@ -87,6 +87,18 @@ export default function TrainingSheetsPage() {
         return <div className="p-5 text-text-primary">Caricamento template...</div>;
     }
 
+    if (!pt?.isEnabled) {
+        return (
+            <div className="p-5 flex justify-center items-center">
+                <div className="text-center p-4 bg-bg-disabled rounded-lg">
+                    <p className="text-text-disabled">
+                        Il tuo account non è abilitato, contatta l&apos;amministratore per abilitarlo.
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="p-5 flex flex-col items-center">
             <div className="flex flex-col w-full items-center justify-center gap-5">

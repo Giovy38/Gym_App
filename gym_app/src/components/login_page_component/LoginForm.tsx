@@ -75,8 +75,8 @@ export default function LoginForm() {
                 <Link href="/signin">
                     <h4 className="text-primary-color mt-3 underline underline-offset-2">Non hai un account? Registrati ora</h4>
                 </Link>
-                <PrimaryButton text="Login" onClick={handleLogin} disabled={!email || !password} />
-                <PtButton text="login Personal Trainer" onClick={handlePtLogin} disabled={!email || !password} />
+                <PrimaryButton text="accesso utente" onClick={handleLogin} disabled={!email || !password} />
+                <PtButton text="accesso Personal Trainer" onClick={handlePtLogin} disabled={!email || !password} />
             </div>
             {toastMessage && <Toast message={toastMessage} color={toastColor} />}
         </div>

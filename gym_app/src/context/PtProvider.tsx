@@ -9,6 +9,7 @@ interface PTData {
     lastName: string;
     password: string;
     gender: "male" | "female";
+    isEnabled: boolean;
 }
 
 const PTContext = createContext<PTData | null>(null);
