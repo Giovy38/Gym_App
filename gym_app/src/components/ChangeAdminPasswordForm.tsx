@@ -44,27 +44,31 @@ export default function ChangeAdminPasswordForm({ onClose }: ChangeAdminPassword
     }, [showToast])
 
     const handleSubmit = async () => {
-        if (!isFormValid) return
+        if (!isFormValid) return;
 
         try {
-            // Mostriamo subito il toast di successo
-            setToastMessage("Password modificata con successo")
-            setToastColor("green")
-            setShowToast(true)
-
-            // Aspettiamo un momento per mostrare il toast
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
-            // Chiamiamo il servizio che farà il reindirizzamento
-            await adminService.changePassword({
+            const response = await adminService.changePassword({
                 oldPassword: currentPassword,
                 newPassword: newPassword
-            })
+            });
+
+            if (response?.success) {
+                setToastMessage(response.message);
+                setToastColor("green");
+                setShowToast(true);
+                setTimeout(() => {
+                    onClose();
+                }, 3000);
+            } else {
+                setToastMessage(response?.message || "Errore durante il cambio password");
+                setToastColor("red");
+                setShowToast(true);
+            }
         } catch (error) {
-            console.error('Errore durante il cambio password:', error)
-            setToastMessage("Errore durante il cambio password")
-            setToastColor("red")
-            setShowToast(true)
+            console.error('Errore durante il cambio password:', error);
+            setToastMessage("Errore durante il cambio password");
+            setToastColor("red");
+            setShowToast(true);
         }
     }
 
@@ -72,7 +76,7 @@ export default function ChangeAdminPasswordForm({ onClose }: ChangeAdminPassword
         <div className="fixed inset-0 bg-bg-primary bg-opacity-50 flex items-center justify-center" onClick={onClose}>
             <div className="bg-bg-primary p-4 shadow-md rounded-lg md:w-2/3 xl:w-1/3 shadow-shadow-fourth" onClick={(e) => e.stopPropagation()}>
                 <h1 className="text-center text-2xl font-bold uppercase font-logo-font text-primary-color mb-3">Cambia Password Admin</h1>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-4">
                     <div className="text-text-secondary flex flex-col justify-center items-center">
                         <InputText
                             label="Password Attuale"
@@ -110,7 +114,7 @@ export default function ChangeAdminPasswordForm({ onClose }: ChangeAdminPassword
                         <ModalButton text='cancella' onClick={onClose} />
                         <ModalButton text='cambia password' isAdd disabled={!isFormValid} onClick={handleSubmit} />
                     </div>
-                </form>
+                </div>
                 {showToast && <Toast message={toastMessage} color={toastColor} />}
             </div>
         </div>

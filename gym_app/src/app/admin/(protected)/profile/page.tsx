@@ -21,15 +21,19 @@ export default function AdminProfilePage() {
         try {
             const response = await adminService.adminLogout();
             if (response?.success) {
-                setToastMessage("Logout effettuato con successo");
+                setToastMessage(response.message);
                 setShowToast(true);
-                setTimeout(() => setShowToast(false), 3000);
+                setTimeout(() => {
+                    window.location.replace('/admin/login');
+                }, 3000);
+            } else {
+                setToastMessage(response?.message || "Errore durante il logout");
+                setShowToast(true);
             }
         } catch (error) {
             console.error('Errore durante il logout dell\'admin:', error);
             setToastMessage("Errore durante il logout");
             setShowToast(true);
-            setTimeout(() => setShowToast(false), 3000);
         }
     }
 
