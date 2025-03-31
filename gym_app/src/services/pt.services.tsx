@@ -223,11 +223,18 @@ class PTService {
     async getAllClients(ptId: number): Promise<Client[]> {
         try {
             const res = await FetchFunction(`${this.PT_BE_URL}/${ptId}/clients`, 'GET', {});
-            if (!res.ok) throw new Error('Errore durante il recupero dei clienti');
+            if (!res.ok) {
+                if (res.error.status === 403) {
+                    console.warn('PT non abilitato');
+                    return [];
+                }
+                console.warn('Errore durante il recupero dei clienti:', res.error);
+                return [];
+            }
             const data = await res.value.json();
             return data.clients || [];
         } catch (error) {
-            console.error('Errore durante il recupero dei clienti:', error);
+            console.warn('Errore durante il recupero dei clienti:', error);
             return [];
         }
     }
@@ -235,11 +242,18 @@ class PTService {
     async getAllTemplates(ptId: number): Promise<WorkoutTemplate[]> {
         try {
             const res = await FetchFunction(`${this.PT_BE_URL}/${ptId}/templates`, 'GET', {});
-            if (!res.ok) throw new Error('Errore durante il recupero dei template');
+            if (!res.ok) {
+                if (res.error.status === 403) {
+                    console.warn('PT non abilitato');
+                    return [];
+                }
+                console.warn('Errore durante il recupero dei template:', res.error);
+                return [];
+            }
             const data = await res.value.json();
             return data.templates || [];
         } catch (error) {
-            console.error('Errore durante il recupero dei template:', error);
+            console.warn('Errore durante il recupero dei template:', error);
             return [];
         }
     }

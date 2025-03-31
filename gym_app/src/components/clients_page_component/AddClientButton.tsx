@@ -31,7 +31,6 @@ export default function AddClientButton({ ptId }: AddClientButtonProps) {
                     onClose={() => setIsModalOpen(false)}
                     onClientAdded={() => {
                         setIsModalOpen(false);
-                        // Qui potrai aggiungere la logica per aggiornare la lista dei clienti
                     }}
                 />
             )}
