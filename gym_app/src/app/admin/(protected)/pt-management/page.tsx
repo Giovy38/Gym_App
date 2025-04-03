@@ -11,6 +11,8 @@ interface PT {
     lastName: string
     email: string
     isEnabled: boolean
+    renewalDate: string | null
+    paymentDate: string | null
 }
 
 export default function PTManagementPage() {
@@ -30,7 +32,9 @@ export default function PTManagementPage() {
                     firstName: pt.firstName,
                     lastName: pt.lastName,
                     email: pt.email,
-                    isEnabled: pt.isEnabled
+                    isEnabled: pt.isEnabled,
+                    renewalDate: pt.renewalDate,
+                    paymentDate: pt.paymentDate
                 })).sort((a, b) => a.lastName.localeCompare(b.lastName))
 
                 console.log("PT formattati:", formattedPTs)
@@ -71,6 +75,20 @@ export default function PTManagementPage() {
         }
     }
 
+    const handleDatesChange = async (id: string, renewalDate: string | null, paymentDate: string | null) => {
+        try {
+            setPts(prevPts =>
+                prevPts.map(pt =>
+                    pt.id.toString() === id
+                        ? { ...pt, renewalDate, paymentDate }
+                        : pt
+                )
+            )
+        } catch (error) {
+            console.error("Errore nell'aggiornamento delle date del PT:", error)
+        }
+    }
+
     if (isLoading) {
         return <div className="flex justify-center items-center min-h-screen">Caricamento...</div>
     }
@@ -93,7 +111,10 @@ export default function PTManagementPage() {
                         lastName={pt.lastName}
                         email={pt.email}
                         isEnabled={pt.isEnabled}
+                        renewalDate={pt.renewalDate}
+                        paymentDate={pt.paymentDate}
                         onStatusChange={handleStatusChange}
+                        onDatesChange={handleDatesChange}
                     />
                 ))}
             </div>

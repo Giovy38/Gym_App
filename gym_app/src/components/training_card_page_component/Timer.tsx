@@ -169,7 +169,7 @@ export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
                                 key={item.value}
                                 onClick={() => handleNumberClick(item.value)}
                                 disabled={isRunning || !isCompleted}
-                                className="border-2 border-border-primary hover:bg-bg-secondary w-16 h-10 flex justify-center items-center hover:text-text-secondary text-text-primary p-2 rounded-md hover:bg-bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="border-2 border-border-primary hover:bg-bg-secondary w-16 font-bold h-16 flex justify-center items-center hover:text-text-secondary text-text-primary p-2 rounded-full hover:bg-bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {item.display}
                             </button>

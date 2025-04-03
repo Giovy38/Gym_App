@@ -7,6 +7,8 @@ export interface PT {
     email: string;
     isEnabled: boolean;
     gender: string;
+    renewalDate: string | null;
+    paymentDate: string | null;
 }
 
 interface Admin {
@@ -22,6 +24,11 @@ interface ChangePasswordRequest {
 
 interface TogglePTStatusRequest {
     isEnabled: boolean;
+}
+
+interface UpdatePTDatesRequest {
+    renewalDate: string | null;
+    paymentDate: string | null;
 }
 
 class AdminService {
@@ -140,6 +147,20 @@ class AdminService {
         } catch (error) {
             console.error('Errore durante il recupero degli admin:', error);
             return [];
+        }
+    }
+
+    async updatePTDates(ptId: number, data: UpdatePTDatesRequest): Promise<{ success: boolean; message: string } | null> {
+        try {
+            const res = await FetchFunction(`${this.ADMIN_BE_URL}/pt/${ptId}/dates`, 'PATCH', data);
+            if (!res.ok) {
+                if (res.error.status === 400) return null;
+                throw new Error('Errore durante l\'aggiornamento delle date del PT');
+            }
+            return await res.value.json();
+        } catch (error) {
+            console.error('Errore durante l\'aggiornamento delle date del PT:', error);
+            return null;
         }
     }
 }
