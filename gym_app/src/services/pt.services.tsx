@@ -24,6 +24,8 @@ interface ServerExercise {
     barbellWeightKg: number | null;
     durationSeconds: number | null;
     distanceKm: number | null;
+    exerciseImg: string | null;
+    exerciseVideo: string | null;
 }
 
 interface ServerWorkoutDay {
@@ -159,7 +161,9 @@ class PTService {
                         durationSeconds: ['cardio', 'stretching'].includes(ex.exerciseType || '') && ex.durationSeconds ?
                             Math.max(0, Number(ex.durationSeconds)) : null,
                         distanceKm: ['cardio', 'stretching'].includes(ex.exerciseType || '') && ex.distanceKm ?
-                            Math.max(0, Number(ex.distanceKm)) : null
+                            Math.max(0, Number(ex.distanceKm)) : null,
+                        exerciseImg: ex.exerciseImg || null,
+                        exerciseVideo: ex.exerciseVideo || null
                     }))
                 }))
             };
@@ -292,7 +296,9 @@ class PTService {
                             : 'withWeight',
                         barbellWeightKg: ex.barbellWeightKg || undefined,
                         durationSeconds: ex.durationSeconds || undefined,
-                        distanceKm: ex.distanceKm || undefined
+                        distanceKm: ex.distanceKm || undefined,
+                        exerciseImg: ex.exerciseImg || null,
+                        exerciseVideo: ex.exerciseVideo || null
                     }))
                 }))
             };

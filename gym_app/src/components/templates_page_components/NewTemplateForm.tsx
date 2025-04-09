@@ -152,7 +152,9 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                             exerciseType: exercise.exerciseType,
                             durationSeconds: exercise.durationSeconds,
                             distanceKm: exercise.distanceKm,
-                            barbellWeightKg: exercise.barbellWeightKg
+                            barbellWeightKg: exercise.barbellWeightKg,
+                            exerciseImg: exercise.exerciseImg,
+                            exerciseVideo: exercise.exerciseVideo
                         };
                     })
                 };
@@ -334,7 +336,33 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                                     value={day.exercises[0].name}
                                                     onChange={(e) => handleExerciseChange(dayIndex, 0, 'name', e.target.value)}
                                                 />
-                                                <div className="flex flex-col justify-center items-center gap-4 text-xl mt-3 bg-bg-primary p-3 rounded-lg min-h-[160px]">
+                                                <div className="flex flex-col gap-3">
+                                                    <div className="flex flex-col w-full justify-center items-center">
+                                                        <label className="text-primary-color uppercase font-bold text-md select-none">
+                                                            URL Immagine Esercizio
+                                                        </label>
+                                                        <input
+                                                            className="rounded-lg p-2 text-center w-full"
+                                                            type="text"
+                                                            placeholder="Inserisci URL immagine"
+                                                            value={day.exercises[0].exerciseImg || ''}
+                                                            onChange={(e) => handleExerciseChange(dayIndex, 0, 'exerciseImg', e.target.value)}
+                                                        />
+                                                    </div>
+                                                    <div className="flex flex-col w-full justify-center items-center">
+                                                        <label className="text-primary-color uppercase font-bold text-md select-none">
+                                                            URL Video Esercizio
+                                                        </label>
+                                                        <input
+                                                            className="rounded-lg p-2 text-center w-full"
+                                                            type="text"
+                                                            placeholder="Inserisci URL video"
+                                                            value={day.exercises[0].exerciseVideo || ''}
+                                                            onChange={(e) => handleExerciseChange(dayIndex, 0, 'exerciseVideo', e.target.value)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-center items-center gap-4 text-xl mt-3 bg-bg-primary p-3 rounded-lg min-h-[160px]">
                                                     <div className="flex justify-center items-center gap-4">
                                                         <div className="flex flex-col items-center gap-2">
                                                             <MdDirectionsRun
@@ -530,7 +558,33 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                                                 value={exercise.name}
                                                                 onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'name', e.target.value)}
                                                             />
-                                                            <div className="flex flex-col justify-center items-center gap-4 text-xl mt-3 bg-bg-primary p-3 rounded-lg min-h-[160px]">
+                                                            <div className="flex flex-col gap-3">
+                                                                <div className="flex flex-col w-full justify-center items-center">
+                                                                    <label className="text-primary-color uppercase font-bold text-md select-none">
+                                                                        URL Immagine Esercizio
+                                                                    </label>
+                                                                    <input
+                                                                        className="rounded-lg p-2 text-center w-full"
+                                                                        type="text"
+                                                                        placeholder="Inserisci URL immagine"
+                                                                        value={exercise.exerciseImg || ''}
+                                                                        onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'exerciseImg', e.target.value)}
+                                                                    />
+                                                                </div>
+                                                                <div className="flex flex-col w-full justify-center items-center">
+                                                                    <label className="text-primary-color uppercase font-bold text-md select-none">
+                                                                        URL Video Esercizio
+                                                                    </label>
+                                                                    <input
+                                                                        className="rounded-lg p-2 text-center w-full"
+                                                                        type="text"
+                                                                        placeholder="Inserisci URL video"
+                                                                        value={exercise.exerciseVideo || ''}
+                                                                        onChange={(e) => handleExerciseChange(dayIndex, exerciseIndex, 'exerciseVideo', e.target.value)}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex justify-center items-center gap-4 text-xl mt-3 bg-bg-primary p-3 rounded-lg min-h-[160px]">
                                                                 <div className="flex justify-center items-center gap-4">
                                                                     <div className="flex flex-col items-center gap-2">
                                                                         <MdDirectionsRun
@@ -717,7 +771,9 @@ export default function NewTemplateForm({ onClose, onNewTemplate, ptId }: NewTem
                                         durationSeconds: 0,
                                         distanceKm: 0,
                                         exerciseType: 'withWeight',
-                                        workoutSessions: []
+                                        workoutSessions: [],
+                                        exerciseImg: '',
+                                        exerciseVideo: ''
                                     });
                                     setWorkoutDays(updatedDays);
                                 }} />

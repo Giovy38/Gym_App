@@ -15,6 +15,8 @@ export interface TrainingCardData {
             restTimeSeconds?: number;
             barbellWeightKg?: number;
             notes?: string[];
+            exerciseImg?: string;
+            exerciseVideo?: string;
         }[];
     }[];
 }

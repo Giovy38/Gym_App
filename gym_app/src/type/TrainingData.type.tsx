@@ -21,6 +21,8 @@ export type Exercise = {
     barbellWeightKg: number;
     notes: string[];
     workoutSessions: WorkoutSession[];
+    exerciseImg?: string;
+    exerciseVideo?: string;
 }
 
 export type WorkoutSession = {

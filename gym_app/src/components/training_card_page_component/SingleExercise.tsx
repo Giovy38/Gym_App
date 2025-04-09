@@ -10,6 +10,7 @@ import Timer from './Timer';
 import NoteArea from "./NoteArea";
 import BarbellInfo from "./BarbellInfo";
 import { trainingCardService } from "@/src/services/training-card.services";
+import Image from "next/image";
 
 function formatRestTime(seconds: number): string {
     const minutes = Math.floor(seconds / 60);
@@ -23,6 +24,7 @@ function formatRestTime(seconds: number): string {
 export default function SingleExercise({ exercise }: { exercise: SingleExerciseType }) {
     const [isOpen, setIsOpen] = useState(false);
     const [showTimer, setShowTimer] = useState(false);
+    const [showVideo, setShowVideo] = useState(false);
     const [maxWeight, setMaxWeight] = useState(0)
     let time: number | string | undefined = exercise.durationSeconds
     let distanceInKm: number | string | undefined = exercise.distanceKm
@@ -61,6 +63,16 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
 
     console.log('Exercise data:', exercise);
 
+    const getVideoUrl = (url: string | undefined) => {
+        if (!url) return '';
+        if (url.includes('youtube.com') || url.includes('youtu.be')) {
+            // Extract video ID from YouTube URL
+            const videoId = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/)?.[1];
+            return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+        }
+        return url;
+    };
+
     return (
         <div className="flex flex-col text-text-primary">
             <div
@@ -89,6 +101,28 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
             {isOpen && (
                 <div className="flex gap-2 justify-center items-center bg-bg-data rounded-b-xl p-4">
                     <div className="text-center flex flex-col gap-2">
+                        {exercise.exerciseImg && (
+                            <div className="relative w-full h-48 mb-4">
+                                <Image
+                                    src={exercise.exerciseImg}
+                                    alt={exercise.exerciseTitle}
+                                    fill
+                                    className="object-cover rounded-lg"
+                                    unoptimized
+                                />
+                            </div>
+                        )}
+                        {exercise.exerciseVideo && (
+                            <div className="relative w-full h-48">
+                                <iframe
+                                    src={getVideoUrl(exercise.exerciseVideo)}
+                                    title={exercise.exerciseTitle}
+                                    className="w-full h-full rounded-lg"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                />
+                            </div>
+                        )}
                         {exercise.exerciseType === 'cardio' || exercise.exerciseType === 'stretching' ? (
                             <div className="flex gap-3 text-center bg-bg-primary p-2 rounded-full justify-center">
                                 <p>Tempo: {time} min</p>
@@ -142,6 +176,24 @@ export default function SingleExercise({ exercise }: { exercise: SingleExerciseT
                     onClose={() => setShowTimer(false)}
                     initialTime={exercise.restTimeSeconds || 0}
                 />
+            )}
+            {showVideo && exercise.exerciseVideo && (
+                <div className="fixed inset-0 bg-bg-primary bg-opacity-75 flex items-center justify-center z-50" onClick={() => setShowVideo(false)}>
+                    <div className="relative w-full h-full max-w-4xl max-h-[80vh]">
+                        <button
+                            className="absolute top-4 right-4 text-text-primary text-2xl z-10"
+                            onClick={() => setShowVideo(false)}
+                        >
+                            ×
+                        </button>
+                        <iframe
+                            src={exercise.exerciseVideo}
+                            className="w-full h-full"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        />
+                    </div>
+                </div>
             )}
         </div>
     );

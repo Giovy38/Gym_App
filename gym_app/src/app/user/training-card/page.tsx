@@ -35,7 +35,7 @@ export default function TrainingCardPage() {
             const data: TrainingData[] = await trainingCardService.getTrainings();
             const sortedData = data.map(training => sortExercisesByOrder(training));
             setTrainings(sortedData);
-            if (sortedData.length > 0 && !latestTraining) {
+            if (sortedData.length > 0) {
                 setLatestTraining(sortedData[sortedData.length - 1]);
             }
         } catch (error) {
@@ -130,7 +130,9 @@ export default function TrainingCardPage() {
                                             totalWeight: exercise.exerciseType === 'withBarbell' ? (exercise.barbellWeightKg || 0) : 0,
                                             notes: exercise.notes,
                                             latestTraining: latestTraining,
-                                            dayIndex: dayIndex
+                                            dayIndex: dayIndex,
+                                            exerciseImg: exercise.exerciseImg,
+                                            exerciseVideo: exercise.exerciseVideo
                                         }}
                                     />
                                 ))}

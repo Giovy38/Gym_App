@@ -14,4 +14,6 @@ export type SingleExerciseType = {
     latestTraining: TrainingData;
     dayIndex: number;
     totalWeight: number;
+    exerciseImg?: string;
+    exerciseVideo?: string;
 }

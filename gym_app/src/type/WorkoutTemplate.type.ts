@@ -8,6 +8,8 @@ export interface Exercise {
     barbellWeightKg?: number;
     durationSeconds?: number;
     distanceKm?: number;
+    exerciseImg?: string;
+    exerciseVideo?: string;
 }
 
 export interface WorkoutDay {
