@@ -7,17 +7,17 @@ import PrimaryButton from "../reusable_components/PrimaryButton";
 import Link from "next/link";
 import { userService } from "@/src/services/user.services";
 import Toast from "../reusable_components/Toast";
-import PtButton from "../reusable_components/PtButton";
 import { ptService } from "@/src/services/pt.services";
+import { FaUser } from "react-icons/fa";
+import { FaPeopleRobbery } from "react-icons/fa6";
+import Switch from "../reusable_components/Switch";
 
 export default function LoginForm() {
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [toastMessage, setToastMessage] = useState('');
     const [toastColor, setToastColor] = useState<'green' | 'red'>('green');
-
-
+    const [isUserLogin, setIsUserLogin] = useState(true);
 
     const handleLogin = async () => {
         try {
@@ -75,8 +75,27 @@ export default function LoginForm() {
                 <Link href="/signin">
                     <h4 className="text-primary-color mt-3 underline underline-offset-2">Non hai un account? Registrati ora</h4>
                 </Link>
-                <PrimaryButton text="accesso utente" onClick={handleLogin} disabled={!email || !password} />
-                <PtButton text="accesso Personal Trainer" onClick={handlePtLogin} disabled={!email || !password} />
+                <div className="flex items-center justify-center gap-4 my-4 text-text-neutral">
+                    <FaUser
+                        className={`text-xl ${isUserLogin ? 'text-switch-blue' : ''} cursor-pointer`}
+                        onClick={() => setIsUserLogin(true)}
+                    />
+                    <Switch
+                        checked={!isUserLogin}
+                        onChange={() => setIsUserLogin(!isUserLogin)}
+                        activeColor="bg-switch-violet"
+                        inactiveColor="bg-switch-blue"
+                    />
+                    <FaPeopleRobbery
+                        className={`text-xl ${isUserLogin ? '' : 'text-switch-violet'} cursor-pointer`}
+                        onClick={() => setIsUserLogin(false)}
+                    />
+                </div>
+                {isUserLogin ? (
+                    <PrimaryButton text="accesso utente" onClick={handleLogin} disabled={!email || !password} />
+                ) : (
+                    <PrimaryButton text="accesso Personal Trainer" onClick={handlePtLogin} disabled={!email || !password} />
+                )}
             </div>
             {toastMessage && <Toast message={toastMessage} color={toastColor} />}
         </div>

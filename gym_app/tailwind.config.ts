@@ -80,6 +80,8 @@ const config: Config = {
         // --------------------------------- SWITCH COLORS ---------------------------------
         'switch-green': '#05df72',
         'switch-red': '#ff6467',
+        'switch-blue': '#60a5ea',
+        'switch-violet': '#821a69',
         // --------------------------------- NOT SAVED COLORS ---------------------------------
         'not-saved': '#64748b',
         'not-saved-hover': '#1e293b',

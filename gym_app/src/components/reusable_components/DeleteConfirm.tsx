@@ -14,7 +14,7 @@ export default function DeleteConfirm({ onConfirm, onCancel }: DeleteConfirmProp
                 <p className="text-lg">Sei sicuro di voler eliminare questo elemento?</p>
                 <div className="flex gap-1 mt-4">
                     <AddRemoveButton text='no' onClick={onCancel} isAdd={false} />
-                    <AddRemoveButton text='yes' onClick={onConfirm} isAdd />
+                    <AddRemoveButton text='si' onClick={onConfirm} isAdd />
                 </div>
             </div>
         </div>,

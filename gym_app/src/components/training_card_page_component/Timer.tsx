@@ -50,11 +50,15 @@ export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
                 } else {
                     setTime({ hours: 0, minutes: 0, seconds });
                 }
-            } else if (newValue.length <= 4) {
-                // Se 3-4 numeri: interpreta come minuti e secondi
-                const totalSeconds = parseInt(newValue);
-                const minutes = Math.floor(totalSeconds / 60);
-                const seconds = totalSeconds % 60;
+            } else if (newValue.length === 3) {
+                // Se 3 numeri: interpreta come minuti e secondi (es: 300 = 3:00)
+                const minutes = parseInt(newValue.slice(0, 1));
+                const seconds = parseInt(newValue.slice(1, 3));
+                setTime({ hours: 0, minutes, seconds });
+            } else if (newValue.length === 4) {
+                // Se 4 numeri: interpreta come minuti e secondi (es: 3000 = 30:00)
+                const minutes = parseInt(newValue.slice(0, 2));
+                const seconds = parseInt(newValue.slice(2, 4));
                 setTime({ hours: 0, minutes, seconds });
             } else {
                 // Se 5-6 numeri: interpreta come ore, minuti e secondi
@@ -71,6 +75,7 @@ export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
     const clearInput = () => {
         setInputValue('');
         setTime({ hours: 0, minutes: 0, seconds: 0 });
+        setIsCompleted(true);
     };
 
     const startTimer = () => {
@@ -86,8 +91,8 @@ export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
     const cancelTimer = () => {
         setIsRunning(false);
         setTime({ hours: 0, minutes: 0, seconds: 0 });
-        setIsCompleted(true);
         setInputValue('');
+        setIsCompleted(true);
     };
 
     const closeComponent = () => {
@@ -202,7 +207,32 @@ export default function Timer({ onClose, initialTime = 0 }: TimerProps) {
                             0
                         </button>
                         <button
-                            onClick={() => setInputValue(prev => prev.slice(0, -1))}
+                            onClick={() => {
+                                const newValue = inputValue.slice(0, -1);
+                                setInputValue(newValue);
+
+                                // Aggiorna lo stato time in base al nuovo valore
+                                if (newValue.length <= 2) {
+                                    const seconds = parseInt(newValue) || 0;
+                                    if (seconds >= 60) {
+                                        const minutes = Math.floor(seconds / 60);
+                                        const remainingSeconds = seconds % 60;
+                                        setTime({ hours: 0, minutes, seconds: remainingSeconds });
+                                    } else {
+                                        setTime({ hours: 0, minutes: 0, seconds });
+                                    }
+                                } else if (newValue.length <= 4) {
+                                    const totalSeconds = parseInt(newValue) || 0;
+                                    const minutes = Math.floor(totalSeconds / 60);
+                                    const seconds = totalSeconds % 60;
+                                    setTime({ hours: 0, minutes, seconds });
+                                } else {
+                                    const hours = parseInt(newValue.slice(0, 2)) || 0;
+                                    const minutes = parseInt(newValue.slice(2, 4)) || 0;
+                                    const seconds = parseInt(newValue.slice(4, 6)) || 0;
+                                    setTime({ hours, minutes, seconds });
+                                }
+                            }}
                             disabled={isRunning || !isCompleted}
                             className="bg-btn-accent hover:bg-btn-accent-hover text-text-secondary p-4 rounded-lg hover:bg-bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed"
                         >
